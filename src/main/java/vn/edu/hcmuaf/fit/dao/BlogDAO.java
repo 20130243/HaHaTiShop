@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 public class BlogDAO extends RD {
-    private static final String tableName = "blog";
+    private static final String tableName = "blogs";
 
     @Override
     public List<Map<String, Object>> getAll() {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("select * from " + tableName +" ORDER BY id DESC")
+                h.createQuery("select * from " + tableName + " ORDER BY id DESC")
                         .mapToMap()
                         .list()
         );
@@ -40,7 +40,7 @@ public class BlogDAO extends RD {
     public List<Map<String, Object>> getBlogIndex() {
         return JDBIConnector.get().withHandle(h ->
                 h.createQuery("select * from " + tableName +
-                                " ORDER BY blog.id DESC LIMIT 3;")
+                                " ORDER BY " + tableName + ".id DESC LIMIT 3;")
                         .mapToMap()
                         .list()
         );

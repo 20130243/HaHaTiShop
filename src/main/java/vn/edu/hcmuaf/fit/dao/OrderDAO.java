@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderDAO extends RD {
-    private static final String tableName = "`order`";
+    private static final String tableName = "orders";
 
     @Override
     public List<Map<String, Object>> getAll() {

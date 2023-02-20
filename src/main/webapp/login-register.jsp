@@ -31,7 +31,10 @@
     <link rel="stylesheet" href="css/header-footer.css" type="text/css"/>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+            src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v16.0&appId=1165112207482270&autoLogAppEvents=1"
+            nonce="kCjYwcHi"></script>
 
 </head>
 
@@ -112,13 +115,11 @@
                                             </div>
                                             <hr class="mb-4 mt-1">
                                             <div class="d-flex justify-content-center text-center pt-1">
+                                                <div class="fb-login-button col" data-width="" data-size=""
+                                                     data-button-type="" data-layout="" data-auto-logout-link="false"
+                                                     data-use-continue-as="true"></div>
                                                 <div class="col">
-                                                    <fb:login-button scope="public_profile,email"
-                                                                     onlogin="checkLoginState();">
-                                                    </fb:login-button>
-                                                </div>
-                                                <div class="col">
-                                                    <div id="buttonDiv"></div>
+                                                    <div id="ButtonGoogleLogin"></div>
                                                 </div>
                                             </div>
                                         </form>
@@ -198,16 +199,6 @@
 <%@include file="footer.jsp" %>
 <!-- Footer Section End -->
 
-<!-- Search Begin -->
-<div class="search-model">
-    <div class="h-100 d-flex align-items-center justify-content-center">
-        <div class="search-close-switch">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here....."/>
-        </form>
-    </div>
-</div>
-<!-- Search End -->
 <!-- Js Plugins -->
 <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0&appId=2143582525828112&autoLogAppEvents=1"
@@ -247,7 +238,7 @@
 
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '2143582525828112',
+            appId: '1165112207482270',
             cookie: true,
             xfbml: true,
             version: 'v15.0'
@@ -287,7 +278,7 @@
             callback: handleCredentialResponse
         });
         google.accounts.id.renderButton(
-            document.getElementById("buttonDiv"),
+            document.getElementById("ButtonGoogleLogin"),
             {theme: "outline", size: "large"}  // customization attributes
         );
         google.accounts.id.prompt(); // also display the One Tap dialog

@@ -14,7 +14,8 @@ import java.util.Map;
 public class SaleService {
 
     private final SaleDAO dao = new SaleDAO();
-    private final SaleDetailDAO detailDao = new SaleDetailDAO();
+    private final SaleDetailDAO detail_dao = new SaleDetailDAO();
+
 
     public List<Sale> getAll() throws Exception {
         List<Sale> result = new ArrayList<Sale>();
@@ -26,7 +27,7 @@ public class SaleService {
     }
 
     public List<Product> getProducts(Sale sale) throws Exception {
-        List<Map<String, Object>> list = detailDao.getProductListBySaleId(sale.getId());
+        List<Map<String, Object>> list = detail_dao.getProductListBySaleId(sale.getId());
         List<Product> result = new ArrayList<>();
         for (Map<String, Object> map : list) {
             if (map.get("product_id") != null) {
@@ -39,7 +40,7 @@ public class SaleService {
     }
 
     public List<Category> getCategories(Sale sale) throws Exception {
-        List<Map<String, Object>> list = detailDao.getCategoryListBySaleId(sale.getId());
+        List<Map<String, Object>> list = detail_dao.getCategoryListBySaleId(sale.getId());
         List<Category> result = new ArrayList<Category>();
         for (Map<String, Object> map : list) {
             if(map.get("category_id")!=null) {
@@ -66,43 +67,43 @@ public class SaleService {
         return result;
     }
 
-    public void updatePrice() throws Exception {
-        List<Sale> saleList = getSaleNotYet();
-        List<Product> productSaleList = new ProductService().getProductSale();
-        for (Product product : productSaleList) {
-            product.resetPrice();
-            new ProductService().update(product);
-        }
-        for (Sale sale : saleList) {
-            if (sale.checkValid()) {
-                List<Product> productList = getProducts(sale);
-
-                for (Product product : productList) {
-                    product.updateSale(sale.getPercent());
-                    new ProductService().update(product);
-                }
-                List<Category> categoryList = getCategories(sale);
-                for (Category category : categoryList) {
-                    List<Product> products = new ProductService().getProductByCategory(category.getId());
-                    for (Product product : products) {
-                        product.updateSale(sale.getPercent());
-                        new ProductService().update(product);
-                    }
-                }
-            }
-        }
-
-    }
+//    public void updatePrice() throws Exception {
+//        List<Sale> saleList = getSaleNotYet();
+//        List<Product> productSaleList = new ProductService().getProductSale();
+//        for (Product product : productSaleList) {
+//            product.resetPrice();
+//            new ProductService().update(product);
+//        }
+//        for (Sale sale : saleList) {
+//            if (sale.checkValid()) {
+//                List<Product> productList = getProducts(sale);
+//
+//                for (Product product : productList) {
+//                    product.updateSale(sale.getPercent());
+//                    new ProductService().update(product);
+//                }
+//                List<Category> categoryList = getCategories(sale);
+//                for (Category category : categoryList) {
+//                    List<Product> products = new ProductService().getProductByCategory(category.getId());
+//                    for (Product product : products) {
+//                        product.updateSale(sale.getPercent());
+//                        new ProductService().update(product);
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
 
     public void insert(Sale sale) throws Exception {
         dao.insert(sale.getName(), sale.getPercent(), sale.getStart_date(), sale.getEnd_date());
         for (Product product : sale.getProductList()) {
-            detailDao.insert(findFirst().getId(), product.getId(), 0);
+            detail_dao.insert(findFirst().getId(), product.getId(), 0);
         }
         for (Category category : sale.getCategoryList()) {
-            detailDao.insert(findFirst().getId(), 0, category.getId());
+            detail_dao.insert(findFirst().getId(), 0, category.getId());
         }
-        updatePrice();
+//        updatePrice();
     }
 
     public Sale findFirst() throws Exception {
@@ -113,14 +114,14 @@ public class SaleService {
     public void update(Sale sale) throws Exception {
 
         dao.update(sale.getId(), sale.getName(), sale.getPercent(), sale.getStart_date(), sale.getEnd_date());
-        detailDao.deleteBySaleId(sale.getId());
+        detail_dao.deleteBySaleId(sale.getId());
         for (Product product : sale.getProductList()) {
-            detailDao.insert(sale.getId(), product.getId(), 0);
+            detail_dao.insert(sale.getId(), product.getId(), 0);
         }
         for (Category category : sale.getCategoryList()) {
-            detailDao.insert(sale.getId(), 0, category.getId());
+            detail_dao.insert(sale.getId(), 0, category.getId());
         }
-        updatePrice();
+//        updatePrice();
     }
 
     public void delete(int id) {
@@ -154,7 +155,7 @@ public class SaleService {
     }
 
     public static void main(String[] args) throws Exception {
-        new SaleService().updatePrice();
+//        new SaleService().updatePrice();
 
 //        System.out.println(new  SaleService().getSaleNotYet());
     }

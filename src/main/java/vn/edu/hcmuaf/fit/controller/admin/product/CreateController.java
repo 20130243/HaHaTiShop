@@ -72,10 +72,10 @@ public class CreateController extends HttpServlet {
         product.setIdCategory(category);
         product.setPriceSize(priceSizeList);
         product.setStatus(status);
-        product.setImg(img);
+        // product.setImg(img);
 
         try {
-            (new ProductService()).insert(product);
+//            (new ProductService()).insert(product);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

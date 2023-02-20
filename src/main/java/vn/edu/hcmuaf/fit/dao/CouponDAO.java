@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CouponDAO extends RD {
-    private static final String tableName = "coupon";
+    private static final String tableName = "coupons";
 
     @Override
     public List<Map<String, Object>> getAll() throws SQLException {

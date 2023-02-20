@@ -94,7 +94,7 @@
             <tr>
               <td class="product__cart__item">
                 <div class="product__cart__item__pic">
-                  <img src="<%=item.getProduct().getImg()%>" alt="" width="150">
+                  <img src="<%=item.getProduct().getImage().get(0).getUrl()%>" alt="" width="150">
                 </div>
                 <div class="product__cart__item__text">
                   <h5><%=item.getProduct().getName()%></h5>
