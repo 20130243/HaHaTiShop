@@ -19,7 +19,7 @@ public class PriceSizeService {
         return result;
     }
 
-    public List<PriceSize> getByProductId(int id) throws Exception {
+    public List<PriceSize> getByProductId(int id)  {
         List<Map<String, Object>> priceSizeList = dao.getByProductId(id);
         List<PriceSize> result = new ArrayList<PriceSize>();
         for (Map<String, Object> map : priceSizeList) {

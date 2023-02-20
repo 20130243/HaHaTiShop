@@ -25,7 +25,6 @@ public class SocialLoginController extends HttpServlet {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String id = request.getParameter("id");
-
             String password = email;
 
             User userNew = new User(0,id, password, name, "", "", email,0,"");

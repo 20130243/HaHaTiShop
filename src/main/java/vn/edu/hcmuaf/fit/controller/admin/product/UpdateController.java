@@ -82,10 +82,10 @@ public class UpdateController extends HttpServlet {
         product.setIdCategory(category);
         product.setPriceSize(priceSizeList);
         product.setStatus(status);
-        product.setImg(img);
+        // product.setImg(img);
 
         try {
-            (new ProductService()).update(product);
+//            (new ProductService()).update(product);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

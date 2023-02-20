@@ -9,7 +9,7 @@ public class Product implements Serializable {
     String name;
     int idCategory;
     List<PriceSize> priceSize;
-    String img;
+    List<Image> image;
     int status;
     List<Topping> topping;
 
@@ -21,12 +21,12 @@ public class Product implements Serializable {
         this.topping = topping;
     }
 
-    public Product(int id, String name, int idCategory, List<PriceSize> priceSize, String img, int status, List<Topping> topping) {
+    public Product(int id, String name, int idCategory, List<PriceSize> priceSize, List<Image> image, int status, List<Topping> topping) {
         this.id = id;
         this.name = name;
         this.idCategory = idCategory;
         this.priceSize = priceSize;
-        this.img = img;
+        this.image = image;
         this.status = status;
         this.topping = topping;
     }
@@ -66,12 +66,12 @@ public class Product implements Serializable {
         this.idCategory = idCategory;
     }
 
-    public String getImg() {
-        return img;
+    public List<Image> getImage() {
+        return image;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setImage(List<Image> image) {
+        this.image = image;
     }
 
     public int getStatus() {
@@ -98,11 +98,19 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", name='" + name + '\'' + ", idCategory=" + idCategory + ", priceSize=" + priceSize + ", img='" + img + '\'' + ", status=" + status + ", topping=" + topping + '}';
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", idCategory=" + idCategory +
+                ", priceSize=" + priceSize +
+                ", image=" + image +
+                ", status=" + status +
+                ", topping=" + topping +
+                '}';
     }
 
     public void addPriceSize(PriceSize size) {
-        if(this.priceSize!=null) {
+        if (this.priceSize != null) {
             this.priceSize.add(size);
         } else {
             this.priceSize = new ArrayList<>();
@@ -111,8 +119,8 @@ public class Product implements Serializable {
     }
 
     public void addTopping(Topping topping) {
-        if(this.topping!=null) {
-         this.topping.add(topping);
+        if (this.topping != null) {
+            this.topping.add(topping);
         } else {
             this.topping = new ArrayList<>();
             this.topping.add(topping);

@@ -154,7 +154,7 @@
             <div class="col-lg-3 col-md-4 col-sm-4">
                 <div class="product__item sale" data-toggle="modal"
                      data-target="#myModal<%=p.getId()%>" data-id="<%=p.getId()%>">
-                    <div class="product__item__pic set-bg" data-setbg="<%=p.getImg()%>">
+                    <div class="product__item__pic set-bg" data-setbg="<%=p.getImage().get(0).getUrl()%>">
                         <%
                             if (p.getStatus() == 1) {
                         %>

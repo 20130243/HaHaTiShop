@@ -186,7 +186,7 @@
                                                                 if (items != null && items.size() > 0) {
                                                                     for (Item item : items) {
                                                             %>
-                                                            <img class="img111" src="<%=item.getProduct().getImg()%>"
+                                                            <img class="img111" src="<%=item.getProduct().getImage().get(0).getUrl()%>"
                                                                  alt=""/>
                                                             <%
                                                                     }
@@ -300,7 +300,7 @@
                                                                 if (items != null && items.size() > 0) {
                                                                     for (Item item : items) {
                                                             %>
-                                                            <img class="img111" src="<%=item.getProduct().getImg()%>"
+                                                            <img class="img111" src="<%=item.getProduct().getImage().get(0).getUrl()%>"
                                                                  alt=""/>
                                                             <%
                                                                     }
