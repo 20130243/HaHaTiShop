@@ -85,7 +85,7 @@
             </tr>
             </thead>
             <tbody>
-            <form action="/editcart" method="get" id="myForm">
+            <form action="/editcart" method="post" id="myForm">
             <%
               if (cart!= null) {
                 List<Item> listItems = cart.getItems();
