@@ -74,9 +74,11 @@
                             <div class="card-body">
                                 <h4 class="header-title">Cập nhật sản phẩm</h4>
                                 <form id="update_form" action="/admin/product/update" method="post"
-                                      enctype='multipart/form-data'>
-                                    <input type="text" name="id" id="id" value="<c:out value="${object.id}"/> "
-                                           class="d-none">
+                                      enctype='multipart/form-data' class=""
+                                      data-plugin="dropzone" data-previews-container="#file-previews"
+                                      data-upload-preview-template="#uploadPreviewTemplate">
+                                    <input type="text" name="id" id="id" value="${object.id}"
+                                           class="d-none ">
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group mb-3">
@@ -84,22 +86,53 @@
                                                 <input type="text" id="name" class="form-control" name="name"
                                                        value="<c:out value="${object.name}"/> ">
                                             </div>
-                                            <div class="form-group mb-3">
-                                                <img src="<c:out value="${object.image[0]}"/>" width="40" height="40">
-                                                <label for="image">Ảnh sản phẩm</label>
-                                                <input type="file" id="image" class="form-control-file" name="image">
+                                            <div class="form-group mb-3 myAwesomeDropzone dropzone">
+                                                <!-- File Upload -->
+                                                    <div class="fallback">
+                                                        <input name="file" type="file" multiple/>
+                                                    </div>
+
+                                                    <div class="dz-message needsclick">
+                                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                        <h3>Drop files here or click to upload.</h3>
+                                                        </span>
+                                                    </div>
+
+                                                <!-- Preview -->
+                                                <div class="dropzone-previews mt-3" id="file-previews"></div>
+
+                                                <!-- file preview template -->
+                                                <div class="d-none" id="uploadPreviewTemplate">
+                                                    <div class="card mt-1 mb-0 shadow-none border">
+                                                        <div class="p-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-auto">
+                                                                    <img data-dz-thumbnail src="#"
+                                                                         class="avatar-sm rounded bg-light" alt="">
+                                                                </div>
+                                                                <div class="col pl-0">
+                                                                    <a href="javascript:void(0);"
+                                                                       class="text-muted font-weight-bold"
+                                                                       data-dz-name></a>
+                                                                    <p class="mb-0" data-dz-size></p>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <!-- Button -->
+                                                                    <a href="" class="btn btn-link btn-lg text-muted"
+                                                                       data-dz-remove>
+                                                                        <i class="dripicons-cross"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <input type="text" name="old_image" id="old_image"
-                                                   value="<c:out value="${object.img}"/> "
-                                                   class="d-none">
-                                            <input type="text" name="check_input_file" id="check_input_file"
-                                                   value="false"
-                                                   class="d-none">
                                             <div class="form-group mb-3">
                                                 <label for="category">Phân loại</label>
                                                 <select class="custom-select " id="category" name="category">
                                                     <c:forEach var="item" items="${requestScope['categoryList']}">
-                                                        <option value="<c:out value="${item.id}"/>"
+                                                        <option value="${item.id}"
                                                                 <c:if test="${item.id eq object.idCategory}">
                                                                     <c:out value="selected"/>
                                                                 </c:if>
@@ -193,6 +226,8 @@
 <!-- third party js -->
 <script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+<script src="../../assets/js/vendor/dropzone.min.js"></script>
+<script src="../../assets/js/ui/component.fileupload.js"></script>
 <!-- third party js ends -->
 <script>
     $(document).ready(function () {

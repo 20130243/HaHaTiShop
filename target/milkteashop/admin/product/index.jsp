@@ -96,7 +96,7 @@
 
                                             <tr>
                                                 <td>
-                                                    <img src="${item.image[0]} "
+                                                    <img src="${item.image[0].url} "
                                                          alt="contact-img" title="contact-img" class="rounded mr-3"
                                                          height="48"/>
                                                     <p class="m-0 d-inline-block align-middle font-16">
