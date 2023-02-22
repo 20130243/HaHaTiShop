@@ -7,5 +7,5 @@
 dataSources/
 dataSources.local.xml
 ../src/main/resources/
-../target
+../target/
 target/
