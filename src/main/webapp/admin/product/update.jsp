@@ -85,7 +85,7 @@
                                                        value="<c:out value="${object.name}"/> ">
                                             </div>
                                             <div class="form-group mb-3">
-                                                <img src="<c:out value="${object.img}"/>" width="40" height="40">
+                                                <img src="<c:out value="${object.image[0]}"/>" width="40" height="40">
                                                 <label for="image">Ảnh sản phẩm</label>
                                                 <input type="file" id="image" class="form-control-file" name="image">
                                             </div>

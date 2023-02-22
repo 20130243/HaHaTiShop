@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 public class SaleDAO extends RD {
+    private static final String tableName = "sales";
+
     @Override
     public List<Map<String, Object>> getAll() throws SQLException {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("SELECT * FROM sale  ORDER BY id DESC ")
+                h.createQuery("SELECT * FROM " + tableName + "  ORDER BY id DESC ")
                         .mapToMap()
                         .list());
     }
@@ -19,7 +21,7 @@ public class SaleDAO extends RD {
     @Override
     public Map<String, Object> getById(int id) throws SQLException {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("SELECT * FROM sale WHERE id =?  ORDER BY id DESC")
+                h.createQuery("SELECT * FROM " + tableName + " WHERE id =?  ORDER BY id DESC")
                         .bind(0, id)
                         .mapToMap()
                         .first());
@@ -27,19 +29,21 @@ public class SaleDAO extends RD {
 
     @Override
     public void delete(int id) {
-        JDBIConnector.get().withHandle(h -> h.createUpdate("delete from sale where id =?")
+        JDBIConnector.get().withHandle(h -> h.createUpdate("delete from " + tableName + " where id =?")
                 .bind(0, id)
                 .execute()
         );
     }
-    public void updateEndDate(int id,Date date){
-        JDBIConnector.get().withHandle(h -> h.createUpdate("update sale SET end_date = ?" )
-                .bind(0,date)
+
+    public void updateEndDate(int id, Date date) {
+        JDBIConnector.get().withHandle(h -> h.createUpdate("update " + tableName + " SET end_date = ?")
+                .bind(0, date)
                 .execute());
     }
+
     public void insert(String name, int percent, Date start_date, Date end_date) throws Exception {
         JDBIConnector.get().withHandle(h ->
-                h.createUpdate("insert into sale (name, percent,start_date, end_date) " +
+                h.createUpdate("insert into " + tableName + " (name, percent,start_date, end_date) " +
                                 "values (:name,:percent, :start_date,:end_date)")
                         .bind("name", name)
                         .bind("percent", percent)
@@ -52,7 +56,7 @@ public class SaleDAO extends RD {
     public void update(int id, String name, int percent, Date start_date, Date end_date) throws Exception {
 
         JDBIConnector.get().withHandle(h ->
-                h.createUpdate("UPDATE sale SET name=:name,percent=:percent,start_date=:start_date, end_date=:end_date WHERE id=:id")
+                h.createUpdate("UPDATE " + tableName + " SET name=:name,percent=:percent,start_date=:start_date, end_date=:end_date WHERE id=:id")
                         .bind("name", name)
                         .bind("percent", percent)
                         .bind("start_date", start_date)
@@ -63,7 +67,7 @@ public class SaleDAO extends RD {
 
     public int getTotal() {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("select count(*) from sale").mapTo(Integer.class).first()
+                h.createQuery("select count(*) from " + tableName + "").mapTo(Integer.class).first()
         );
 
     }
@@ -71,7 +75,7 @@ public class SaleDAO extends RD {
 
     public List<Map<String, Object>> paging(int index) throws SQLException {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("select * from sale\n" +
+                h.createQuery("select * from " + tableName + "\n" +
                         "order by id DESC \n" +
                         "LIMIT ? , 5;").bind(0, (index - 1) * 5).mapToMap().list()
         );
@@ -79,13 +83,13 @@ public class SaleDAO extends RD {
 
     public List<Map<String, Object>> getSaleNotYet() {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("select * from sale where end_date > CURRENT_DATE").mapToMap().list()
+                h.createQuery("select * from " + tableName + " where end_date > CURRENT_DATE").mapToMap().list()
         );
     }
 
     public Map<String, Object> findFirst() {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("SELECT * FROM sale ORDER BY id DESC LIMIT 1")
+                h.createQuery("SELECT * FROM " + tableName + " ORDER BY id DESC LIMIT 1")
                         .mapToMap().first());
     }
 

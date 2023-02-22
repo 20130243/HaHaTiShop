@@ -113,7 +113,7 @@ public class CartOrderService {
                 Product productInDatabase = new ProductService().getById(product.getId());
                 product.setName(productInDatabase.getName());
                 product.setIdCategory(productInDatabase.getIdCategory());
-                product.setImg(productInDatabase.getImg());
+//                product.setImg(productInDatabase.getImage()[0]);
                 product.setStatus(productInDatabase.getStatus());
                 product.addPriceSize(priceSize);
                 int oroderDetailsId = (int) listMap.get(i).get("id");

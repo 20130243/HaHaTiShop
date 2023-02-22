@@ -132,7 +132,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-4">
                         <div class="product__item sale" data-toggle="modal"
                              data-target="#myModal<%=p.getId()%>" data-id="<%=p.getId()%>">
-                            <div class="product__item__pic set-bg" data-setbg="<%=p.getImg()%>">
+                            <div class="product__item__pic set-bg" data-setbg="<%=p.getImage().get(0).getUrl()%>">
                                 <%
                                     if (p.getStatus() == 1) {
                                 %>
@@ -189,7 +189,7 @@
                                 <form action="/editcart" method="get" id="myForm">
                                     <div class="cart-product-item">
                                         <div class="cart-product-name">
-                                            <img src="<%=p.getImg()%>" width="32" height="32">
+                                            <img src="<%=p.getImage().get(0).getUrl()%>" width="32" height="32">
                                             <h5><%=p.getName()%> (<%=p.getPriceSize().get(0).getSize()%>)</h5>
                                             <input class="product-modal-id" type="text" name="<%=item.getId()%>"
                                                    value="<%=item.getId()%>" checked="checked">

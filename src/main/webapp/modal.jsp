@@ -42,7 +42,7 @@
         <div class="modal-content flex-row">
             <div class="w-50">
                 <div class="product-modal-img">
-                    <img class="img-src" src="<%=p.getImg()%>">
+                    <img class="img-src" src="<%=p.getImage().get(0).getUrl()%>">
                 </div>
 
                 <div class="product-modal-price">

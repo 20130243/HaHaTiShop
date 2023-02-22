@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CategoryDAO extends RD {
-    private static final String tableName = "category";
+    private static final String tableName = "categories";
 
     @Override
     public List<Map<String, Object>> getAll() {
