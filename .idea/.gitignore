@@ -6,8 +6,11 @@
 # Datasource local storage ignored files
 dataSources/
 dataSources.local.xml
-../src/main/resources/
-../target/**
-target/**
-/target/**
-.target
+
+/build
+/build/
+/target
+/target/
+/out
+/out/
+/*/build
