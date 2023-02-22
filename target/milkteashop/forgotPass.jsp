@@ -71,7 +71,7 @@
               <div id="lg1" class="tab-pane active">
                 <div class="login-form-container">
                   <div class="login-register-form">
-                    <form action="forgotPassword" method="get">
+                    <form action="forgotPassword" method="post">
                       <div class="login-input-box">
                         <span class="text-danger" id="register-username-error">${requestScope['error_forgotpassword']}</span>
                         <input
