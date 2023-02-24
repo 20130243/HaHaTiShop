@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-@WebServlet(name = "ForgoPassTokenController", value = "/ForgoPassTokenController")
-public class ForgoPassTokenController extends HttpServlet {
+@WebServlet(name = "ForgoPassTokenController", value = "/forgotpassword")
+public class ForgotPassTokenController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Timestamp current = new Timestamp(System.currentTimeMillis());

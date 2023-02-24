@@ -241,7 +241,7 @@
                                             for (Item item : items) {
                                                 Product p = item.getProduct();
                                 %>
-                                <form action="/editcart" method="get" id="myForm">
+                                <form action="/editcart" method="post" id="myForm">
                                     <div class="cart-product-item">
                                         <div class="cart-product-name">
                                             <img src="<%=p.getImage().get(0).getUrl()%>" width="32" height="32">
