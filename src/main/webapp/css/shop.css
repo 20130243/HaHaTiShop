@@ -222,3 +222,57 @@ element.style {
 .topping-item{
   margin: 0 !important;
 }
+.active{
+  background-color: #0acf97;
+}
+.display-hide{
+  display: none;
+}
+.page-item-index{
+  width: 50px;
+  height: 50px;
+}
+.pagination-style-one .page-item {
+  margin-right: 20px
+}
+
+.pagination-style-one .page-item:last-child {
+  margin-right: 0
+}
+
+.pagination-style-one .page-item .page-link:hover {
+  background-color: #0acf97;
+  color: #fff
+}
+
+.pagination-style-one .page-item.page-arrow a {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  background: #0acf97;
+  color: #fff;
+  border-color:#0acf97
+}
+
+.pagination-style-one .page-item.active a {
+  background: #0acf97;
+  color: #fff;
+  border-color:#0acf97
+}
+
+.pagination-style-one .page-item a {
+  border: 1px solid #0acf97;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: .05em;
+  color: #2d373c;
+  padding: 7px 10px;
+  min-height: 40px;
+  min-width: 40px
+}
+
+.pagination-style-one .page-item a:focus {
+  box-shadow: none
+}

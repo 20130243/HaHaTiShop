@@ -830,6 +830,8 @@ INSERT INTO `topping_order` (`id`, `topping_id`, `order_detail_id`) VALUES
 (9, 15, 10),
 (10, 6, 12);
 
+
+
 -- --------------------------------------------------------
 
 --
@@ -866,10 +868,30 @@ INSERT INTO `user` (`id`, `username`, `password`, `name`, `address`, `phone`, `e
 (12, 'admin', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'admin', '', '', '', 1, 'kY5MxtGyZerY41ddJGRf6HEoZye5VMmc'),
 (15, '113922272377385336933', '416252e39f2f986975f2f361536167f03879d8a6e1b438a68dbc37fee857d2a', 'H-N z', '', '', 'manhha300622@gmail.com', 0, NULL),
 (16, 'hahaha', '49a68c15c0d6e26c8b4a0743e6b87f074864c2fae5983c88956cb2882d608f5', 'Hà', '', '0344558306', 'manhhha584224@gmail.com', 0, 'AfiTuKufNspUKdFL5lLwh3iwt0F6PEDb');
+-- --------------------------------------------------------
 
+--
+-- Cấu trúc bảng cho bảng `forgot_pass`
+--
+
+CREATE TABLE `forgot_pass` (
+  `id` int(11) NOT NULL,
+  `token` varchar(100) NOT NULL,
+  `user_id` varchar(100) NOT NULL,
+  `send_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 --
 -- Chỉ mục cho các bảng đã đổ
 --
+
+--
+-- Chỉ mục cho bảng `forgot_pass`
+--
+ALTER TABLE `forgot_pass`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Chỉ mục cho bảng `admin`
@@ -985,6 +1007,13 @@ ALTER TABLE `user`
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+-- AUTO_INCREMENT cho bảng `forgot_pass`
+--
+ALTER TABLE `forgot_pass`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 
 --

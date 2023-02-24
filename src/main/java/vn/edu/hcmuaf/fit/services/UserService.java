@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.services;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import vn.edu.hcmuaf.fit.bean.Token;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.dao.UserDAO;
 
@@ -10,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Properties;
 
@@ -105,11 +107,13 @@ public class UserService {
             String password = ramdomPassword();
             user.setPassword(hashPassword(password));
             update(user);
+            Token token = generateToken(user);
+            String link = "http://localhost:8080/ForgoPassTokenController?token=" + token.getToken();
             String text = "Xin chào " + user.getName() + ",\n" +
                     "\n" +
                     "Ai đó đã yêu cầu mật khẩu mới cho tài khoản Username: "+ user.getUsername()+" được liên kết với Email: "+ user.getEmail()+" .\n" +
                     "\n" +
-                    "Mật khẩu mới của bạn: " + password +
+                    "Mật khẩu mới của bạn: " + link +
                     "\n" +
                     "The HaHaTi team" +
                     "\n" +
@@ -127,6 +131,11 @@ public class UserService {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         String pwd = RandomStringUtils.random(8, characters);
         return pwd;
+    }
+
+    public Token generateToken(User user) {
+        TokenFPService service = new TokenFPService();
+        return service.generateToken(user);
     }
 
     public boolean checkAdmin(User user) {
