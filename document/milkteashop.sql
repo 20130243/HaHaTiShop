@@ -878,7 +878,7 @@ CREATE TABLE `forgot_pass` (
   `id` int(11) NOT NULL,
   `token` varchar(100) NOT NULL,
   `user_id` varchar(100) NOT NULL,
-  `send_at` date NOT NULL
+  `send_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
