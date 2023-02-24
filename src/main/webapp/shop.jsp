@@ -165,20 +165,15 @@
                         </ul>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
-                        <ul class="menu-drop">
-                            <%
-                                int sort = (int) request.getAttribute("sort");
-                            %>
-                            <li class="menu-item <%=sort == 0? "active" : ""%>">
-                                <a href="shop?sort=0" class="">Không lựa chọn</a>
-                            </li>
-                            <li class="menu-item <%=sort == 1? "active" : ""%>">
-                                <a href="shop?sort=1">Giá thấp đến cao</a>
-                            </li>
-                            <li class="menu-item <%=sort == 2? "active" : ""%>">
-                                <a href="shop?sort=2">Giá cao đến thấp</a>
-                            </li>
-                        </ul>
+
+
+                            <select id="filter-sort-tour" style="border: 1px solid #0acf97;">
+
+                                <option selected>Lựa chọn lọc</option>
+                                <option value="price-asc">Sắp xếp theo giá tiền tăng dần</option>
+                                <option value="price-desc">Sắp xếp theo giá tiền giảm dần</option>
+<%--                                <option value="new">Sắp xếp theo theo mới nhất</option>--%>
+                            </select>
 
                     </div>
 
@@ -310,16 +305,7 @@
         </div>
         <div class="row spad">
             <div class="col-lg-12">
-<%--                <div class="product__pagination">--%>
-<%--                    <%--%>
-<%--                        int count = (int) request.getAttribute("endPage");--%>
-<%--                        for (int i = 1; i <= count; i++) {--%>
-<%--                    %>--%>
-<%--                    <a class="<%=(int) request.getAttribute("pageIndex") == i? "active" : ""%>"--%>
-<%--                       href="shop?index=<%=i%><%=(String) request.getAttribute("pageSort")%>"><%=i%>--%>
-<%--                    </a>--%>
-<%--                    <%}%>--%>
-<%--                </div>--%>
+
                 <nav>
                     <ul id="pagination-demo" class="pagination pagination-style-one justify-content-center pt-80">
                     </ul>
@@ -344,6 +330,7 @@
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" >
     $(document).ready(function () {
+        ///start pagination
         let list = $('#group-item');
         let listProducts = list.children(".proitem");
         console.log(listProducts)
@@ -455,6 +442,64 @@
             });
         });
 
+        //end pagination
+        //filter price
+        //---
+        const filterSortTour = $('#filter-sort-tour');
+        filterSortTour.on('change' , function (e) {
+            var valueSelected = this.value;
+            function convertToMoney(e) {
+                var moneyNode = e.getElementsByClassName('product__item__text')[0];
+                var moneyText = moneyNode.getElementsByTagName('h6')[0].innerText;
+                var moneyTextList = moneyText.split(' ');
+                var moneyTextString =parseInt(moneyTextList[0].split('.').join(''));
+                return moneyTextString;
+            }
+
+
+
+            if (valueSelected ==='price-desc') {
+
+                jQuery(function () {
+                    const newListProducts = listProducts.sort((a,b) => convertToMoney(b) - convertToMoney(a));
+
+                    list.children().remove()
+                    for (let index = 0; index < newListProducts.length; index++) {
+                        //     list.append(`${listProducts[index].outerHTML}`)
+                        list.children().remove()
+                    }
+                    for (let i = 0; i < newListProducts.length; i++) {
+
+                        list.append(newListProducts[i].outerHTML)
+
+                    }
+                    listProducts = list.children();
+                    displayItem(listProducts,list,displayProduct,1)
+                })
+            }else if (valueSelected === 'price-asc') {
+                jQuery(function () {
+                    const newListProducts = listProducts.sort((a,b) => convertToMoney(a) - convertToMoney(b));
+
+                    list.children().remove()
+                    for (let index = 0; index < newListProducts.length; index++) {
+                        //     list.append(`${listProducts[index].outerHTML}`)
+                        list.children().remove()
+                    }
+                    for (let i = 0; i < newListProducts.length; i++) {
+
+                        list.append(newListProducts[i].outerHTML)
+
+                    }
+                    listProducts = list.children();
+                    displayItem(listProducts,list,displayProduct,1)
+                })
+            }
+
+
+
+        });
+
+        //end filter
 
     });
 </script>
