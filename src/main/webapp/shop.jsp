@@ -1,5 +1,3 @@
-
-
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %>
 <%@ page import="vn.edu.hcmuaf.fit.bean.*" %><%--
@@ -11,7 +9,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html >
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -36,16 +34,19 @@
     <link rel="stylesheet" href="css/modal.css" type="text/css">
     <link rel="stylesheet" href="css/header-footer.css" type="text/css">
     <style>
-        .active{
+        .active {
             background-color: #0acf97;
         }
-        .display-hide{
+
+        .display-hide {
             display: none;
         }
-        .page-item-index{
+
+        .page-item-index {
             width: 50px;
             height: 40px;
         }
+
         .pagination-style-one .page-item {
             margin-right: 20px
         }
@@ -65,13 +66,13 @@
             width: 40px;
             background: #0acf97;
             color: #fff;
-            border-color:#0acf97
+            border-color: #0acf97
         }
 
         .pagination-style-one .page-item.active a {
             background: #0acf97;
             color: #fff;
-            border-color:#0acf97
+            border-color: #0acf97
         }
 
         .pagination-style-one .page-item a {
@@ -118,7 +119,7 @@
 
 <!-- Header Section Begin -->
 <%@include file="header.jsp" %>
-<% int pagi = 1 ;%>
+<% int pagi = 1;%>
 <!-- Header Section End -->
 
 <!-- Shop Section Begin -->
@@ -157,7 +158,7 @@
                                 for (Category category : listCategories) {
                             %>
                             <li class="menu-item <%=(int) request.getAttribute("tagCate") == category.getId() ? "active":""%>">
-                                <a href="category?cid=<%=category.getId()%>"><%=category.getName()%> <%=category.getStatus()==1?" (Hết nguyên liệu)" : category.getStatus()==2?" (Ngừng kinh doanh)" : ""%>
+                                <a href="category?cid=<%=category.getId()%>"><%=category.getName()%> <%=category.getStatus() == 1 ? " (Hết nguyên liệu)" : category.getStatus() == 2 ? " (Ngừng kinh doanh)" : ""%>
                                 </a>
                             </li>
 
@@ -165,15 +166,12 @@
                         </ul>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
-
-
-                            <select id="filter-sort-tour" style="border: 1px solid #0acf97;">
-
-                                <option selected>Lựa chọn lọc</option>
-                                <option value="price-asc">Sắp xếp theo giá tiền tăng dần</option>
-                                <option value="price-desc">Sắp xếp theo giá tiền giảm dần</option>
-<%--                                <option value="new">Sắp xếp theo theo mới nhất</option>--%>
-                            </select>
+                        <select id="filter-sort-tour" style="border: 1px solid #0acf97;">
+                            <option selected>Lựa chọn lọc</option>
+                            <option value="price-asc">Sắp xếp theo giá tiền tăng dần</option>
+                            <option value="price-desc">Sắp xếp theo giá tiền giảm dần</option>
+                            <%--                                <option value="new">Sắp xếp theo theo mới nhất</option>--%>
+                        </select>
 
                     </div>
 
@@ -305,7 +303,6 @@
         </div>
         <div class="row spad">
             <div class="col-lg-12">
-
                 <nav>
                     <ul id="pagination-demo" class="pagination pagination-style-one justify-content-center pt-80">
                     </ul>
@@ -328,7 +325,7 @@
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script type="text/javascript" >
+<script type="text/javascript">
     $(document).ready(function () {
         ///start pagination
         let list = $('#group-item');
@@ -337,28 +334,28 @@
         let boundParent = $('#bound-parent');
         let productNum = listProducts.length;
         let displayProduct = 12;
-        let paginationNum =  Math.ceil(productNum / displayProduct) ;
+        let paginationNum = Math.ceil(productNum / displayProduct);
         console.log(paginationNum)
         let ulPagination = $('#pagination-demo');
         // let listIndex = ulPagination.children(".page-item-index");
 
         for (let index = 0; index < paginationNum; index++) {
 
-            if (index ===0) {
+            if (index === 0) {
 
-                    ulPagination.append(
-                        `
+                ulPagination.append(
+                    `
                     <li class="page-item page-item-index active">
                         <a class="page-link" href="#" style="text-align: center;" >\${index + 1 } </a>
                      </li>
                     `);
 
 
-            }else{
+            } else {
 
 
-                    ulPagination.append(
-                        `
+                ulPagination.append(
+                    `
                     <li class="page-item page-item-index ">
                         <a class="page-link" href="#" style="text-align: center;" >\${index +1 } </a>
                     </li>
@@ -367,24 +364,26 @@
 
             }
 
-        };
-
+        }
+        ;
 
 
         for (let j = 0; j < listProducts.length; j++) {
             listProducts[j].classList.add('display-hide');
 
-        };
+        }
+        ;
         if (ulPagination.children().length > 6) {
             for (let index = 0; index < ulPagination.children().length; index++) {
                 ulPagination.children()[index].classList.add('display-hide')
 
             }
             ulPagination.children()[0].classList.remove('display-hide');
-            ulPagination.children()[ulPagination.children().length-1].classList.remove('display-hide');
+            ulPagination.children()[ulPagination.children().length - 1].classList.remove('display-hide');
             ulPagination.children()[1].classList.remove('display-hide');
         }
-        function displayItem(listProducts,list,displayProduct,page) {
+
+        function displayItem(listProducts, list, displayProduct, page) {
             page--;
             for (let j = 0; j < listProducts.length; j++) {
                 listProducts[j].classList.remove('display-hide');
@@ -395,41 +394,41 @@
 
             }
             let loop_start = displayProduct * page;
-            let renderItem = listProducts.slice(loop_start,loop_start+displayProduct);
+            let renderItem = listProducts.slice(loop_start, loop_start + displayProduct);
             for (let index = 0; index < renderItem.length; index++) {
                 renderItem[index].classList.toggle('display-hide');
             }
         };
-        displayItem(listProducts,list,displayProduct,1);
+        displayItem(listProducts, list, displayProduct, 1);
 
         $(document).ready(function () {
 
             $(".page-item-index").click(function (e) {
                 let len = ulPagination.children().length;
                 let eIndex = 0;
-                if (len > 6){
+                if (len > 6) {
                     for (let index = 0; index < len; index++) {
                         ulPagination.children()[index].classList.add('display-hide')
                         if (ulPagination.children()[index].isEqualNode(e.currentTarget)) {
                             eIndex = index;
                         }
                     }
-                    if (eIndex > 0 && eIndex < len-1) {
+                    if (eIndex > 0 && eIndex < len - 1) {
 
                         ulPagination.children()[0].classList.remove('display-hide');
-                        ulPagination.children()[len-1].classList.remove('display-hide');
+                        ulPagination.children()[len - 1].classList.remove('display-hide');
                         ulPagination.children()[eIndex].classList.remove('display-hide');
-                        ulPagination.children()[eIndex -1].classList.remove('display-hide');
-                        ulPagination.children()[eIndex+1].classList.remove('display-hide');
-                    }else if(eIndex === 0 && eIndex < len-1) {
-                        ulPagination.children()[eIndex+1].classList.remove('display-hide');
-                        ulPagination.children()[len-1].classList.remove('display-hide');
+                        ulPagination.children()[eIndex - 1].classList.remove('display-hide');
+                        ulPagination.children()[eIndex + 1].classList.remove('display-hide');
+                    } else if (eIndex === 0 && eIndex < len - 1) {
+                        ulPagination.children()[eIndex + 1].classList.remove('display-hide');
+                        ulPagination.children()[len - 1].classList.remove('display-hide');
                         ulPagination.children()[eIndex].classList.remove('display-hide');
-                    }else if(eIndex > 0 && eIndex === len-1){
+                    } else if (eIndex > 0 && eIndex === len - 1) {
                         ulPagination.children()[0].classList.remove('display-hide');
-                        ulPagination.children()[len-1].classList.remove('display-hide');
+                        ulPagination.children()[len - 1].classList.remove('display-hide');
                         ulPagination.children()[eIndex].classList.remove('display-hide');
-                        ulPagination.children()[eIndex -1].classList.remove('display-hide');
+                        ulPagination.children()[eIndex - 1].classList.remove('display-hide');
 
                     }
                 }
@@ -438,7 +437,7 @@
 
                 }
                 e.currentTarget.classList.add('active')
-                displayItem(listProducts,list,displayProduct,parseInt(e.currentTarget.innerText));
+                displayItem(listProducts, list, displayProduct, parseInt(e.currentTarget.innerText));
             });
         });
 
@@ -446,22 +445,22 @@
         //filter price
         //---
         const filterSortTour = $('#filter-sort-tour');
-        filterSortTour.on('change' , function (e) {
+        filterSortTour.on('change', function (e) {
             var valueSelected = this.value;
+
             function convertToMoney(e) {
                 var moneyNode = e.getElementsByClassName('product__item__text')[0];
                 var moneyText = moneyNode.getElementsByTagName('h6')[0].innerText;
                 var moneyTextList = moneyText.split(' ');
-                var moneyTextString =parseInt(moneyTextList[0].split('.').join(''));
+                var moneyTextString = parseInt(moneyTextList[0].split('.').join(''));
                 return moneyTextString;
             }
 
 
-
-            if (valueSelected ==='price-desc') {
+            if (valueSelected === 'price-desc') {
 
                 jQuery(function () {
-                    const newListProducts = listProducts.sort((a,b) => convertToMoney(b) - convertToMoney(a));
+                    const newListProducts = listProducts.sort((a, b) => convertToMoney(b) - convertToMoney(a));
 
                     list.children().remove()
                     for (let index = 0; index < newListProducts.length; index++) {
@@ -474,11 +473,11 @@
 
                     }
                     listProducts = list.children();
-                    displayItem(listProducts,list,displayProduct,1)
+                    displayItem(listProducts, list, displayProduct, 1)
                 })
-            }else if (valueSelected === 'price-asc') {
+            } else if (valueSelected === 'price-asc') {
                 jQuery(function () {
-                    const newListProducts = listProducts.sort((a,b) => convertToMoney(a) - convertToMoney(b));
+                    const newListProducts = listProducts.sort((a, b) => convertToMoney(a) - convertToMoney(b));
 
                     list.children().remove()
                     for (let index = 0; index < newListProducts.length; index++) {
@@ -491,10 +490,9 @@
 
                     }
                     listProducts = list.children();
-                    displayItem(listProducts,list,displayProduct,1)
+                    displayItem(listProducts, list, displayProduct, 1)
                 })
             }
-
 
 
         });
@@ -526,10 +524,6 @@
             $(s).click();
         });
     });
-
-
-
-
 
 
 </script>

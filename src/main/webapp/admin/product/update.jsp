@@ -88,15 +88,15 @@
                                             </div>
                                             <div class="form-group mb-3 myAwesomeDropzone dropzone">
                                                 <!-- File Upload -->
-                                                    <div class="fallback">
-                                                        <input name="file" type="file" multiple/>
-                                                    </div>
+                                                <div class="fallback">
+                                                    <input name="image" type="file" multiple/>
+                                                </div>
 
-                                                    <div class="dz-message needsclick">
-                                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
-                                                        <h3>Drop files here or click to upload.</h3>
-                                                        </span>
-                                                    </div>
+                                                <div class="dz-message needsclick">
+                                                    <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                    <h3>Drop files here or click to upload.</h3>
+                                                    </span>
+                                                </div>
 
                                                 <!-- Preview -->
                                                 <div class="dropzone-previews mt-3" id="file-previews"></div>
@@ -127,6 +127,18 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <c:forEach var="item" items="${object.image}">
+                                                    <div class="">
+                                                        <img src="${item.url}" alt="image"
+                                                             class="img-fluid avatar-lg">
+                                                        <p>Xóa ảnh</p>
+                                                        <input type="checkbox" id="switch1" name="check_delete${item.id}" checked data-switch="bool"/>
+                                                        <label for="switch1" data-on-label="Giữ"
+                                                               data-off-label="Xóa"></label>
+                                                    </div>
+                                                </c:forEach>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <label for="category">Phân loại</label>
@@ -251,7 +263,6 @@
 
     })
 </script>
-
 </body>
 
 </html>
