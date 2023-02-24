@@ -104,11 +104,11 @@ public class UserService {
     public boolean passwordRecovery(String username, String email) {
         User user = getByUsername(username);
         if (user != null && user.getEmail().equals(email)) {
-            String password = ramdomPassword();
-            user.setPassword(hashPassword(password));
-            update(user);
+//            String password = ramdomPassword();
+//            user.setPassword(hashPassword(password));
+//            update(user);
             Token token = generateToken(user);
-            String link = "http://localhost:8080/ForgoPassTokenController?token=" + token.getToken();
+            String link = "http://localhost:8080/forgotpassword?token=" + token.getToken();
             String text = "Xin chào " + user.getName() + ",\n" +
                     "\n" +
                     "Ai đó đã yêu cầu mật khẩu mới cho tài khoản Username: "+ user.getUsername()+" được liên kết với Email: "+ user.getEmail()+" .\n" +
