@@ -30,6 +30,24 @@ public class TokenDAO extends RD{
         ) : null;
     }
 
+    public Map<String, Object> getByToken(String token) {
+        return !checkToken(token) ?  JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT * FROM " + tableName + " WHERE token=:token")
+                        .bind("token", token)
+                        .mapToMap()
+                        .first()
+        ) : null;
+
+    }
+
+    public boolean checkToken(String token) {
+        int a = JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE token=:token")
+                        .bind("token", token)
+                        .mapTo(Integer.class).first());
+        return a < 1;
+    }
+
     public boolean checkId(int id) {
         int a = JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE id=:id")
@@ -67,4 +85,5 @@ public class TokenDAO extends RD{
                         .execute()
         );
     }
+
 }
