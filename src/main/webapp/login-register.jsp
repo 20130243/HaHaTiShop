@@ -100,7 +100,7 @@
                                                        placeholder="Mật khẩu"
                                                        value="" required/>
                                             </div>
-                                            <div class="button-box">
+                                            <div class="button-box" style="display: flex">
                                                 <div class="login-toggle-btn">
                                                     <input id="checkSave" type="checkbox" name="save"
                                                            value="checked"/>
@@ -115,9 +115,7 @@
                                             </div>
                                             <hr class="mb-4 mt-1">
                                             <div class="d-flex justify-content-center text-center pt-1">
-                                                <div class="fb-login-button col" data-width="" data-size=""
-                                                     data-button-type="" data-layout="" data-auto-logout-link="false"
-                                                     data-use-continue-as="true"></div>
+
                                                 <div class="col">
                                                     <div id="ButtonGoogleLogin"></div>
                                                 </div>
@@ -223,47 +221,6 @@
 <script src="assets/js/vendor/account/js/plugins/scrollup.min.js"></script>
 <script src="assets/js/vendor/account/js/plugins/jqueryui.min.js"></script>
 <script src="assets/js/vendor/account/js/main.js"></script>
-
-<script>
-
-    function checkLoginState() {
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
-        });
-        FB.api('/me', {fields: ' name, email'}, function (response) {
-            console.log(response);
-            window.location.href = 'Login?action=Face&name=' + response.name + '&email=' + response.email + '&id=' + response.id;
-        });
-    }
-
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '1165112207482270',
-            cookie: true,
-            xfbml: true,
-            version: 'v15.0'
-        });
-
-        FB.AppEvents.logPageView();
-
-    };
-
-
-    FB.getLoginStatus(function (response) {
-        statusChangeCallback(response);
-    });
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
 <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
 <script>
     function handleCredentialResponse(response) {
@@ -290,7 +247,6 @@
 
     $("#login").submit(function (e) {
         e.preventDefault();
-        console.log($(this).serialize());
         $.ajax({
             type: $(this).attr('method'),
             url: $(this).attr('action'),
@@ -335,6 +291,7 @@
         });
     });
 </script>
-</body>
 
+
+</body>
 </html>
