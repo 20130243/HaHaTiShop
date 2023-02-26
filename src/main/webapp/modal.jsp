@@ -244,7 +244,9 @@
 
     $(document).ready(function () {
         var rs = document.getElementById('price' + '<%=p.getId()%>');
-        rs.innerText = '<%=priceP%>';
+        if(rs != null) {
+            rs.innerText = '<%=priceP%>';
+        }
 
             var sizeM = document.getElementById('m_size' + '<%=p.getId()%>');
             var sizeL = document.getElementById('l_size' + '<%=p.getId()%>');
