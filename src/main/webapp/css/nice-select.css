@@ -1,14 +1,14 @@
 .nice-select {
   -webkit-tap-highlight-color: transparent;
   background-color: #fff;
-  border-radius: 5px;
-  border: solid 1px #e8e8e8;
+  /*border-radius: 5px;*/
+  border: solid 1px #1fa198;
   box-sizing: border-box;
   clear: both;
   cursor: pointer;
   display: block;
   float: left;
-  font-family: inherit;
+  font-family: "Nunito Sans", sans-serif;
   font-size: 14px;
   font-weight: normal;
   height: 42px;
@@ -25,10 +25,11 @@
       -ms-user-select: none;
           user-select: none;
   white-space: nowrap;
-  width: auto; }
+  width: 100%; }
   .nice-select:hover {
     border-color: #dbdbdb; }
   .nice-select:active, .nice-select.open, .nice-select:focus {
+    width: 100%;
     border-color: #999; }
   .nice-select:after {
     border-bottom: 2px solid #999;
@@ -59,7 +60,9 @@
     pointer-events: auto;
     -webkit-transform: scale(1) translateY(0);
         -ms-transform: scale(1) translateY(0);
-            transform: scale(1) translateY(0); }
+            transform: scale(1) translateY(0);
+    width: 100%;
+  }
   .nice-select.disabled {
     border-color: #ededed;
     color: #999;
@@ -123,6 +126,7 @@
     -webkit-transition: all 0.2s;
     transition: all 0.2s; }
     .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus {
+      width: 100%;
       background-color: #f6f6f6; }
     .nice-select .option.selected {
       font-weight: bold; }
@@ -136,3 +140,7 @@
 
 .no-csspointerevents .nice-select.open .list {
   display: block; }
+
+.option {
+  width: 100%;
+}
