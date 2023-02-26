@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "Product update", value = "/admin/product/update")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -46,25 +47,27 @@ public class UpdateController extends HttpServlet {
         Product product = new Product();
         int id = Integer.parseInt(request.getParameter("id").replaceAll("\\s+", ""));
         String name = request.getParameter("name");
-
-        Part image = request.getPart("image");
-        String img = request.getParameter("old_image");
         if (request.getParameter("check_input_file").equals("true")) {
-            String realPath = request.getServletContext().getRealPath("/img/ProductImport");
-            String fileName = Path.of(image.getSubmittedFileName()).getFileName().toString();
-            String extension = ".";
-            int i = fileName.lastIndexOf('.');
-            if (i > 0) {
-                extension = "." + fileName.substring(i + 1);
+            List<Part> fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+            for (Part image : fileParts) {
+                String realPath = request.getServletContext().getRealPath("/img/ProductImport");
+                String fileName = Path.of(image.getSubmittedFileName()).getFileName().toString();
+                String extension = ".";
+                int i = fileName.lastIndexOf('.');
+                if (i > 0) {
+                    extension = "." + fileName.substring(i + 1);
+                }
+                if (!Files.exists(Path.of(realPath))) {
+                    Files.createDirectory(Path.of(realPath));
+                }
+                String path = realPath + "/" + name.replaceAll(" ", "-") + extension;
+                image.write(path);
+                String img = "/img/ProductImport/" + name.replaceAll(" ", "-") + extension;
+                System.out.println(image);
             }
-            if (!Files.exists(Path.of(realPath))) {
-                Files.createDirectory(Path.of(realPath));
-            }
-            String path = realPath + "/" + name.replaceAll(" ", "-") + extension;
-            image.write(path);
-            img = "/img/ProductImport/" + name.replaceAll(" ", "-") + extension;
-            System.out.println(image);
         }
+
+
         int category = Integer.parseInt(request.getParameter("category"));
         int status = Integer.parseInt(request.getParameter("status"));
 
