@@ -222,9 +222,7 @@ element.style {
 .topping-item{
   margin: 0 !important;
 }
-.active{
-  background-color: #0acf97;
-}
+
 .display-hide{
   display: none;
 }

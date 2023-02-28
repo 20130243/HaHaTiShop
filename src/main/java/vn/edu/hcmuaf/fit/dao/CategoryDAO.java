@@ -28,6 +28,16 @@ public class CategoryDAO extends RD {
         return null;
     }
 
+    public Map<String, Object> getByName(String name) {
+        List<Map<String, Object>> categoryList = getAll();
+        for (Map<String, Object> category : categoryList) {
+            if (category.get("name").equals(name)) {
+                return category;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void delete(int id) {
         JDBIConnector.get().withHandle(h -> h.createUpdate("delete from " + tableName + " where id =?")

@@ -28,6 +28,11 @@ public class CategoryService {
         return new Category((Integer) category.get("id"), (String) category.get("name"), (Integer) category.get("status"));
     }
 
+    public Category getByName(String name)  {
+        Map<String, Object> category = dao.getByName(name);
+        return new Category((Integer) category.get("id"), (String) category.get("name"), (Integer) category.get("status"));
+    }
+
     public void insert(Category category) throws Exception {
         dao.insert(category.getName(), category.getStatus());
     }

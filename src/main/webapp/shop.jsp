@@ -9,7 +9,9 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+ 
+<html lang="zxx">
+ 
 
 <head>
     <meta charset="UTF-8">
@@ -33,66 +35,7 @@
     <link rel="stylesheet" href="css/shop.css" type="text/css">
     <link rel="stylesheet" href="css/modal.css" type="text/css">
     <link rel="stylesheet" href="css/header-footer.css" type="text/css">
-    <style>
-        .active {
-            background-color: #0acf97;
-        }
-
-        .display-hide {
-            display: none;
-        }
-
-        .page-item-index {
-            width: 50px;
-            height: 40px;
-        }
-
-        .pagination-style-one .page-item {
-            margin-right: 20px
-        }
-
-        .pagination-style-one .page-item:last-child {
-            margin-right: 0
-        }
-
-        .pagination-style-one .page-item .page-link:hover {
-            background-color: #0acf97;
-            color: #fff
-        }
-
-        .pagination-style-one .page-item.page-arrow a {
-            border-radius: 50%;
-            height: 40px;
-            width: 40px;
-            background: #0acf97;
-            color: #fff;
-            border-color: #0acf97
-        }
-
-        .pagination-style-one .page-item.active a {
-            background: #0acf97;
-            color: #fff;
-            border-color: #0acf97
-        }
-
-        .pagination-style-one .page-item a {
-            border: 1px solid #0acf97;
-            box-sizing: border-box;
-            border-radius: 5px;
-            font-weight: 700;
-            font-size: 16px;
-            letter-spacing: .05em;
-            color: #2d373c;
-            padding: 7px 10px;
-            min-height: 40px;
-            min-width: 40px
-        }
-
-        .pagination-style-one .page-item a:focus {
-            box-shadow: none
-        }
-
-    </style>
+ 
 </head>
 
 <body>
@@ -119,7 +62,7 @@
 
 <!-- Header Section Begin -->
 <%@include file="header.jsp" %>
-<% int pagi = 1;%>
+ 
 <!-- Header Section End -->
 
 <!-- Shop Section Begin -->
@@ -134,7 +77,9 @@
         <div class="row">
             <div class=" col-lg-9">
                 <!-- Button trigger modal -->
+                <form id="category_filter" name="form_filter" method="get" action="">
                 <div class="row search_bar">
+
                     <div class="col-lg-4 col-md-4 col-sm-4 ">
                         <h6 class="search_bar_text">Tìm kiếm</h6>
                     </div>
@@ -144,45 +89,47 @@
                     <div class="col-lg-4 col-md-4 col-sm-4 ">
                         <h6 class="search_bar_text">Theo giá</h6>
                     </div>
+
                     <div class="col-lg-4 col-md-4 col-sm-4 shop__sidebar__search">
-                        <form action="SearchController" method="get">
                             <input name="search" type="text" placeholder="Tìm kiếm sản phẩm"
-                                   style="padding-right:42px ;">
+                                   style="padding-right:42px ;" value="<%=request.getParameter("search") != null? request.getParameter("search") : ""%>">
                             <button type="submit"><span class="icon_search"></span></button>
-                        </form>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
-                        <ul class="menu-drop">
+                        <select id="category" name="category" onchange="form_filter.submit()">
                             <%
                                 List<Category> listCategories = (List<Category>) request.getAttribute("listCategories");
+                                String checkCategories = request.getParameter("category");
                                 for (Category category : listCategories) {
                             %>
-                            <li class="menu-item <%=(int) request.getAttribute("tagCate") == category.getId() ? "active":""%>">
-                                <a href="category?cid=<%=category.getId()%>"><%=category.getName()%> <%=category.getStatus() == 1 ? " (Hết nguyên liệu)" : category.getStatus() == 2 ? " (Ngừng kinh doanh)" : ""%>
-                                </a>
-                            </li>
-
+ 
+                            <option  <%= checkCategories!=null?checkCategories.equals(category.getName())? "selected" : "" : ""%> value="<%=category.getName()%>"><%=category.getName()%> <%=category.getStatus()==1?" (Hết nguyên liệu)" : category.getStatus()==2?" (Ngừng kinh doanh)" : ""%></option>
+ 
                             <%}%>
-                        </ul>
+                        </select>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
-                        <select id="filter-sort-tour" style="border: 1px solid #0acf97;">
-                            <option selected>Lựa chọn lọc</option>
-                            <option value="price-asc">Sắp xếp theo giá tiền tăng dần</option>
-                            <option value="price-desc">Sắp xếp theo giá tiền giảm dần</option>
-                            <%--                                <option value="new">Sắp xếp theo theo mới nhất</option>--%>
+ 
+                        <select id="sort" name="sort" onchange="form_filter.submit()">
+                            <%
+                                String sort = (String)  request.getAttribute("sort");
+                            %>
+                            <option value="none" <%=sort.equals("none")? "selected" : ""%>>Lựa chọn lọc </option>
+                            <option value="price-asc" <%=sort.equals("price-asc")? "selected" : ""%>>Sắp xếp theo giá tiền tăng dần</option>
+                            <option value="price-desc" <%=sort.equals("price-desc")? "selected" : ""%>>Sắp xếp theo giá tiền giảm dần</option>
                         </select>
-
+ 
                     </div>
-
                 </div>
-
-                <div class="row" id="group-item">
+                    <input type="text" name="hideSticky" value="1" style="display: none">
+                </form>
+                <div class="row">
                     <%
                         List<Product> list = (List<Product>) request.getAttribute("listProduct");
+                        if(list != null) {
                         for (Product p : list) {
                     %>
-                    <div class="col-lg-3 col-md-4 col-sm-4 proitem">
+                    <div class="col-lg-3 col-md-4 col-sm-4">
                         <div class="product__item sale" data-toggle="modal"
                              data-target="#myModal<%=p.getId()%>" data-id="<%=p.getId()%>">
                             <div class="product__item__pic set-bg" data-setbg="<%=p.getImage().get(0).getUrl()%>">
@@ -217,7 +164,7 @@
                             data-toggle="modal"
                             data-target="#myModal">
                     </button>
-                    <% }%>
+                    <% }}%>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -239,7 +186,7 @@
                                             for (Item item : items) {
                                                 Product p = item.getProduct();
                                 %>
-                                <form action="/editcart" method="post" id="myForm">
+                                <form action="/editcart" method="get" id="myForm">
                                     <div class="cart-product-item">
                                         <div class="cart-product-name">
                                             <img src="<%=p.getImage().get(0).getUrl()%>" width="32" height="32">
@@ -257,7 +204,6 @@
                                                 <%
                                                     if (p.getTopping().size() > 0) {
                                                         for (Topping tp : p.getTopping()) {
-
                                                 %>
                                                 <p class="topping-item"><%=tp.getName()%> x <%=item.getQuantity()%>
                                                 </p>
@@ -303,10 +249,18 @@
         </div>
         <div class="row spad">
             <div class="col-lg-12">
-                <nav>
-                    <ul id="pagination-demo" class="pagination pagination-style-one justify-content-center pt-80">
-                    </ul>
-                </nav>
+ 
+                <div class="product__pagination">
+                    <%
+                        int count = (int) request.getAttribute("endPage");
+                        for (int i = 1; i <= count; i++) {
+                    %>
+                    <a class="<%=(int) request.getAttribute("pageIndex") == i? "active" : ""%>"
+                       href="shop?index=<%=i%>"><%=i%>
+                    </a>
+                    <%}%>
+                </div>
+ 
             </div>
         </div>
     </div>
@@ -322,185 +276,9 @@
 <!-- /.modal -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+<script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        ///start pagination
-        let list = $('#group-item');
-        let listProducts = list.children(".proitem");
-        console.log(listProducts)
-        let boundParent = $('#bound-parent');
-        let productNum = listProducts.length;
-        let displayProduct = 12;
-        let paginationNum = Math.ceil(productNum / displayProduct);
-        console.log(paginationNum)
-        let ulPagination = $('#pagination-demo');
-        // let listIndex = ulPagination.children(".page-item-index");
-
-        for (let index = 0; index < paginationNum; index++) {
-
-            if (index === 0) {
-
-                ulPagination.append(
-                    `
-                    <li class="page-item page-item-index active">
-                        <a class="page-link" href="#" style="text-align: center;" >\${index + 1 } </a>
-                     </li>
-                    `);
-
-
-            } else {
-
-
-                ulPagination.append(
-                    `
-                    <li class="page-item page-item-index ">
-                        <a class="page-link" href="#" style="text-align: center;" >\${index +1 } </a>
-                    </li>
-                    `);
-
-
-            }
-
-        }
-        ;
-
-
-        for (let j = 0; j < listProducts.length; j++) {
-            listProducts[j].classList.add('display-hide');
-
-        }
-        ;
-        if (ulPagination.children().length > 6) {
-            for (let index = 0; index < ulPagination.children().length; index++) {
-                ulPagination.children()[index].classList.add('display-hide')
-
-            }
-            ulPagination.children()[0].classList.remove('display-hide');
-            ulPagination.children()[ulPagination.children().length - 1].classList.remove('display-hide');
-            ulPagination.children()[1].classList.remove('display-hide');
-        }
-
-        function displayItem(listProducts, list, displayProduct, page) {
-            page--;
-            for (let j = 0; j < listProducts.length; j++) {
-                listProducts[j].classList.remove('display-hide');
-
-            }
-            for (let j = 0; j < listProducts.length; j++) {
-                listProducts[j].classList.add('display-hide');
-
-            }
-            let loop_start = displayProduct * page;
-            let renderItem = listProducts.slice(loop_start, loop_start + displayProduct);
-            for (let index = 0; index < renderItem.length; index++) {
-                renderItem[index].classList.toggle('display-hide');
-            }
-        };
-        displayItem(listProducts, list, displayProduct, 1);
-
-        $(document).ready(function () {
-
-            $(".page-item-index").click(function (e) {
-                let len = ulPagination.children().length;
-                let eIndex = 0;
-                if (len > 6) {
-                    for (let index = 0; index < len; index++) {
-                        ulPagination.children()[index].classList.add('display-hide')
-                        if (ulPagination.children()[index].isEqualNode(e.currentTarget)) {
-                            eIndex = index;
-                        }
-                    }
-                    if (eIndex > 0 && eIndex < len - 1) {
-
-                        ulPagination.children()[0].classList.remove('display-hide');
-                        ulPagination.children()[len - 1].classList.remove('display-hide');
-                        ulPagination.children()[eIndex].classList.remove('display-hide');
-                        ulPagination.children()[eIndex - 1].classList.remove('display-hide');
-                        ulPagination.children()[eIndex + 1].classList.remove('display-hide');
-                    } else if (eIndex === 0 && eIndex < len - 1) {
-                        ulPagination.children()[eIndex + 1].classList.remove('display-hide');
-                        ulPagination.children()[len - 1].classList.remove('display-hide');
-                        ulPagination.children()[eIndex].classList.remove('display-hide');
-                    } else if (eIndex > 0 && eIndex === len - 1) {
-                        ulPagination.children()[0].classList.remove('display-hide');
-                        ulPagination.children()[len - 1].classList.remove('display-hide');
-                        ulPagination.children()[eIndex].classList.remove('display-hide');
-                        ulPagination.children()[eIndex - 1].classList.remove('display-hide');
-
-                    }
-                }
-                for (let k = 0; k < ulPagination.children().length; k++) {
-                    ulPagination.children()[k].classList.remove('active')
-
-                }
-                e.currentTarget.classList.add('active')
-                displayItem(listProducts, list, displayProduct, parseInt(e.currentTarget.innerText));
-            });
-        });
-
-        //end pagination
-        //filter price
-        //---
-        const filterSortTour = $('#filter-sort-tour');
-        filterSortTour.on('change', function (e) {
-            var valueSelected = this.value;
-
-            function convertToMoney(e) {
-                var moneyNode = e.getElementsByClassName('product__item__text')[0];
-                var moneyText = moneyNode.getElementsByTagName('h6')[0].innerText;
-                var moneyTextList = moneyText.split(' ');
-                var moneyTextString = parseInt(moneyTextList[0].split('.').join(''));
-                return moneyTextString;
-            }
-
-
-            if (valueSelected === 'price-desc') {
-
-                jQuery(function () {
-                    const newListProducts = listProducts.sort((a, b) => convertToMoney(b) - convertToMoney(a));
-
-                    list.children().remove()
-                    for (let index = 0; index < newListProducts.length; index++) {
-                        //     list.append(`${listProducts[index].outerHTML}`)
-                        list.children().remove()
-                    }
-                    for (let i = 0; i < newListProducts.length; i++) {
-
-                        list.append(newListProducts[i].outerHTML)
-
-                    }
-                    listProducts = list.children();
-                    displayItem(listProducts, list, displayProduct, 1)
-                })
-            } else if (valueSelected === 'price-asc') {
-                jQuery(function () {
-                    const newListProducts = listProducts.sort((a, b) => convertToMoney(a) - convertToMoney(b));
-
-                    list.children().remove()
-                    for (let index = 0; index < newListProducts.length; index++) {
-                        //     list.append(`${listProducts[index].outerHTML}`)
-                        list.children().remove()
-                    }
-                    for (let i = 0; i < newListProducts.length; i++) {
-
-                        list.append(newListProducts[i].outerHTML)
-
-                    }
-                    listProducts = list.children();
-                    displayItem(listProducts, list, displayProduct, 1)
-                })
-            }
-
-
-        });
-
-        //end filter
-
-    });
-</script>
+ 
 <script src="js/jquery.nice-select.min.js"></script>
 <script src="js/jquery.nicescroll.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>
@@ -511,9 +289,9 @@
 <script src="js/main.js"></script>
 <script src="js/cart.js" defer></script>
 <script src="js/modal.js" defer></script>
-<%--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"--%>
-<%--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">--%>
-<%--</script>--%>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+</script>
 
 
 <script>
@@ -524,8 +302,7 @@
             $(s).click();
         });
     });
-
-
+ 
 </script>
 </body>
 

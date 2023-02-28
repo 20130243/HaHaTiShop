@@ -1173,11 +1173,11 @@ ol {
   padding-right: 20px;
 }
 
-.shop__sidebar__search form {
+.shop__sidebar__search {
   position: relative;
 }
 
-.shop__sidebar__search form input {
+.shop__sidebar__search input {
   width: 100%;
   font-size: 15px;
   color: #b7b7b7;
@@ -1186,33 +1186,33 @@ ol {
   height: 42px;
 }
 
-.shop__sidebar__search form input::-webkit-input-placeholder {
+.shop__sidebar__search input::-webkit-input-placeholder {
   color: #b7b7b7;
 }
 
-.shop__sidebar__search form input::-moz-placeholder {
+.shop__sidebar__search input::-moz-placeholder {
   color: #b7b7b7;
 }
 
-.shop__sidebar__search form input:-ms-input-placeholder {
+.shop__sidebar__search input:-ms-input-placeholder {
   color: #b7b7b7;
 }
 
-.shop__sidebar__search form input::-ms-input-placeholder {
+.shop__sidebar__search input::-ms-input-placeholder {
   color: #b7b7b7;
 }
 
-.shop__sidebar__search form input::placeholder {
+.shop__sidebar__search input::placeholder {
   color: #b7b7b7;
 }
 
-.shop__sidebar__search form button {
+.shop__sidebar__search button {
   font-size: 15px;
   border: none;
   background: transparent;
   position: absolute;
   right: 0;
-  padding: 0 15px;
+  padding: 0 30px;
   top: 0;
   height: 100%;
 }

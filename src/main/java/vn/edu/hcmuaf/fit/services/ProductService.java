@@ -44,24 +44,14 @@ public class ProductService {
         return list;
     }
 
-    public List<Product> sortASC(int index) {
-        List<Product> list = new ArrayList<Product>();
-        List<Map<String, Object>> productList = dao.pagingProduct(index);
-        for (Map<String, Object> map : productList) {
-            list.add(convertMapToProduct(map));
-            list.sort((o1, o2) -> (int) (o1.getPriceSize().get(0).getPrice() - o2.getPriceSize().get(0).getPrice()));
-        }
-        return list;
+    public List<Product> sortASC(List<Product> listProducts) {
+        listProducts.sort((o1, o2) -> (int) (o1.getPriceSize().get(0).getPrice() - o2.getPriceSize().get(0).getPrice()));
+        return listProducts;
     }
 
-    public List<Product> sortDECS(int index) {
-        List<Product> list = new ArrayList<Product>();
-        List<Map<String, Object>> productList = dao.pagingProduct(index);
-        for (Map<String, Object> map : productList) {
-            list.add(convertMapToProduct(map));
-            list.sort((o1, o2) -> (int) (o2.getPriceSize().get(0).getPrice() - o1.getPriceSize().get(0).getPrice()));
-        }
-        return list;
+    public List<Product> sortDECS(List<Product> listProducts) {
+        listProducts.sort((o1, o2) -> (int) (o2.getPriceSize().get(0).getPrice() - o1.getPriceSize().get(0).getPrice()));
+        return listProducts;
     }
 
 
@@ -102,9 +92,10 @@ public class ProductService {
         }
     }
 
-    public List<Product> searchProduct(String search) {
+
+    public List<Product> searchProducts(String search, String category) {
         List<Product> rs = new ArrayList<Product>();
-        List<Map<String, Object>> productList = dao.searchProduct(search);
+        List<Map<String, Object>> productList = dao.getSearchProducts(search, category);
         for (Map<String, Object> map : productList) {
             rs.add(convertMapToProduct(map));
         }
@@ -188,6 +179,8 @@ public class ProductService {
 
     public static void main(String[] args) throws Exception {
         ProductService dao = new ProductService();
-        System.out.println(new ObjectMapper().writeValueAsString(dao.getProductNew()));
+ 
+        System.out.println(dao.sortDECS(dao.searchProducts("", "2")));
+ 
     }
 }
