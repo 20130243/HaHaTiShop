@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import vn.edu.hcmuaf.fit.bean.PriceSize;
 import vn.edu.hcmuaf.fit.bean.Product;
 import vn.edu.hcmuaf.fit.bean.Topping;
@@ -187,6 +188,6 @@ public class ProductService {
 
     public static void main(String[] args) throws Exception {
         ProductService dao = new ProductService();
-        System.out.println(dao.getPriceSizeL(1));
+        System.out.println(new ObjectMapper().writeValueAsString(dao.getProductNew()));
     }
 }

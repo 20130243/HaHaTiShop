@@ -74,12 +74,10 @@
                             <div class="card-body">
                                 <h4 class="header-title">Cập nhật sản phẩm</h4>
                                 <form id="update_form" action="/admin/product/update" method="post"
-                                      enctype='multipart/form-data' class=""
-                                      data-plugin="dropzone" data-previews-container="#file-previews"
-                                      data-upload-preview-template="#uploadPreviewTemplate">
-                                    <input type="text" name="id" id="id" value="${object.id}"
-                                           class="d-none ">
+                                      enctype='multipart/form-data'>
                                     <div class="row">
+                                        <input type="text" name="id" id="id" value="${object.id}"
+                                               class="d-none ">
                                         <div class="col-lg-6">
                                             <div class="form-group mb-3">
                                                 <label for="name">Tên sản phẩm</label>
@@ -185,7 +183,28 @@
     <!-- Footer Start -->
     <%@include file="../footer.jsp" %>
     <!-- end Footer -->
+    <button id="btn-modal-image" type="button" class="btn btn-success d-none" data-toggle="modal"
+            data-target="#image-modal">Small Modal
+    </button>
+    <div class="modal fade" id="image-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="mySmallModalLabel">Cập nhật ảnh thumbnail</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" id="image_form">
+                        <div class=" col" id="image_form_input">
 
+                        </div>
+                        <button id="image_submit" type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
 
 <!-- ============================================================== -->
@@ -268,17 +287,37 @@
                 alert('Chỉ được upload tối đa 5 ảnh');
                 return false;
             }
-
-
             event.preventDefault(); // Ngăn chặn form submit bình thường
-            console.log($(this).serialize());
+            var form_data = new FormData($('#update_form')[0]);
+
             $.ajax({
                 url: $(this).attr('action'), // Lấy URL từ thuộc tính action của form
                 type: $(this).attr('method'), // Lấy method từ thuộc tính method của form
-                data: $(this).serialize(), // Serialize form data để gửi đi
+                data: form_data, // Serialize form data để gửi đi
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     // Hiển thị modal khi thành công
+                    console.log(data)
                     alert("Success");
+
+                    if (data !== "1") {
+                        console.log(data.name);
+                        var htmlString;
+                        data.image.forEach(function(item){
+                            htmlString += '<div class="custom-control custom-radio"><input type="radio"' +
+                                ' id="' + item.id + '" name="main_image" class="custom-control-input"><label class=' +
+                                ' "custom-control-label" for="' + item.id + '"><img src = "' + item.url +
+                                '"alt = "image" class = "img-fluid avatar-lg"> </label> </div>';
+                        });
+                        $("#image_form_input").html(htmlString);
+                        $("#btn-modal-image").click();
+
+                    } else {
+                        window.location.href = "/admin/product";
+                    }
+
+
                 },
                 error: function () {
                     // Xử lý lỗi nếu có

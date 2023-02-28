@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.controller.admin.product;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Image;
 import vn.edu.hcmuaf.fit.bean.PriceSize;
@@ -21,6 +22,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "Product update", value = "/admin/product/update")
@@ -50,14 +52,14 @@ public class UpdateController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
-        int id = Integer.parseInt(request.getParameter("id").replaceAll("\\s+", ""));
+        int id = Integer.parseInt(request.getParameter("id").trim());
         String name = request.getParameter("name");
 
         // update image
         List<Image> images = new ArrayList<>();
         List<Image> imagesList = new ImageService().getByProductId(id);
         List<Part> fileParts = request.getParts().stream().filter(part -> "image".equals(part.getName())).collect(Collectors.toList());
-        if (!fileParts.isEmpty() ) {
+        if (!fileParts.isEmpty()) {
             System.out.println(fileParts.size() - 1 + " files");
             //old image
 
@@ -73,9 +75,7 @@ public class UpdateController extends HttpServlet {
                 String fileName = Path.of(image.getSubmittedFileName()).getFileName().toString();
                 String realPath = request.getServletContext().getRealPath("/img/ProductImport");
                 if (!fileName.equals("")) {
-
                     //extension --> filename
-
                     String extension = ".";
                     int i = fileName.lastIndexOf('.');
                     if (i > 0) {
@@ -116,7 +116,18 @@ public class UpdateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        response.sendRedirect("/admin/product");
+
+        List<Image> imageData = product.getImage();
+        for (Image im : imageData) {
+            if (im.getStatus() == 1) {
+                response.getWriter().write("1");
+            }
+        }
+        //Chuyển đối tượng sang định dạng JSON
+        String data = new ObjectMapper().writeValueAsString(new ProductService().getById(id));
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(data);
     }
 
 }
