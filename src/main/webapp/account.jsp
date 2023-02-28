@@ -10,7 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<html lang="zxx">
+<html >
 
 <head>
     <meta charset="UTF-8"/>
@@ -23,7 +23,7 @@
           rel="stylesheet"/>
 
     <!-- Css Styles -->
-    <%@include file="css.jsp"%>
+    <%@include file="css.jsp" %>
     <link rel="stylesheet" href="css/account.css" type="text/css"/>
 </head>
 
@@ -186,7 +186,8 @@
                                                                 if (items != null && items.size() > 0) {
                                                                     for (Item item : items) {
                                                             %>
-                                                            <img class="img111" src="<%=item.getProduct().getImage().get(0).getUrl()%>"
+                                                            <img class="img111"
+                                                                 src="<%=item.getProduct().getImage().get(0).getUrl()%>"
                                                                  alt=""/>
                                                             <%
                                                                     }
@@ -300,7 +301,8 @@
                                                                 if (items != null && items.size() > 0) {
                                                                     for (Item item : items) {
                                                             %>
-                                                            <img class="img111" src="<%=item.getProduct().getImage().get(0).getUrl()%>"
+                                                            <img class="img111"
+                                                                 src="<%=item.getProduct().getImage().get(0).getUrl()%>"
                                                                  alt=""/>
                                                             <%
                                                                     }

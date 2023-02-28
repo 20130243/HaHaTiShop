@@ -53,6 +53,12 @@
             <artifactId>facebook-java-business-sdk</artifactId>
             <version>[8.0.3,)</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>milkteashop</finalName>

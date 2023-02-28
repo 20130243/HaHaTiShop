@@ -43,8 +43,15 @@ public class ImageService {
     }
 
     public void update(List<Image> list) {
-        deleteByProductId(list.get(0).getProductId());
-        insert(list);
+        if (list.size() > 0) {
+            for (Image image : list) {
+                if (image.getStatus() == -1) {
+                    delete(image);
+                } else {
+                    dao.insert(image.getName(), image.getUrl(), image.getProductId(), image.getStatus());
+                }
+            }
+        }
     }
 
     public void deleteByProductId(int productId) {
@@ -53,6 +60,10 @@ public class ImageService {
 
     public void delete(int id) {
         dao.delete(id);
+    }
+
+    public void delete(Image image) {
+        dao.delete(image.getId());
     }
 
     public static void main(String[] args) {

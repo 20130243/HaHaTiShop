@@ -74,68 +74,34 @@
                             <div class="card-body">
                                 <h4 class="header-title">Cập nhật sản phẩm</h4>
                                 <form id="update_form" action="/admin/product/update" method="post"
-                                      enctype='multipart/form-data' class=""
-                                      data-plugin="dropzone" data-previews-container="#file-previews"
-                                      data-upload-preview-template="#uploadPreviewTemplate">
-                                    <input type="text" name="id" id="id" value="${object.id}"
-                                           class="d-none ">
+                                      enctype='multipart/form-data'>
                                     <div class="row">
+                                        <input type="text" name="id" id="id" value="${object.id}"
+                                               class="d-none ">
                                         <div class="col-lg-6">
                                             <div class="form-group mb-3">
                                                 <label for="name">Tên sản phẩm</label>
                                                 <input type="text" id="name" class="form-control" name="name"
                                                        value="<c:out value="${object.name}"/> ">
                                             </div>
-                                            <div class="form-group mb-3 myAwesomeDropzone dropzone">
-                                                <!-- File Upload -->
-                                                <div class="fallback">
-                                                    <input name="image" type="file" multiple/>
-                                                </div>
-
-                                                <div class="dz-message needsclick">
-                                                    <i class="h1 text-muted dripicons-cloud-upload"></i>
-                                                    <h3>Drop files here or click to upload.</h3>
-                                                    </span>
-                                                </div>
-
-                                                <!-- Preview -->
-                                                <div class="dropzone-previews mt-3" id="file-previews"></div>
-
-                                                <!-- file preview template -->
-                                                <div class="d-none" id="uploadPreviewTemplate">
-                                                    <div class="card mt-1 mb-0 shadow-none border">
-                                                        <div class="p-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-auto">
-                                                                    <img data-dz-thumbnail src="#"
-                                                                         class="avatar-sm rounded bg-light" alt="">
-                                                                </div>
-                                                                <div class="col pl-0">
-                                                                    <a href="javascript:void(0);"
-                                                                       class="text-muted font-weight-bold"
-                                                                       data-dz-name></a>
-                                                                    <p class="mb-0" data-dz-size></p>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <!-- Button -->
-                                                                    <a href="" class="btn btn-link btn-lg text-muted"
-                                                                       data-dz-remove>
-                                                                        <i class="dripicons-cross"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="form-group mb-3">
+                                                <label for="image">Ảnh</label>
+                                                <input type="file" id="image" class="form-control" name="image"
+                                                       accept="image/*" multiple>
+                                                <br>
+                                                <span class="help-block"><small>Giữ ctrl hoặc shift để chọn nhiều
+                                                            ảnh.</small></span>
+                                            </div>
+                                            <div class="form-group mb-3 row">
                                                 <c:forEach var="item" items="${object.image}">
-                                                    <div class="">
+                                                    <div class=" col">
                                                         <img src="${item.url}" alt="image"
                                                              class="img-fluid avatar-lg">
                                                         <p>Xóa ảnh</p>
-                                                        <input type="checkbox" id="switch1" name="check_delete${item.id}" checked data-switch="bool"/>
-                                                        <label for="switch1" data-on-label="Giữ"
+                                                        <input type="checkbox" id="check_delete_${item.id}"
+                                                               name="check_delete_${item.id}" class="old_image" checked
+                                                               data-switch="bool"/>
+                                                        <label for="check_delete_${item.id}" data-on-label="Giữ"
                                                                data-off-label="Xóa"></label>
                                                     </div>
                                                 </c:forEach>
@@ -217,7 +183,28 @@
     <!-- Footer Start -->
     <%@include file="../footer.jsp" %>
     <!-- end Footer -->
+    <button id="btn-modal-image" type="button" class="btn btn-success d-none" data-toggle="modal"
+            data-target="#image-modal">Small Modal
+    </button>
+    <div class="modal fade" id="image-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="mySmallModalLabel">Cập nhật ảnh thumbnail</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" id="image_form">
+                        <div class=" col" id="image_form_input">
 
+                        </div>
+                        <button id="image_submit" type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
 
 <!-- ============================================================== -->
@@ -238,12 +225,10 @@
 <!-- third party js -->
 <script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
-<script src="../../assets/js/vendor/dropzone.min.js"></script>
-<script src="../../assets/js/ui/component.fileupload.js"></script>
+<script src="../../js/check_upload_image.js"></script>
 <!-- third party js ends -->
 <script>
     $(document).ready(function () {
-
         $("#checkSize").click(function () {
             if ($("#checkSize").get(0).checked) {
                 $("#price-L").val(<c:if test="${checkSize eq true}"><fmt:formatNumber type = "number"  pattern="###" value = "${object.priceSize[1].price}"/></c:if>);
@@ -254,14 +239,96 @@
             }
         })
 
+        var $checkbox = $('.old_image');
+        var $fileInput = $('#image');
 
-        $("#submit").click(function () {
-            if ($("#image").get(0).files.length !== 0) {
-                $("#check_input_file").val("true");
+        // Khi checkbox thay đổi giá trị
+        $checkbox.change(function () {
+            // Lấy danh sách checkbox đang được check
+            var $checkedBoxes = $checkbox.filter(':checked');
+            // Nếu không có checkbox nào được check hoặc có nhiều hơn một checkbox được check
+            if ($checkedBoxes.length !== 0) {
+                // Không kiểm tra input file
+                return;
+            } else if ($checkedBoxes.length >= 5) {
+                alert('Chỉ được upload tối đa 5 ảnh');
             }
-        })
+            // Kiểm tra input file có chứa file nào không
+            if (!$fileInput.get(0).files.length) {
+                // Hiển thị thông báo
+                alert('Vui lòng tải lên ít nhất một ảnh.');
+                // Đặt giá trị của checkbox trở lại "checked"
+                $checkbox.prop('checked', true);
+            }
+        });
+        // Khi inputfile thay đổi giá trị
+        $fileInput.change(function () {
+            var $checkedBoxes = $checkbox.filter(':checked');
+            // Nếu  checkbox được check và số file lớn hơn 5
+            if ($checkedBoxes.length + $fileInput.get(0).files.length <= 5) {
+                return;
+            }
+            // Kiểm tra input file có chứa file nào không
+            if (!$fileInput.get(0).files.length && $checkedBoxes == 0) {
+                // Hiển thị thông báo
+                alert('Vui lòng tải lên ít nhất một ảnh.');
+            } else {
+                alert('Chỉ được upload tối đa 5 ảnh');
+                $fileInput.val("");
+            }
+        });
+        // Khi submit form
+        $("#update_form").submit(function (event) {
+            var $checkedBoxes = $checkbox.filter(':checked');
+            if ($checkedBoxes.length + $fileInput.get(0).files.length <= 0) {
+                alert('Vui lòng tải lên ít nhất một ảnh.');
+                return false;
+            } else if ($checkedBoxes.length + $fileInput.get(0).files.length > 5) {
+                alert('Chỉ được upload tối đa 5 ảnh');
+                return false;
+            }
+            event.preventDefault(); // Ngăn chặn form submit bình thường
+            var form_data = new FormData($('#update_form')[0]);
 
-    })
+            $.ajax({
+                url: $(this).attr('action'), // Lấy URL từ thuộc tính action của form
+                type: $(this).attr('method'), // Lấy method từ thuộc tính method của form
+                data: form_data, // Serialize form data để gửi đi
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    // Hiển thị modal khi thành công
+                    console.log(data)
+                    alert("Success");
+
+                    if (data !== "1") {
+                        console.log(data.name);
+                        var htmlString;
+                        data.image.forEach(function(item){
+                            htmlString += '<div class="custom-control custom-radio"><input type="radio"' +
+                                ' id="' + item.id + '" name="main_image" class="custom-control-input"><label class=' +
+                                ' "custom-control-label" for="' + item.id + '"><img src = "' + item.url +
+                                '"alt = "image" class = "img-fluid avatar-lg"> </label> </div>';
+                        });
+                        $("#image_form_input").html(htmlString);
+                        $("#btn-modal-image").click();
+
+                    } else {
+                        window.location.href = "/admin/product";
+                    }
+
+
+                },
+                error: function () {
+                    // Xử lý lỗi nếu có
+                    alert("Failed");
+                }
+            });
+        });
+
+    });
+
+
 </script>
 </body>
 

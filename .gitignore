@@ -10,4 +10,4 @@
 target/
 # Gradle
 build/
-/out/
+/out
