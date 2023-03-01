@@ -1,6 +1,5 @@
 package vn.edu.hcmuaf.fit.controller.admin.product;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Image;
 import vn.edu.hcmuaf.fit.bean.PriceSize;
@@ -22,7 +21,6 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "Product update", value = "/admin/product/update")
@@ -58,17 +56,27 @@ public class UpdateController extends HttpServlet {
         // update image
         List<Image> images = new ArrayList<>();
         List<Image> imagesList = new ImageService().getByProductId(id);
-        List<Part> fileParts = request.getParts().stream().filter(part -> "image".equals(part.getName())).collect(Collectors.toList());
-        if (!fileParts.isEmpty()) {
-            System.out.println(fileParts.size() - 1 + " files");
-            //old image
 
-            for (Image image : imagesList) {
-                if (request.getParameter("check_delete_" + image.getId()) == null) {
-                    image.setStatus(-1);
+
+        //old image
+        for (Image image : imagesList) {
+            if (request.getParameter("check_delete_" + image.getId()) == null) {
+                image.setStatus(-1);
+                images.add(image);
+            }
+        }
+        for (Image image : imagesList) {
+            if (request.getParameter("thumbnail") != null) {
+                if (Integer.parseInt(request.getParameter("thumbnail").trim()) == image.getId()) {
+                    image.setStatus(1);
                     images.add(image);
+                    break;
                 }
             }
+        }
+        List<Part> fileParts = request.getParts().stream().filter(part -> "image".equals(part.getName())).collect(Collectors.toList());
+        if (fileParts.size() <= 1) {
+            System.out.println(fileParts.size() - 1 + " files");
 
             //new image
             for (Part image : fileParts) {
@@ -92,7 +100,7 @@ public class UpdateController extends HttpServlet {
                     image.write(path);
                     //save url image
                     String url = "/img/ProductImport/" + imageName;
-                    images.add(new Image(0, imageName, url, id, 0));
+                    images.add(new Image(0, imageName, url, id, 3));
                 }
             }
         }
@@ -116,18 +124,7 @@ public class UpdateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        List<Image> imageData = product.getImage();
-        for (Image im : imageData) {
-            if (im.getStatus() == 1) {
-                response.getWriter().write("1");
-            }
-        }
-        //Chuyển đối tượng sang định dạng JSON
-        String data = new ObjectMapper().writeValueAsString(new ProductService().getById(id));
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(data);
+        response.getWriter().write("1");
     }
 
 }

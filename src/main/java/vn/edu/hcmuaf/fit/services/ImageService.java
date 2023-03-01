@@ -15,47 +15,53 @@ public class ImageService {
         List<Image> list = new ArrayList<Image>();
         List<Map<String, Object>> imageList = dao.getAll();
         for (Map<String, Object> map : imageList) {
-            list.add(new Image((int) map.get("id"),
-                    (String) map.get("name"),
-                    (String) map.get("url"), (Integer) map.get("product_id)"),
-                    (Integer) map.get("status")));
+            list.add(convertToImage(map));
         }
         return list;
     }
 
-    public List<Image> getByProductId(int productId) {
+    public Image getById(int id) throws SQLException {
+        return convertToImage(dao.getById(id));
+    }
+
+    public List<Image> getByProductId(int product_id) {
         List<Image> list = new ArrayList<Image>();
-        List<Map<String, Object>> imageList = dao.getByProductId(productId);
+        List<Map<String, Object>> imageList = dao.getByProductId(product_id);
         for (Map<String, Object> map : imageList) {
-            list.add(new Image((int) map.get("id"),
-                    (String) map.get("name"),
-                    (String) map.get("url"),
-                    (int) map.get("product_id"),
-                    (int) map.get("status")));
+            list.add(convertToImage(map));
         }
         return list;
     }
 
     public void insert(List<Image> list) {
         for (Image image : list) {
-            dao.insert(image.getName(), image.getUrl(), image.getProductId(), image.getStatus());
+            dao.insert(image.getName(), image.getUrl(), image.getProduct_id(), image.getStatus());
         }
     }
 
     public void update(List<Image> list) {
+        System.out.println(list);
         if (list.size() > 0) {
             for (Image image : list) {
                 if (image.getStatus() == -1) {
                     delete(image);
-                } else {
-                    dao.insert(image.getName(), image.getUrl(), image.getProductId(), image.getStatus());
-                }
+                } else if (image.getStatus() == 1) {
+                    setThumbnail(image);
+                } else if (image.getStatus() == 3)
+                    dao.insert(image.getName(), image.getUrl(), image.getProduct_id(), 0);
             }
         }
     }
 
-    public void deleteByProductId(int productId) {
-        dao.deleteByProductId(productId);
+    public void setThumbnail(Image image) {
+        System.out.println(image);
+        dao.resetThumbnail(image.getProduct_id());
+        System.out.println();
+        dao.updateStatus(image.getId(), 1);
+    }
+
+    public void deleteByproduct_id(int product_id) {
+        dao.deleteByProductId(product_id);
     }
 
     public void delete(int id) {
@@ -64,6 +70,14 @@ public class ImageService {
 
     public void delete(Image image) {
         dao.delete(image.getId());
+    }
+
+    public Image convertToImage(Map<String, Object> map) {
+        return new Image((int) map.get("id"),
+                (String) map.get("name"),
+                (String) map.get("url"),
+                (int) map.get("product_id"),
+                (int) map.get("status"));
     }
 
     public static void main(String[] args) {

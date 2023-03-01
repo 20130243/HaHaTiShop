@@ -45,7 +45,6 @@ public class CookieFilter implements Filter {
                     String token = cookie.getValue();
                     UserService userService = new UserService();
                     User user = userService.login(token);
-                    System.out.println(user + " 1");
                     if (user != null) {
                         session.setAttribute("user", user);
                     } else {

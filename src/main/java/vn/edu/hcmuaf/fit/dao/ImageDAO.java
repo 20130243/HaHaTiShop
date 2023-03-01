@@ -83,8 +83,15 @@ public class ImageDAO extends RD {
         );
     }
 
+    public void resetThumbnail(int product_id) {
+        JDBIConnector.get().withHandle(h ->
+                h.createUpdate("UPDATE " + tableName + " SET status=0 WHERE product_id=:product_id")
+                        .bind("product_id", product_id)
+                        .execute()
+        );
+    }
 
-    public static void main(String[] args) {
-        System.out.println(new ImageDAO().getByProductId(4));
+    public static void main(String[] args) throws SQLException {
+        System.out.println(new ImageDAO().getById(120));
     }
 }

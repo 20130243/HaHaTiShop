@@ -74,10 +74,10 @@
                             <div class="card-body">
                                 <h4 class="header-title">Cập nhật sản phẩm</h4>
                                 <form id="update_form" action="/admin/product/update" method="post"
-                                      enctype='multipart/form-data'>
+                                      enctype="multipart/form-data">
                                     <div class="row">
-                                        <input type="text" name="id" id="id" value="${object.id}"
-                                               class="d-none ">
+                                        <input type="hidden" name="id" id="id"
+                                               value="${object.id}">
                                         <div class="col-lg-6">
                                             <div class="form-group mb-3">
                                                 <label for="name">Tên sản phẩm</label>
@@ -97,12 +97,23 @@
                                                     <div class=" col">
                                                         <img src="${item.url}" alt="image"
                                                              class="img-fluid avatar-lg">
-                                                        <p>Xóa ảnh</p>
-                                                        <input type="checkbox" id="check_delete_${item.id}"
-                                                               name="check_delete_${item.id}" class="old_image" checked
-                                                               data-switch="bool"/>
-                                                        <label for="check_delete_${item.id}" data-on-label="Giữ"
-                                                               data-off-label="Xóa"></label>
+                                                        <div class="row">
+                                                            <input type="checkbox" id="check_delete_${item.id}"
+                                                                   name="check_delete_${item.id}" class="old_image"
+                                                                   checked
+                                                                   data-switch="bool"/>
+                                                            <label for="check_delete_${item.id}" data-on-label="Giữ"
+                                                                   data-off-label="Xóa"></label>
+                                                        </div>
+                                                        <div class="row">
+                                                            <input type="radio" id="image_Radio${item.id}"
+                                                                   name="thumbnail" value="${item.id}"
+                                                                   class="custom-control-input" ${item.status eq 1 ? "checked" : ""}>
+                                                            <label class="custom-control-label"
+                                                                   for="image_Radio${item.id}">
+                                                                Chọn làm thumbnail
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </c:forEach>
                                             </div>
@@ -143,7 +154,8 @@
 
                                             <div class="form-group mb-3">
                                                 <label for="price-L">Giá size L</label>
-                                                <input type="text" id="price-L" ${checkSize eq true ? "" : "disabled"}
+                                                <input type="text"
+                                                       id="price-L" ${checkSize eq true ? "" : "disabled"}
                                                        class="form-control"
                                                        name="price_L"
                                                        value="<c:if test="${checkSize eq true}"><fmt:formatNumber type = "number"  pattern="###" value = "${object.priceSize[1].price}"/></c:if>">
@@ -152,13 +164,17 @@
                                             <div class=" form-group mb-3">
                                                 <label for="status_id">Trạng thái</label>
                                                 <select class="custom-select mb-3" name="status" id="status_id">
-                                                    <option value="0" ${object.status eq 0 ? "selected" : ""}>Đang bán
+                                                    <option value="0" ${object.status eq 0 ? "selected" : ""}>Đang
+                                                        bán
                                                     </option>
-                                                    <option value="1"${object.status eq 1 ? "selected" : ""}>Giảm giá
+                                                    <option value="1"${object.status eq 1 ? "selected" : ""}>Giảm
+                                                        giá
                                                     </option>
-                                                    <option value="2"${object.status eq 2 ? "selected" : ""}>Hết hàng
+                                                    <option value="2"${object.status eq 2 ? "selected" : ""}>Hết
+                                                        hàng
                                                     </option>
-                                                    <option value="3"${object.status eq 3 ? "selected" : ""}>Ngưng bán
+                                                    <option value="3"${object.status eq 3 ? "selected" : ""}>Ngưng
+                                                        bán
                                                     </option>
                                                 </select>
                                             </div>
@@ -167,44 +183,23 @@
                                     </div>
                                     <button id="submit" type="submit" class="btn btn-primary">Cập nhật</button>
                                 </form>
-                            </div> <!-- end card-body-->
-                        </div> <!-- end card-->
-                    </div> <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div> <!-- container -->
+                            </div>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div> <!-- container -->
 
-        </div> <!-- content -->
+    </div> <!-- content -->
 
 
-    </div>
-    <!-- content -->
+</div>
+<!-- content -->
 
-    <!-- Footer Start -->
-    <%@include file="../footer.jsp" %>
-    <!-- end Footer -->
-    <button id="btn-modal-image" type="button" class="btn btn-success d-none" data-toggle="modal"
-            data-target="#image-modal">Small Modal
-    </button>
-    <div class="modal fade" id="image-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="mySmallModalLabel">Cập nhật ảnh thumbnail</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="post" id="image_form">
-                        <div class=" col" id="image_form_input">
-
-                        </div>
-                        <button id="image_submit" type="submit" class="btn btn-primary">Cập nhật</button>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+<!-- Footer Start -->
+<%@include file="../footer.jsp" %>
+<!-- end Footer -->
 </div>
 
 <!-- ============================================================== -->
@@ -244,6 +239,14 @@
 
         // Khi checkbox thay đổi giá trị
         $checkbox.change(function () {
+            // Nếu checkbox được chọn, radio button sẽ bị vô hiệu hóa
+            if (!$(this).is(':checked')) {
+                $(this).closest('.col').find('input[type=radio]').prop('disabled', true);
+            }
+            // Ngược lại, radio button sẽ được bật lại
+            else {
+                $(this).closest('.col').find('input[type=radio]').prop('disabled', false);
+            }
             // Lấy danh sách checkbox đang được check
             var $checkedBoxes = $checkbox.filter(':checked');
             // Nếu không có checkbox nào được check hoặc có nhiều hơn một checkbox được check
@@ -289,6 +292,7 @@
             }
             event.preventDefault(); // Ngăn chặn form submit bình thường
             var form_data = new FormData($('#update_form')[0]);
+            // var form_data = $('#update_form').serialize();
 
             $.ajax({
                 url: $(this).attr('action'), // Lấy URL từ thuộc tính action của form
@@ -297,31 +301,14 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    // Hiển thị modal khi thành công
-                    console.log(data)
-                    alert("Success");
-
-                    if (data !== "1") {
-                        console.log(data.name);
-                        var htmlString;
-                        data.image.forEach(function(item){
-                            htmlString += '<div class="custom-control custom-radio"><input type="radio"' +
-                                ' id="' + item.id + '" name="main_image" class="custom-control-input"><label class=' +
-                                ' "custom-control-label" for="' + item.id + '"><img src = "' + item.url +
-                                '"alt = "image" class = "img-fluid avatar-lg"> </label> </div>';
-                        });
-                        $("#image_form_input").html(htmlString);
-                        $("#btn-modal-image").click();
-
-                    } else {
+                    if (data == "1") {
                         window.location.href = "/admin/product";
+                    } else {
+                        alert(data);
                     }
-
-
                 },
-                error: function () {
-                    // Xử lý lỗi nếu có
-                    alert("Failed");
+                error: function (data) {
+                    alert(data);
                 }
             });
         });

@@ -96,9 +96,10 @@
 
                                             <tr>
                                                 <td>
-                                                    <img src="${item.image[0].url} "
+                                                    <img src="<c:forEach var="image" items="${item.image}">${image.status eq 1 ? image.url : ""}</c:forEach>"
                                                          alt="contact-img" title="contact-img" class="rounded mr-3"
                                                          height="48"/>
+
                                                     <p class="m-0 d-inline-block align-middle font-16">
                                                         <a href="" style="pointer-events: none; cursor: default;"
                                                            class="text-body">

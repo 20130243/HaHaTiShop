@@ -77,7 +77,11 @@
                                             </div>
                                             <div class="form-group mb-3">
                                                 <label for="image">Ảnh sản phẩm</label>
-                                                <input type="file" id="image" class="form-control-file" name="image">
+                                                <input type="file" id="image" class="form-control-file" name="image"
+                                                       accept="image/*" multiple>
+                                                <br>
+                                                <span class="help-block"><small>Giữ ctrl hoặc shift để chọn nhiều
+                                                            ảnh.</small></span>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <label for="category">Phân loại</label>
@@ -162,6 +166,7 @@
 <!-- third party js -->
 <script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+<script src="../../js/check_upload_image.js"></script>
 <!-- third party js ends -->
 <script>
     $(document).ready(function () {
@@ -174,6 +179,16 @@
             }
         })
 
+
+        $("#image").change(function () {
+            // Kiểm tra input file có chứa file nào không
+            if (!$(this).get(0).files.length) {
+                alert('Vui lòng tải lên ít nhất một ảnh.');
+            } else if ($(this).get(0).files.length > 5) {
+                alert('Chỉ được upload tối đa 5 ảnh');
+                $(this).val("");
+            }
+        });
     })
 </script>
 

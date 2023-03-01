@@ -12,7 +12,7 @@ import java.io.IOException;
 public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("admin login");
+
         request.getRequestDispatcher("/admin/login.jsp").forward(request, response);
 
     }
@@ -42,7 +42,6 @@ public class LoginController extends HttpServlet {
             }
             HttpSession session = request.getSession(true);
             session.setAttribute("admin", admin);
-            System.out.println(admin);
             response.getWriter().write("2");
         }
     }
