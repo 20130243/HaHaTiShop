@@ -1,9 +1,8 @@
 package vn.edu.hcmuaf.fit.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import vn.edu.hcmuaf.fit.bean.Image;
 import vn.edu.hcmuaf.fit.bean.PriceSize;
 import vn.edu.hcmuaf.fit.bean.Product;
-import vn.edu.hcmuaf.fit.bean.Topping;
 import vn.edu.hcmuaf.fit.dao.ProductDAO;
 
 import java.util.ArrayList;
@@ -137,8 +136,15 @@ public class ProductService {
     }
 
     public void insert(Product product) throws Exception {
-        dao.insert(product.getName(), product.getIdCategory() , product.getStatus());
-        image_service.insert(product.getImage());
+        dao.insert(product.getName(), product.getIdCategory(), product.getStatus());
+        //insert image
+        List<Image> images = product.getImage();
+        for (Image image : images) {
+            image.setProduct_id(findFirst().getId());
+        }
+        images.get(0).setStatus(1);
+        image_service.insert(images);
+        //insert price
         for (PriceSize priceSize : product.getPriceSize()) {
             priceSize.setProduct_id(findFirst().getId());
             (new PriceSizeService()).insert(priceSize);
@@ -154,7 +160,7 @@ public class ProductService {
     }
 
     public void update(Product product) throws Exception {
-        dao.update(product.getId(), product.getName(), product.getIdCategory() , product.getStatus());
+        dao.update(product.getId(), product.getName(), product.getIdCategory(), product.getStatus());
         image_service.update(product.getImage());
         for (PriceSize priceSize : product.getPriceSize()) {
             (new PriceSizeService()).updateByProductId(priceSize);
@@ -179,8 +185,8 @@ public class ProductService {
 
     public static void main(String[] args) throws Exception {
         ProductService dao = new ProductService();
- 
+
         System.out.println(dao.sortDECS(dao.searchProducts("", "2")));
- 
+
     }
 }

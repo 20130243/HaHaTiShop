@@ -72,10 +72,6 @@ public class ProductDAO extends RD {
         );
     }
 
-    /*
-     * Tạo bởi: Lê Trọng Tình 20130440
-     * Cập nhật: Lê Trọng Tình 20130440
-     * */
     public List<Map<String, Object>> pagingProduct(int index) {
         return JDBIConnector.get().withHandle(h ->
                 h.createQuery("select * from " + tableName + " where status != 3\n" +
