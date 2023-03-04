@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vn.edu.hcmuaf.fit.bean.Image;
 import vn.edu.hcmuaf.fit.bean.PriceSize;
 import vn.edu.hcmuaf.fit.bean.Product;
@@ -57,7 +59,6 @@ public class ProductService {
     public Product getById(int id) {
         Map<String, Object> product = dao.getById(id);
         List<PriceSize> priceSizeList = price_size_service.getByProductId((Integer) product.get("id"));
-
         return new Product((Integer) product.get("id"), (String) product.get("name"), (Integer) product.get("category_id"),
                 priceSizeList, image_service.getByProductId((Integer) product.get("id")), (Integer) product.get("status"),
                 topping_service.getByCategoryId((Integer) product.get("category_id")));
@@ -184,9 +185,8 @@ public class ProductService {
     }
 
     public static void main(String[] args) throws Exception {
-        ProductService dao = new ProductService();
 
-        System.out.println(dao.sortDECS(dao.searchProducts("", "2")));
+        new ProductService().getById(96);
 
     }
 }

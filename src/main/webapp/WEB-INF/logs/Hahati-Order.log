@@ -1,0 +1,2 @@
+2023-03-05 06:19:28.004 [main] INFO  Order - Order: {"id":5,"user_id":5,"name":"H-Bell","phone":"0344558306","address":"123","time":"Jan 6, 2023, 7:28:26 PM","note":"","total":165000.0,"status":2}, Approver:
+                1, Status: 1
