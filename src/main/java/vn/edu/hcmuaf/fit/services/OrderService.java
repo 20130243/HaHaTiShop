@@ -1,5 +1,9 @@
 package vn.edu.hcmuaf.fit.services;
 
+import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import vn.edu.hcmuaf.fit.bean.Item;
 import vn.edu.hcmuaf.fit.bean.Order;
 import vn.edu.hcmuaf.fit.bean.Topping;
@@ -46,14 +50,20 @@ public class OrderService {
 
     public void insert(Order order) {
         dao.insert(order.getUser_id(), order.getName(), order.getPhone(),
-                order.getAddress(), order.getNote(), order.getCart().getCoupon() == null ? 0:order.getCart().getCoupon().getId(), order.getTotal());
+                order.getAddress(), order.getNote(), order.getCart().getCoupon() == null ? 0 : order.getCart().getCoupon().getId(), order.getTotal());
     }
+
     public void update(Order order) {
-        dao.update(order.getId(), order.getName(), order.getPhone(), order.getAddress(), order.getNote(),order.getCart().getCoupon().getId(),order.getTotal());
+        dao.update(order.getId(), order.getName(), order.getPhone(), order.getAddress(), order.getNote(), order.getCart().getCoupon().getId(), order.getTotal());
     }
 
+    public Order getById(int id) {
+        Map<String, Object> map = dao.getById(id);
+        Order order = convertMaptoOrder(map);
+        return order;
+    }
 
-    public void addOrder(Order order){
+    public void addOrder(Order order) {
         try {
             insert(order);
 //            updateCoupon(order,order.getCart().getCoupon().getId());
@@ -63,12 +73,12 @@ public class OrderService {
             }
             List<Item> items = order.getCart().getItems();
             for (Item item : items) {
-            detail_dao.insert(order.getId(), item.getProduct().getPriceSize().get(0).getProduct_id(),item.getQuantity());
-            List<Topping> toppings = item.getProduct().getTopping();
-            for (Topping topping : toppings) {
-                topping_order_dao.insert(topping.getId(),order.getId());
+                detail_dao.insert(order.getId(), item.getProduct().getPriceSize().get(0).getProduct_id(), item.getQuantity());
+                List<Topping> toppings = item.getProduct().getTopping();
+                for (Topping topping : toppings) {
+                    topping_order_dao.insert(topping.getId(), order.getId());
+                }
             }
-        }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -83,6 +93,7 @@ public class OrderService {
     public void updateStatus(Order order, int status) {
         dao.updateStatus(order.getId(), status);
     }
+
     public void updateStatus(int id, int status) {
         dao.updateStatus(id, status);
     }
@@ -92,13 +103,13 @@ public class OrderService {
     }
 
 
-    public Order convertMaptoOrder(Map<String, Object> map) throws SQLException {
+    public Order convertMaptoOrder(Map<String, Object> map) {
         Order order = new Order();
         order.setId((Integer) map.get("id"));
         order.setUser_id((Integer) map.get("user_id"));
         order.setName((String) map.get("name"));
         order.setPhone((String) map.get("phone"));
-        order.setTime(Timestamp.valueOf((LocalDateTime) map.get("time")) );
+        order.setTime(Timestamp.valueOf((LocalDateTime) map.get("time")));
         order.setAddress((String) map.get("address"));
         order.setNote((String) map.get("note"));
 
@@ -107,7 +118,47 @@ public class OrderService {
         return order;
     }
 
-    public static void main(String[] args) {
+    private static final Logger LOGGER = LoggerFactory.getLogger("Order");
 
+    public void logOrder(int orderId, int approver, int status) {
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("order", new Gson().toJson(getById(orderId)));
+            MDC.put("approver", String.valueOf(approver));
+            MDC.put("status", String.valueOf(status));
+            switch (status) {
+                case 0: {
+                    LOGGER.info("Order created");
+                    break;
+                }
+                case 1: {
+                    LOGGER.info("Order confirmed");
+                    break;
+                }
+                case 2: {
+                    LOGGER.info("Order shipped");
+                    break;
+                }
+                case 3: {
+                    LOGGER.info("Order successful");
+                    break;
+                }
+                case 4: {
+                    LOGGER.info("Order canceled");
+                    break;
+                }
+                default: {
+                    System.out.println("status: " + status);
+                    break;
+                }
+            }
+            MDC.remove("order");
+            MDC.remove("approver");
+            MDC.remove("status");
+
+        }
+
+    }
+
+    public static void main(String[] args) {
     }
 }

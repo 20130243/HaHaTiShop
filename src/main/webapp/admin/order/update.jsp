@@ -124,7 +124,7 @@
                         </button>
                         <c:if test="${object.status ne 4 && object.status ne 3}">
                             <button type="button" id="delete_order" class="btn btn-danger ">
-                                Hủy đơn hàng 
+                                Hủy đơn hàng
                             </button>
                         </c:if>
                     </form>
@@ -310,11 +310,12 @@
                     $("#step-2").addClass("current");
                     $("#status-2").remove();
                     $("#status-3").removeClass("d-none");
-                    $("#status").val("2");
+                    $("#status").val("3");
                     alert_popup("info", "Đơn hàng đang được gửi đi");
                 } else if (3 == data) {
                     $("#process-line").css("width", "100%");
                     $("#status-3").remove();
+                    $("#delete_order").remove();
                     $("#step-3").addClass("current");
                     alert_popup("success", "Đơn hàng thành công");
                 } else if (4 == data) {

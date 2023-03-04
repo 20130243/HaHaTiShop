@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.bean;
 
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ public class Product implements Serializable {
     List<Image> image;
     int status;
     List<Topping> topping;
-
     public List<Topping> getTopping() {
         return topping;
     }

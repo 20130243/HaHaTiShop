@@ -188,8 +188,8 @@
                     <p>Tổng tiền: <span><%=new CurrencyFormat().format((int) order.getTotal())%></span></p>
                     <p>Đã giảm: <span><%=cart.getCoupon()!=null? cart.getCoupon().getPercent() +"%": "0%"%></span>
                     </p>
-                    <p>Trạng thái: <span><%=order.getStatus()==0?"Đã nhận": order.getStatus() ==1?"Đang vận chuyển" :
-                            order.getStatus()==2?"Thành công" :"Đã huỷ"
+                    <p>Trạng thái: <span><%=order.getStatus()==0?"Đang chờ": order.getStatus() ==1?"Đã xác nhận" : order.getStatus() ==2?"Đã vận chuyển":
+                            order.getStatus()==3?"Thành công" :"Đã huỷ"
                     %></span></p>
                     <%
                       }
