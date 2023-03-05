@@ -6,26 +6,26 @@ public class Image implements Serializable {
     int id;
     String name;
     String url;
-    int productId;
+    int product_id;
     int status;
 
     public Image() {
     }
 
-    public Image(int id, String name, String url, int productId, int status) {
+    public Image(int id, String name, String url, int product_id, int status) {
         this.id = id;
         this.name = name;
         this.url = url;
-        this.productId = productId;
+        this.product_id = product_id;
         this.status = status;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getProduct_id() {
+        return product_id;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
     }
 
     public int getId() {
@@ -66,7 +66,7 @@ public class Image implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
-                ", productId=" + productId +
+                ", product_id=" + product_id +
                 ", status=" + status +
                 '}';
     }

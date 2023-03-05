@@ -53,6 +53,17 @@
             <artifactId>facebook-java-business-sdk</artifactId>
             <version>[8.0.3,)</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.6</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>milkteashop</finalName>

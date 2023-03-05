@@ -72,10 +72,6 @@ public class ProductDAO extends RD {
         );
     }
 
-    /*
-     * Tạo bởi: Lê Trọng Tình 20130440
-     * Cập nhật: Lê Trọng Tình 20130440
-     * */
     public List<Map<String, Object>> pagingProduct(int index) {
         return JDBIConnector.get().withHandle(h ->
                 h.createQuery("select * from " + tableName + " where status != 3\n" +
@@ -92,14 +88,6 @@ public class ProductDAO extends RD {
         );
     }
 
-    public List<Map<String, Object>> searchProduct(String search) {
-        return JDBIConnector.get().withHandle(h ->
-                h.createQuery("select * from " + tableName + "\n" +
-                                "where name like ?").bind(0, "%" + search + "%")
-                        .mapToMap()
-                        .list()
-        );
-    }
 
     public List<Map<String, Object>> getProductByCategory(int id_category) {
         return JDBIConnector.get().withHandle(h ->
@@ -119,11 +107,6 @@ public class ProductDAO extends RD {
         );
     }
 
-    public static void main(String[] args) {
-//        ProductDAO dao = new ProductDAO();
-//        System.out.println(dao.pagingProduct(0));
-    }
-
     public Map<String, Object> findFirst() {
         return JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT * FROM " + tableName + " ORDER BY id DESC LIMIT 1")
@@ -136,6 +119,25 @@ public class ProductDAO extends RD {
                         .mapToMap()
                         .list()
         );
+    }
+
+    public List<Map<String, Object>> getSearchProducts(String search, String category) {
+        String checkCategory;
+        if (category != "") {
+            checkCategory = " and category_id = " + category;
+        } else {
+            checkCategory = "";
+        }
+        return JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT * FROM " + tableName + " WHERE `name` LIKE ?" + checkCategory)
+                        .bind(0, "%"+ search +"%")
+                        .mapToMap()
+                        .list());
+    }
+
+    public static void main(String[] args) {
+        ProductDAO dao = new ProductDAO();
+        System.out.println(dao.getSearchProducts("", "").size());
     }
 
 }

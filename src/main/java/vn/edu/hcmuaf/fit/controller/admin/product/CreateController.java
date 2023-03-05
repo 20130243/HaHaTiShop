@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.controller.admin.product;
 
 import vn.edu.hcmuaf.fit.bean.Category;
+import vn.edu.hcmuaf.fit.bean.Image;
 import vn.edu.hcmuaf.fit.bean.PriceSize;
 import vn.edu.hcmuaf.fit.bean.Product;
 import vn.edu.hcmuaf.fit.services.CategoryService;
@@ -16,13 +17,17 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "Product create", value = "/admin/product/create")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 50, // 50MB
-        maxRequestSize = 1024 * 1024 * 50) // 50MB
+@MultipartConfig(fileSizeThreshold = 0,
+        maxFileSize = 1024 * 1024 * 5, // 5MB
+        maxRequestSize = 1024 * 1024 * 25 // 25MB
+)
+
 
 public class CreateController extends HttpServlet {
     @Override
@@ -41,20 +46,38 @@ public class CreateController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         Product product = new Product();
         String name = request.getParameter("name");
-        Part image = request.getPart("image");
-        String realPath = request.getServletContext().getRealPath("/img/ProductImport");
-        if (!Files.exists(Path.of(realPath))) {
-            Files.createDirectory(Path.of(realPath));
+
+
+        List<Image> images = new ArrayList<>();
+        List<Part> fileParts = request.getParts().stream().filter(part -> "image".equals(part.getName())).collect(Collectors.toList());
+        if (!fileParts.isEmpty()) {
+
+            //new image
+            for (Part image : fileParts) {
+                String fileName = Path.of(image.getSubmittedFileName()).getFileName().toString();
+                String realPath = request.getServletContext().getRealPath("/img/ProductImport");
+                if (!fileName.equals("")) {
+                    //extension --> filename
+                    String extension = ".";
+                    int i = fileName.lastIndexOf('.');
+                    if (i > 0) {
+                        extension = "." + fileName.substring(i + 1);
+                    }
+                    String imageName = name.replaceAll(" ", "") + LocalDateTime.now().toEpochSecond(java.time.ZoneOffset.UTC) + images.size() + extension;
+
+                    //create directory
+                    if (!Files.exists(Path.of(realPath))) {
+                        Files.createDirectory(Path.of(realPath));
+                    }
+                    //upload file
+                    String path = realPath + "/" + imageName;
+                    image.write(path);
+                    //save url image
+                    String url = "/img/ProductImport/" + imageName;
+                    images.add(new Image(0, imageName, url, 0, 0));
+                }
+            }
         }
-        String fileName = Path.of(image.getSubmittedFileName()).getFileName().toString();
-        //get extenstion
-        int i = fileName.lastIndexOf('.');
-        String extension = i > 0?"."+ fileName.substring(i + 1):"";
-
-        String path = realPath + "/" + fileName.replaceAll(" ", "-") + extension;
-        image.write(path);
-        String img = "/img/ProductImport/" + fileName.replaceAll(" ", "-") + extension;
-
 
         int category = Integer.parseInt(request.getParameter("category"));
         int status = Integer.parseInt(request.getParameter("status"));
@@ -72,10 +95,10 @@ public class CreateController extends HttpServlet {
         product.setIdCategory(category);
         product.setPriceSize(priceSizeList);
         product.setStatus(status);
-        // product.setImg(img);
+        product.setImage(images);
 
         try {
-//            (new ProductService()).insert(product);
+            (new ProductService()).insert(product);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

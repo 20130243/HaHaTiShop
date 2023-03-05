@@ -74,10 +74,10 @@
                             <div class="card-body">
                                 <h4 class="header-title">Cập nhật sản phẩm</h4>
                                 <form id="update_form" action="/admin/product/update" method="post"
-                                      enctype='multipart/form-data'>
-                                    <input type="text" name="id" id="id" value="<c:out value="${object.id}"/> "
-                                           class="d-none">
+                                      enctype="multipart/form-data">
                                     <div class="row">
+                                        <input type="hidden" name="id" id="id"
+                                               value="${object.id}">
                                         <div class="col-lg-6">
                                             <div class="form-group mb-3">
                                                 <label for="name">Tên sản phẩm</label>
@@ -85,21 +85,43 @@
                                                        value="<c:out value="${object.name}"/> ">
                                             </div>
                                             <div class="form-group mb-3">
-                                                <img src="<c:out value="${object.image[0]}"/>" width="40" height="40">
-                                                <label for="image">Ảnh sản phẩm</label>
-                                                <input type="file" id="image" class="form-control-file" name="image">
+                                                <label for="image">Ảnh</label>
+                                                <input type="file" id="image" class="form-control" name="image"
+                                                       accept="image/*" multiple>
+                                                <br>
+                                                <span class="help-block"><small>Giữ ctrl hoặc shift để chọn nhiều
+                                                            ảnh.</small></span>
                                             </div>
-                                            <input type="text" name="old_image" id="old_image"
-                                                   value="<c:out value="${object.img}"/> "
-                                                   class="d-none">
-                                            <input type="text" name="check_input_file" id="check_input_file"
-                                                   value="false"
-                                                   class="d-none">
+                                            <div class="form-group mb-3 row">
+                                                <c:forEach var="item" items="${object.image}">
+                                                    <div class=" col">
+                                                        <img src="${item.url}" alt="image"
+                                                             class="img-fluid avatar-lg">
+                                                        <div class="row">
+                                                            <input type="checkbox" id="check_delete_${item.id}"
+                                                                   name="check_delete_${item.id}" class="old_image"
+                                                                   checked
+                                                                   data-switch="bool"/>
+                                                            <label for="check_delete_${item.id}" data-on-label="Giữ"
+                                                                   data-off-label="Xóa"></label>
+                                                        </div>
+                                                        <div class="row">
+                                                            <input type="radio" id="image_Radio${item.id}"
+                                                                   name="thumbnail" value="${item.id}"
+                                                                   class="custom-control-input" ${item.status eq 1 ? "checked" : ""}>
+                                                            <label class="custom-control-label"
+                                                                   for="image_Radio${item.id}">
+                                                                Chọn làm thumbnail
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </c:forEach>
+                                            </div>
                                             <div class="form-group mb-3">
                                                 <label for="category">Phân loại</label>
                                                 <select class="custom-select " id="category" name="category">
                                                     <c:forEach var="item" items="${requestScope['categoryList']}">
-                                                        <option value="<c:out value="${item.id}"/>"
+                                                        <option value="${item.id}"
                                                                 <c:if test="${item.id eq object.idCategory}">
                                                                     <c:out value="selected"/>
                                                                 </c:if>
@@ -132,7 +154,8 @@
 
                                             <div class="form-group mb-3">
                                                 <label for="price-L">Giá size L</label>
-                                                <input type="text" id="price-L" ${checkSize eq true ? "" : "disabled"}
+                                                <input type="text"
+                                                       id="price-L" ${checkSize eq true ? "" : "disabled"}
                                                        class="form-control"
                                                        name="price_L"
                                                        value="<c:if test="${checkSize eq true}"><fmt:formatNumber type = "number"  pattern="###" value = "${object.priceSize[1].price}"/></c:if>">
@@ -141,13 +164,17 @@
                                             <div class=" form-group mb-3">
                                                 <label for="status_id">Trạng thái</label>
                                                 <select class="custom-select mb-3" name="status" id="status_id">
-                                                    <option value="0" ${object.status eq 0 ? "selected" : ""}>Đang bán
+                                                    <option value="0" ${object.status eq 0 ? "selected" : ""}>Đang
+                                                        bán
                                                     </option>
-                                                    <option value="1"${object.status eq 1 ? "selected" : ""}>Giảm giá
+                                                    <option value="1"${object.status eq 1 ? "selected" : ""}>Giảm
+                                                        giá
                                                     </option>
-                                                    <option value="2"${object.status eq 2 ? "selected" : ""}>Hết hàng
+                                                    <option value="2"${object.status eq 2 ? "selected" : ""}>Hết
+                                                        hàng
                                                     </option>
-                                                    <option value="3"${object.status eq 3 ? "selected" : ""}>Ngưng bán
+                                                    <option value="3"${object.status eq 3 ? "selected" : ""}>Ngưng
+                                                        bán
                                                     </option>
                                                 </select>
                                             </div>
@@ -156,23 +183,23 @@
                                     </div>
                                     <button id="submit" type="submit" class="btn btn-primary">Cập nhật</button>
                                 </form>
-                            </div> <!-- end card-body-->
-                        </div> <!-- end card-->
-                    </div> <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div> <!-- container -->
+                            </div>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div> <!-- container -->
 
-        </div> <!-- content -->
+    </div> <!-- content -->
 
 
-    </div>
-    <!-- content -->
+</div>
+<!-- content -->
 
-    <!-- Footer Start -->
-    <%@include file="../footer.jsp" %>
-    <!-- end Footer -->
-
+<!-- Footer Start -->
+<%@include file="../footer.jsp" %>
+<!-- end Footer -->
 </div>
 
 <!-- ============================================================== -->
@@ -193,10 +220,10 @@
 <!-- third party js -->
 <script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+<script src="../../js/check_upload_image.js"></script>
 <!-- third party js ends -->
 <script>
     $(document).ready(function () {
-
         $("#checkSize").click(function () {
             if ($("#checkSize").get(0).checked) {
                 $("#price-L").val(<c:if test="${checkSize eq true}"><fmt:formatNumber type = "number"  pattern="###" value = "${object.priceSize[1].price}"/></c:if>);
@@ -207,16 +234,89 @@
             }
         })
 
+        var $checkbox = $('.old_image');
+        var $fileInput = $('#image');
 
-        $("#submit").click(function () {
-            if ($("#image").get(0).files.length !== 0) {
-                $("#check_input_file").val("true");
+        // Khi checkbox thay đổi giá trị
+        $checkbox.change(function () {
+            // Nếu checkbox được chọn, radio button sẽ bị vô hiệu hóa
+            if (!$(this).is(':checked')) {
+                $(this).closest('.col').find('input[type=radio]').prop('disabled', true);
             }
-        })
+            // Ngược lại, radio button sẽ được bật lại
+            else {
+                $(this).closest('.col').find('input[type=radio]').prop('disabled', false);
+            }
+            // Lấy danh sách checkbox đang được check
+            var $checkedBoxes = $checkbox.filter(':checked');
+            // Nếu không có checkbox nào được check hoặc có nhiều hơn một checkbox được check
+            if ($checkedBoxes.length !== 0) {
+                // Không kiểm tra input file
+                return;
+            } else if ($checkedBoxes.length >= 5) {
+                alert('Chỉ được upload tối đa 5 ảnh');
+            }
+            // Kiểm tra input file có chứa file nào không
+            if (!$fileInput.get(0).files.length) {
+                // Hiển thị thông báo
+                alert('Vui lòng tải lên ít nhất một ảnh.');
+                // Đặt giá trị của checkbox trở lại "checked"
+                $checkbox.prop('checked', true);
+            }
+        });
+        // Khi inputfile thay đổi giá trị
+        $fileInput.change(function () {
+            var $checkedBoxes = $checkbox.filter(':checked');
+            // Nếu  checkbox được check và số file lớn hơn 5
+            if ($checkedBoxes.length + $fileInput.get(0).files.length <= 5) {
+                return;
+            }
+            // Kiểm tra input file có chứa file nào không
+            if (!$fileInput.get(0).files.length && $checkedBoxes == 0) {
+                // Hiển thị thông báo
+                alert('Vui lòng tải lên ít nhất một ảnh.');
+            } else {
+                alert('Chỉ được upload tối đa 5 ảnh');
+                $fileInput.val("");
+            }
+        });
+        // Khi submit form
+        $("#update_form").submit(function (event) {
+            var $checkedBoxes = $checkbox.filter(':checked');
+            if ($checkedBoxes.length + $fileInput.get(0).files.length <= 0) {
+                alert('Vui lòng tải lên ít nhất một ảnh.');
+                return false;
+            } else if ($checkedBoxes.length + $fileInput.get(0).files.length > 5) {
+                alert('Chỉ được upload tối đa 5 ảnh');
+                return false;
+            }
+            event.preventDefault(); // Ngăn chặn form submit bình thường
+            var form_data = new FormData($('#update_form')[0]);
+            // var form_data = $('#update_form').serialize();
 
-    })
+            $.ajax({
+                url: $(this).attr('action'), // Lấy URL từ thuộc tính action của form
+                type: $(this).attr('method'), // Lấy method từ thuộc tính method của form
+                data: form_data, // Serialize form data để gửi đi
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data == "1") {
+                        window.location.href = "/admin/product";
+                    } else {
+                        alert(data);
+                    }
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+        });
+
+    });
+
+
 </script>
-
 </body>
 
 </html>

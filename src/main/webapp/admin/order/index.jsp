@@ -134,16 +134,18 @@
                                                     <h5>
                                                         <c:choose>
                                                             <c:when test="${item.status eq 0}">
-                                                                <span class="badge badge-info">Đã nhận</span>
+                                                                <span class="badge badge-light">Đang chờ</span>
                                                             </c:when>
                                                             <c:when test="${item.status eq 1}">
+                                                                <span class="badge badge-info">Đang chuẩn bị</span>
+                                                            </c:when><c:when test="${item.status eq 2}">
                                                                 <span class="badge badge-info-lighten">Đang vận chuyển</span>
                                                             </c:when>
-                                                            <c:when test="${item.status eq 2}">
+                                                            <c:when test="${item.status eq 3}">
                                                                 <span class="badge badge-success">Thành công</span>
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <span class="badge badge-dark">Đã hủy</span>
+                                                                <span class="badge badge-danger">Đã hủy</span>
                                                             </c:otherwise>
                                                         </c:choose>
 

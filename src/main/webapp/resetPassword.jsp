@@ -1,8 +1,9 @@
-<%--
+<%@ page import="vn.edu.hcmuaf.fit.bean.User" %>
+<%@ page import="vn.edu.hcmuaf.fit.bean.Token" %><%--
   Created by IntelliJ IDEA.
   User: tinh
-  Date: 12/18/2022
-  Time: 12:10 PM
+  Date: 12/19/2022
+  Time: 2:48 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -11,7 +12,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>HAHATI | Quên mật khẩu</title>
+  <title>HAHATI | Đặt lại mật khẩu</title>
 
   <!-- Google Font -->
   <link
@@ -63,7 +64,7 @@
             <!-- login-register-tab-list start -->
             <div class="login-register-tab-list nav">
               <a class="active" data-bs-toggle="tab" href="#lg1">
-                <h4>Quên mật khẩu</h4>
+                <h4>Thay đổi mật khẩu</h4>
               </a>
             </div>
             <!-- login-register-tab-list end -->
@@ -71,31 +72,34 @@
               <div id="lg1" class="tab-pane active">
                 <div class="login-form-container">
                   <div class="login-register-form">
-                    <form action="forgotPassword" method="post">
+                    <form action="/resetPassword" method="post">
                       <div class="login-input-box">
-                        <span class="text-danger" id="register-username-error">${requestScope['error_forgotpassword']}</span>
-                        <input
-                                type="text"
-                                name="user-name"
-                                placeholder="Tài khoản"
+
+                        <input type="hidden"
+                              name="user"
+                               value="<%=((User)request.getAttribute("user")).getId()%>"
+                        />
+                        <input type="hidden"
+                               name="token"
+                               value="<%=((Token)request.getAttribute("token")).getId()%>"
                         />
                         <input
-                                name="user-email"
-                                placeholder="Email"
-                                type="email"
+                                type="password"
+                                name="password-new"
+                                placeholder="Mật nhẩu mới"
+                        />
+
+                        <input
+                                type="password"
+                                name="password-new-confirm"
+                                placeholder="Nhập lại mật nhẩu "
                         />
                       </div>
+                      <span class="text-danger" id="register-username-error">${requestScope['erorr_changePassword']}</span>
                       <div class="button-box">
-                        <div class="login-toggle-btn">
-                          <a href="login-register.jsp" style="color: blue"
-                          >Đăng nhập</a
-                          >
-                        </div>
-                        <div class="button-box">
-                          <button class="login-btn btn" type="submit">
-                            <span>Gửi</span>
-                          </button>
-                        </div>
+                        <button class="register-btn btn" type="submit">
+                          <span>Đổi mật khẩu</span>
+                        </button>
                       </div>
                     </form>
                   </div>

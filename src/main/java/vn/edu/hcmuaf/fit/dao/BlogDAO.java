@@ -73,7 +73,7 @@ public class BlogDAO extends RD {
 
     public List<Map<String, Object>> pageBlog(int index) {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("select * from blog  ORDER BY id DESC LIMIT ?,9 ")
+                h.createQuery("select * from " + tableName +" ORDER BY id DESC LIMIT ?,9 ")
                         .bind(0, (index - 1) * 9)
                         .mapToMap()
                         .list());

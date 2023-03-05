@@ -41,6 +41,7 @@ public class CartOrderService {
         order.setNote((String) map.get("note"));
         order.setTotal((float) map.get("total"));
         order.setStatus(Integer.parseInt((String) map.get("status")));
+
         Cart cart = getCartByOrder(order.getId());
         User user = new UserService().getById(order.getUser_id());
         cart.setCustomer(user);
@@ -96,9 +97,6 @@ public class CartOrderService {
         orderDetail.setQuantity_((Integer) map.get("quantity"));
         return orderDetail;
     }
-
-
-
 
     public Cart getCartByOrder(int orderId) throws SQLException {
         Cart cart = new Cart();

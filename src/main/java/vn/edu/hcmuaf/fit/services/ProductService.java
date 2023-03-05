@@ -1,8 +1,10 @@
 package vn.edu.hcmuaf.fit.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import vn.edu.hcmuaf.fit.bean.Image;
 import vn.edu.hcmuaf.fit.bean.PriceSize;
 import vn.edu.hcmuaf.fit.bean.Product;
-import vn.edu.hcmuaf.fit.bean.Topping;
 import vn.edu.hcmuaf.fit.dao.ProductDAO;
 
 import java.util.ArrayList;
@@ -43,31 +45,20 @@ public class ProductService {
         return list;
     }
 
-    public List<Product> sortASC(int index) {
-        List<Product> list = new ArrayList<Product>();
-        List<Map<String, Object>> productList = dao.pagingProduct(index);
-        for (Map<String, Object> map : productList) {
-            list.add(convertMapToProduct(map));
-            list.sort((o1, o2) -> (int) (o1.getPriceSize().get(0).getPrice() - o2.getPriceSize().get(0).getPrice()));
-        }
-        return list;
+    public List<Product> sortASC(List<Product> listProducts) {
+        listProducts.sort((o1, o2) -> (int) (o1.getPriceSize().get(0).getPrice() - o2.getPriceSize().get(0).getPrice()));
+        return listProducts;
     }
 
-    public List<Product> sortDECS(int index) {
-        List<Product> list = new ArrayList<Product>();
-        List<Map<String, Object>> productList = dao.pagingProduct(index);
-        for (Map<String, Object> map : productList) {
-            list.add(convertMapToProduct(map));
-            list.sort((o1, o2) -> (int) (o2.getPriceSize().get(0).getPrice() - o1.getPriceSize().get(0).getPrice()));
-        }
-        return list;
+    public List<Product> sortDECS(List<Product> listProducts) {
+        listProducts.sort((o1, o2) -> (int) (o2.getPriceSize().get(0).getPrice() - o1.getPriceSize().get(0).getPrice()));
+        return listProducts;
     }
 
 
     public Product getById(int id) {
         Map<String, Object> product = dao.getById(id);
         List<PriceSize> priceSizeList = price_size_service.getByProductId((Integer) product.get("id"));
-
         return new Product((Integer) product.get("id"), (String) product.get("name"), (Integer) product.get("category_id"),
                 priceSizeList, image_service.getByProductId((Integer) product.get("id")), (Integer) product.get("status"),
                 topping_service.getByCategoryId((Integer) product.get("category_id")));
@@ -101,9 +92,10 @@ public class ProductService {
         }
     }
 
-    public List<Product> searchProduct(String search) {
+
+    public List<Product> searchProducts(String search, String category) {
         List<Product> rs = new ArrayList<Product>();
-        List<Map<String, Object>> productList = dao.searchProduct(search);
+        List<Map<String, Object>> productList = dao.getSearchProducts(search, category);
         for (Map<String, Object> map : productList) {
             rs.add(convertMapToProduct(map));
         }
@@ -145,8 +137,15 @@ public class ProductService {
     }
 
     public void insert(Product product) throws Exception {
-        dao.insert(product.getName(), product.getIdCategory() , product.getStatus());
-        image_service.insert(product.getImage());
+        dao.insert(product.getName(), product.getIdCategory(), product.getStatus());
+        //insert image
+        List<Image> images = product.getImage();
+        for (Image image : images) {
+            image.setProduct_id(findFirst().getId());
+        }
+        images.get(0).setStatus(1);
+        image_service.insert(images);
+        //insert price
         for (PriceSize priceSize : product.getPriceSize()) {
             priceSize.setProduct_id(findFirst().getId());
             (new PriceSizeService()).insert(priceSize);
@@ -162,7 +161,7 @@ public class ProductService {
     }
 
     public void update(Product product) throws Exception {
-        dao.update(product.getId(), product.getName(), product.getIdCategory() , product.getStatus());
+        dao.update(product.getId(), product.getName(), product.getIdCategory(), product.getStatus());
         image_service.update(product.getImage());
         for (PriceSize priceSize : product.getPriceSize()) {
             (new PriceSizeService()).updateByProductId(priceSize);
@@ -186,7 +185,8 @@ public class ProductService {
     }
 
     public static void main(String[] args) throws Exception {
-        ProductService dao = new ProductService();
-        System.out.println(dao.getPriceSizeL(1));
+
+        new ProductService().getById(96);
+
     }
 }

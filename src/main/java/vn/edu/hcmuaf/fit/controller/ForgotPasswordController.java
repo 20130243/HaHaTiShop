@@ -11,6 +11,11 @@ import java.io.IOException;
 public class ForgotPasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/forgotPass.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("user-name");
         String email = request.getParameter("user-email");
         UserService userService = new UserService();
@@ -30,10 +35,5 @@ public class ForgotPasswordController extends HttpServlet {
             request.setAttribute("error_forgotpassword","Nhập tài khoản và email");
             request.getRequestDispatcher("/forgotPass.jsp").forward(request, response);
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }
