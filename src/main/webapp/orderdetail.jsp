@@ -28,9 +28,9 @@
 <body>
 <%
     Order order = (Order) request.getAttribute("order");
-    Cart cart = new Cart();
+    List<Item> list = null;
     if (order != null) {
-        cart = order.getCart();
+        list = order.getListItems();
     }
 %>
 <!-- Page Preloder -->
@@ -87,9 +87,8 @@
                         <tbody>
                         <form action="#" method="get" id="myForm">
                             <%
-                                if (cart != null) {
-                                    List<Item> listItems = cart.getItems();
-                                    for (Item item : listItems) {
+                                if (list != null) {
+                                    for (Item item : list) {
                             %>
                             <tr>
                                 <td class="product__cart__item">
@@ -186,7 +185,8 @@
                                 </div>
                                 <div class="coupon_form">
                                     <input name="coupon" disabled type="text" placeholder="Nhập mã giảm giá"
-                                           value="<%=cart.getCoupon()!=null? cart.getCoupon().getCode() : ""%>">
+                                           value="<%=order.getCoupon()!=null? order.getCoupon().getCode() : ""%>">
+                                    <%System.out.println(order.getCoupon());%>
                                     <button type="submit" disabled>Áp dụng</button>
                                 </div>
                                 <div class="row">
@@ -194,13 +194,13 @@
                                         <h6 class="mt-4  mb-3">Tổng giỏ hàng</h6>
                                         <div>
                                             <%
-                                                if (cart != null) {
+                                                if (order != null) {
                                             %>
                                             <p>Tổng tiền:
                                                 <span><%=new CurrencyFormat().format((int) order.getTotal())%></span>
                                             </p>
                                             <p>Đã giảm:
-                                                <span><%=cart.getCoupon() != null ? cart.getCoupon().getPercent() + "%" : "0%"%></span>
+                                                <span><%=order.getCoupon() != null ? order.getCoupon().getPercent() + "%" : "0%"%></span>
                                             </p>
                                             <p>Trạng thái:
                                                 <span><%=order.getStatus() == 0 ? "Đang chờ" : order.getStatus() == 1 ? "Đã xác nhận" : order.getStatus() == 2 ? "Đã vận chuyển" :

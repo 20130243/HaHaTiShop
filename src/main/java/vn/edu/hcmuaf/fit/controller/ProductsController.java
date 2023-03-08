@@ -28,6 +28,8 @@ public class ProductsController extends HttpServlet {
         List<Category> listCategories = categoryService.getAll();
         listCategories.add(0, new Category(0,"Tất cả",0));
         ProductService productService;
+
+        List<Product> listProduct;
         try {
             productService = new ProductService();
         } catch (Exception e) {
@@ -44,8 +46,6 @@ public class ProductsController extends HttpServlet {
                 index = Integer.parseInt(indexPage);
             }
 
-            List<Product> listProduct;
-
             listProduct = productService.getPagingProduct(index);
 
             int count = productService.getTotalProduct();
@@ -53,14 +53,12 @@ public class ProductsController extends HttpServlet {
             if(count % 12 != 0) {
                 endPage++;
             }
-
-            request.setAttribute("listProduct", listProduct);
             request.setAttribute("endPage", endPage);
             request.setAttribute("pageIndex", index);
             request.setAttribute("sort", sort);
 
         } else {
-            List<Product> listProduct;
+
 
             String search = request.getParameter("search");
             String category =  request.getParameter("category");
@@ -78,12 +76,12 @@ public class ProductsController extends HttpServlet {
                listProduct = productService.sortDECS(listProduct);
            }
 
-            request.setAttribute("listProduct", listProduct);
+
             request.setAttribute("endPage", 0);
             request.setAttribute("pageIndex", 0);
             request.setAttribute("sort", sort);
         }
-
+        request.setAttribute("listProduct", listProduct);
         request.setAttribute("hideSticky" , hideSticky);
         request.setAttribute("listCategories", listCategories);
         request.getRequestDispatcher("shop.jsp").forward(request, response);
