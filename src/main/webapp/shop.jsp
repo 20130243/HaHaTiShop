@@ -9,9 +9,9 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
- 
+
 <html lang="zxx">
- 
+
 
 <head>
     <meta charset="UTF-8">
@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="css/shop.css" type="text/css">
     <link rel="stylesheet" href="css/modal.css" type="text/css">
     <link rel="stylesheet" href="css/header-footer.css" type="text/css">
- 
+
 </head>
 
 <body>
@@ -62,7 +62,7 @@
 
 <!-- Header Section Begin -->
 <%@include file="header.jsp" %>
- 
+
 <!-- Header Section End -->
 
 <!-- Shop Section Begin -->
@@ -78,56 +78,56 @@
             <div class=" col-lg-9">
                 <!-- Button trigger modal -->
                 <form id="category_filter" name="form_filter" method="get" action="">
-                <div class="row search_bar">
+                    <div class="row search_bar">
 
-                    <div class="col-lg-4 col-md-4 col-sm-4 ">
-                        <h6 class="search_bar_text">Tìm kiếm</h6>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4">
-                        <h6 class="search_bar_text">Nhóm sản phẩm</h6>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 ">
-                        <h6 class="search_bar_text">Theo giá</h6>
-                    </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
+                            <h6 class="search_bar_text">Tìm kiếm</h6>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <h6 class="search_bar_text">Nhóm sản phẩm</h6>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
+                            <h6 class="search_bar_text">Theo giá</h6>
+                        </div>
 
-                    <div class="col-lg-4 col-md-4 col-sm-4 shop__sidebar__search">
+                        <div class="col-lg-4 col-md-4 col-sm-4 shop__sidebar__search">
                             <input name="search" type="text" placeholder="Tìm kiếm sản phẩm"
                                    style="padding-right:42px ;" value="<%=request.getParameter("search") != null? request.getParameter("search") : ""%>">
                             <button type="submit"><span class="icon_search"></span></button>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
+                            <select id="category" name="category" onchange="form_filter.submit()">
+                                <%
+                                    List<Category> listCategories = (List<Category>) request.getAttribute("listCategories");
+                                    String checkCategories = request.getParameter("category");
+                                    for (Category category : listCategories) {
+                                %>
+
+                                <option  <%= checkCategories!=null?checkCategories.equals(category.getName())? "selected" : "" : ""%> value="<%=category.getName()%>"><%=category.getName()%> <%=category.getStatus()==1?" (Hết nguyên liệu)" : category.getStatus()==2?" (Ngừng kinh doanh)" : ""%></option>
+
+                                <%}%>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
+
+                            <select id="sort" name="sort" onchange="form_filter.submit()">
+                                <%
+                                    String sort = (String)  request.getAttribute("sort");
+                                %>
+                                <option value="none" <%=sort.equals("none")? "selected" : ""%>>Lựa chọn lọc </option>
+                                <option value="price-asc" <%=sort.equals("price-asc")? "selected" : ""%>>Sắp xếp theo giá tiền tăng dần</option>
+                                <option value="price-desc" <%=sort.equals("price-desc")? "selected" : ""%>>Sắp xếp theo giá tiền giảm dần</option>
+                            </select>
+
+                        </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
-                        <select id="category" name="category" onchange="form_filter.submit()">
-                            <%
-                                List<Category> listCategories = (List<Category>) request.getAttribute("listCategories");
-                                String checkCategories = request.getParameter("category");
-                                for (Category category : listCategories) {
-                            %>
- 
-                            <option  <%= checkCategories!=null?checkCategories.equals(category.getName())? "selected" : "" : ""%> value="<%=category.getName()%>"><%=category.getName()%> <%=category.getStatus()==1?" (Hết nguyên liệu)" : category.getStatus()==2?" (Ngừng kinh doanh)" : ""%></option>
- 
-                            <%}%>
-                        </select>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
- 
-                        <select id="sort" name="sort" onchange="form_filter.submit()">
-                            <%
-                                String sort = (String)  request.getAttribute("sort");
-                            %>
-                            <option value="none" <%=sort.equals("none")? "selected" : ""%>>Lựa chọn lọc </option>
-                            <option value="price-asc" <%=sort.equals("price-asc")? "selected" : ""%>>Sắp xếp theo giá tiền tăng dần</option>
-                            <option value="price-desc" <%=sort.equals("price-desc")? "selected" : ""%>>Sắp xếp theo giá tiền giảm dần</option>
-                        </select>
- 
-                    </div>
-                </div>
                     <input type="text" name="hideSticky" value="1" style="display: none">
                 </form>
                 <div class="row">
                     <%
                         List<Product> list = (List<Product>) request.getAttribute("listProduct");
                         if(list != null) {
-                        for (Product p : list) {
+                            for (Product p : list) {
                     %>
                     <div class="col-lg-3 col-md-4 col-sm-4">
                         <div class="product__item sale" data-toggle="modal"
@@ -249,7 +249,7 @@
         </div>
         <div class="row spad">
             <div class="col-lg-12">
- 
+
                 <div class="product__pagination">
                     <%
                         int count = (int) request.getAttribute("endPage");
@@ -260,7 +260,7 @@
                     </a>
                     <%}%>
                 </div>
- 
+
             </div>
         </div>
     </div>
@@ -278,7 +278,7 @@
 <!-- Js Plugins -->
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
- 
+
 <script src="js/jquery.nice-select.min.js"></script>
 <script src="js/jquery.nicescroll.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>
@@ -302,7 +302,7 @@
             $(s).click();
         });
     });
- 
+
 </script>
 </body>
 
