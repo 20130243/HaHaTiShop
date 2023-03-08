@@ -42,7 +42,6 @@
             <%@include file="../topbar.jsp" %>
             <!-- end Topbar -->
 
-
             <!-- Start Content-->
             <div class="container-fluid">
 
@@ -69,19 +68,21 @@
                         <div class="horizontal-steps mt-4 mb-4 pb-5">
                             <div class="horizontal-steps-content" id="step">
                                 <div class="step-item ${object.status eq 0 ?"current" : ""}">
-                                        <span data-toggle="tooltip" data-placement="bottom" title=""
-                                        >Đã nhận</span>
+                                    <span data-toggle="tooltip" data-placement="bottom" title="">Đã tiếp nhận</span>
                                 </div>
-                                <c:if test="${object.status eq 3}">
+                                <c:if test="${object.status eq 4}">
                                     <div id="step-0" class="step-item ${object.status eq 4 ?"current" : ""}">
                                         <span>Đã hủy</span>
                                     </div>
                                 </c:if>
-                                <c:if test="${object.status ne 3}">
+                                <c:if test="${object.status ne 4}">
                                     <div id="step-1" class="step-item ${object.status eq 1 ?"current" : ""}">
-                                        <span>Đang vận chuyển</span>
+                                        <span>Đang chuẩn bị</span>
                                     </div>
                                     <div id="step-2" class="step-item ${object.status eq 2 ?"current" : ""}">
+                                        <span>Đang vận chuyển</span>
+                                    </div>
+                                    <div id="step-3" class="step-item ${object.status eq 3 ?"current" : ""}">
                                         <span>Thành công</span>
                                     </div>
                                 </c:if>
@@ -89,11 +90,16 @@
                             <c:choose>
                                 <c:when test="${object.status eq 0}">
                                     <c:set var="line" value="0"/>
-                                </c:when><c:when test="${object.status eq 1}">
-                                <c:set var="line" value="50"/>
-                            </c:when><c:when test="${object.status eq 2}">
-                                <c:set var="line" value="100"/>
-                            </c:when>
+                                </c:when>
+                                <c:when test="${object.status eq 1}">
+                                    <c:set var="line" value="33.33"/>
+                                </c:when>
+                                <c:when test="${object.status eq 2}">
+                                    <c:set var="line" value="66.66"/>
+                                </c:when>
+                                <c:when test="${object.status eq 3}">
+                                    <c:set var="line" value="100"/>
+                                </c:when>
                                 <c:otherwise>
                                     <c:set var="line" value="100"/>
                                 </c:otherwise>
@@ -103,18 +109,24 @@
                     </div>
                 </div>
                 <div class="row justify-content-center mb-4">
-                    <!-- <button type="button" class="btn btn-primary">Xác nhận đơn hàng</button> -->
                     <form method="post" id="update_status" action="UpdateStatusController">
-                        <input type="text" name="id" id="id" value="${object.id}" class="d-none">
-                        <input type="text" name="status" id="status" value="${object.status +1}" class="d-none">
+                        <input type="hidden" name="id" id="id" value="${object.id}">
+                        <input type="hidden" name="status" id="status" value="${object.status +1}">
 
                         <button type="submit" id="status-1" class="btn btn-info ${object.status eq 0 ? "" :"d-none"}">
+                            Bắt đầu chuẩn bị
+                        </button>
+                        <button type="submit" id="status-2" class="btn btn-info ${object.status eq 1 ? "" :"d-none"}">
                             Bàn giao cho bên vận chuyển
                         </button>
-                        <button type="submit" id="status-2"
-                                class="btn btn-success ${object.status eq 1 ? "" :"d-none"}">Hoàn tất
+                        <button type="submit" id="status-3"
+                                class="btn btn-success ${object.status eq 2 ? "" :"d-none"}">Hoàn tất
                         </button>
-
+                        <c:if test="${object.status ne 4 && object.status ne 3}">
+                            <button type="button" id="delete_order" class="btn btn-danger ">
+                                Hủy đơn hàng
+                            </button>
+                        </c:if>
                     </form>
                 </div>
                 <!-- end row -->
@@ -246,6 +258,7 @@
         <!-- end Footer -->
 
     </div>
+    `
 
     <!-- ============================================================== -->
     <!-- End Page content -->
@@ -267,11 +280,18 @@
 <script src="../../assets/js/vendor/apexcharts.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+<script src="../../js/alert.js"></script>
 <!-- third party js ends -->
 <script type="text/javascript">
-
+    $("#delete_order").click(function () {
+        if (confirm("Bạn muốn hủy đơn hàng")) {
+            $('#status').val(4)
+            $("#update_status").submit();
+        }
+    })
     $("#update_status").submit(function (e) {
-        e.preventDefault(); ;
+        e.preventDefault();
+
         $.ajax({
             type: $(this).attr('method'),
             url: $(this).attr('action'),
@@ -279,16 +299,27 @@
             success: function (data) {
                 $("#step").children().removeClass("current");
                 if (1 == data) {
-                    $("#process-line").css("width", "50%");
+                    $("#process-line").css("width", "33.33%");
                     $("#step-1").addClass("current");
                     $("#status-1").remove();
                     $("#status-2").removeClass("d-none");
                     $("#status").val("2");
+                    alert_popup("info", "Đơn hàng đang chuẩn bị");
                 } else if (2 == data) {
-                    $("#process-line").css("width", "100%");
+                    $("#process-line").css("width", "66.66%");
                     $("#step-2").addClass("current");
-
                     $("#status-2").remove();
+                    $("#status-3").removeClass("d-none");
+                    $("#status").val("3");
+                    alert_popup("info", "Đơn hàng đang được gửi đi");
+                } else if (3 == data) {
+                    $("#process-line").css("width", "100%");
+                    $("#status-3").remove();
+                    $("#delete_order").remove();
+                    $("#step-3").addClass("current");
+                    alert_popup("success", "Đơn hàng thành công");
+                } else if (4 == data) {
+                    alert_popup("danger", "Đơn hàng đã hủy");
                 }
             },
             error: function (data) {

@@ -16,41 +16,41 @@ import java.util.List;
 public class CancelOrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            String orderId = request.getParameter("orderid");
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("user");
-            OrderService  orderService = new OrderService();
-            CartOrderService cartOrderService = new CartOrderService();
-            if(orderId != null && user != null){
-                int id = Integer.parseInt(orderId);
-                try {
-                    List<Order> orders = cartOrderService.orderByUser(user.getId());
-                    Order order = new Order();
-                    for (Order item : orders){
-                        if(item.getId() == id){
-                         order = item;
-                        }
-                    }
-                    if(order.getStatus() < 1) {
-                        orderService.updateStatus(order,3);
-                        response.sendRedirect("account");
-                    } else {
-                        String error =  "101";
-                        String url ="orderDetail?orderid="+order.getId();
-                        System.out.println(url);
-                        session.setAttribute("errorCancelOrder",error);
-                        response.sendRedirect(url);
-                    }
 
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
 
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String orderId = request.getParameter("orderid");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        OrderService  orderService = new OrderService();
+        CartOrderService cartOrderService = new CartOrderService();
+        if(orderId != null && user != null){
+            int id = Integer.parseInt(orderId);
+            try {
+                List<Order> orders = cartOrderService.getOrderByUser(user.getId());
+                Order order = new Order();
+                for (Order item : orders){
+                    if(item.getId() == id){
+                        order = item;
+                    }
+                }
+                if(order.getStatus() < 1) {
+                    orderService.updateStatus(order,4);
+                    response.sendRedirect("account");
+                } else {
+                    String error =  "101";
+                    String url ="orderDetail?orderid="+order.getId();
+                    System.out.println(url);
+                    session.setAttribute("errorCancelOrder",error);
+                    response.sendRedirect(url);
+                }
 
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

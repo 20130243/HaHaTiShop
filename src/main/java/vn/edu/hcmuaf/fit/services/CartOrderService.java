@@ -41,6 +41,7 @@ public class CartOrderService {
         order.setNote((String) map.get("note"));
         order.setTotal((float) map.get("total"));
         order.setStatus(Integer.parseInt((String) map.get("status")));
+
         Cart cart = getCartByOrder(order.getId());
         User user = new UserService().getById(order.getUser_id());
         cart.setCustomer(user);
@@ -97,9 +98,6 @@ public class CartOrderService {
         return orderDetail;
     }
 
-
-
-
     public Cart getCartByOrder(int orderId) throws SQLException {
         Cart cart = new Cart();
         List<Map<String, Object>> listMap = detail_dao.getByOrderId(orderId);
@@ -110,10 +108,11 @@ public class CartOrderService {
                 int priceSizeId = (int) listMap.get(i).get("product_size_id");
                 PriceSize priceSize = new PriceSizeService().getById(priceSizeId);
                 product.setId(priceSize.getProduct_id());
+
                 Product productInDatabase = new ProductService().getById(product.getId());
                 product.setName(productInDatabase.getName());
                 product.setIdCategory(productInDatabase.getIdCategory());
-//                product.setImg(productInDatabase.getImage()[0]);
+                product.setImage(productInDatabase.getImage());
                 product.setStatus(productInDatabase.getStatus());
                 product.addPriceSize(priceSize);
                 int oroderDetailsId = (int) listMap.get(i).get("id");
@@ -135,13 +134,12 @@ public class CartOrderService {
                 item.setNote("");
                 cart.setId(i);
                 cart.addItem(item);
-
             }
         }
         return cart;
     }
 
-    public List<Order> orderByUser(int userId) throws SQLException {
+    public List<Order> getOrderByUser(int userId) throws SQLException {
         List<Order> result = new ArrayList<Order>();
         List<Map<String, Object>> list = dao.getOrderByUser(userId);
         if (list == null) return null;
@@ -150,6 +148,7 @@ public class CartOrderService {
         }
         return result;
     }
+
     public List<Order> newOrderList() throws SQLException {
         List<Order> result = new ArrayList<Order>();
         List<Map<String, Object>> list = dao.listNewOrder();

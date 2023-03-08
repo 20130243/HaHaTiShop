@@ -126,4 +126,15 @@ public class Product implements Serializable {
             this.topping.add(topping);
         }
     }
+
+    public Image getMainImage() {
+        for (Image image : this.image) {
+            if (image.getStatus() == 1) {
+                return image;
+            }
+
+        }
+        return image.get(0);
+    }
+
 }
