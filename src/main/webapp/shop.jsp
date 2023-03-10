@@ -123,13 +123,13 @@
                     </div>
                     <input type="text" name="hideSticky" value="1" style="display: none">
                 </form>
-                <div class="row">
+                <div id="product-container" class="row">
                     <%
                         List<Product> list = (List<Product>) request.getAttribute("listProduct");
                         if(list != null) {
                             for (Product p : list) {
                     %>
-                    <div class="col-lg-3 col-md-4 col-sm-4">
+                    <div class="product-amount col-lg-3 col-md-4 col-sm-4">
                         <div class="product__item sale" data-toggle="modal"
                              data-target="#myModal<%=p.getId()%>" data-id="<%=p.getId()%>">
                             <div class="product__item__pic set-bg" data-setbg="<%=p.getImage().get(0).getUrl()%>">
@@ -165,6 +165,7 @@
                             data-target="#myModal">
                     </button>
                     <% }}%>
+
                 </div>
             </div>
             <div class="col-lg-3">
@@ -247,7 +248,7 @@
                 </div>
             </div>
         </div>
-        <div class="row spad">
+        <div class="row spad end-page">
             <div class="col-lg-12">
 
                 <div class="product__pagination">
@@ -289,9 +290,10 @@
 <script src="js/main.js"></script>
 <script src="js/cart.js" defer></script>
 <script src="js/modal.js" defer></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-</script>
+<%--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"--%>
+<%--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">--%>
+<%--</script>--%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
 <script>
@@ -302,6 +304,84 @@
             $(s).click();
         });
     });
+
+    function isScrollToEnd() {
+        // lấy chiều cao của cửa sổ trình duyệt
+        let windowHeight = window.innerHeight;
+        // lấy chiều cao của nội dung trang web
+        let fullHeight = document.body.scrollHeight;
+        // lấy vị trí hiện tại của trang web đang được cuộn
+        let scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+        // kiểm tra xem đã cuộn đến cuối trang hay chưa
+        if (scrollPosition + windowHeight >= fullHeight) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
+    // Sử dụng hàm isScrollToEnd() để kiểm tra xem đã cuộn đến cuối trang hay chưa
+    var working = false;
+    window.addEventListener('scroll', () => {
+        if (isScrollToEnd()) {
+            if (working === false) {
+                working = true;
+                $.ajax({
+                    type: "GET",
+                    url: "/load",
+                    success: function (data) {
+                         var container = document.getElementById("product-container");
+                        var listProduct = JSON.parse(data);
+                        var item = "<div>"+ listProduct[0].image[0].url+"</div>";
+                        var items;
+
+                        $("#product-container").append(` <div class="product-amount col-lg-3 col-md-4 col-sm-4">
+                            <div class="product__item sale" data-toggle="modal"
+                                 data-target="#myModal`+listProduct[0].id+`" data-id="`+listProduct[0].id+`">
+                                <div class="product__item__pic set-bg" data-setbg="`+listProduct[0].image[0].url+`">
+                                    <img src="`+listProduct[0].image[0].url+`" alt="" srcset="">
+                                   <span class="label">Sale</span>
+                                </div>
+                                <div class="product__item__text">
+                                    <h5>
+                                        `+listProduct[0].name+`
+                                    </h5>
+                                    <h6>
+                                        `+listProduct[0].priceSize[0].price+`
+                                    đ </h6>
+                                </div>
+                            </div>
+                        </div>`);
+                        $("#product-container").append(<jsp:include page='/modal.jsp'>
+                            <jsp:param name="id" value="117"/>
+                            </jsp:include>);
+
+                        $("#product-container").append(`
+                        <button type="button" class="btn btn-primary btn-lg d-none" id="btn-modal`+listProduct[0].id+`"
+                                data-toggle="modal"
+                                data-target="#myModal">
+                        </button>`);
+
+                         console.log(listProduct);
+                        setTimeout(function() {
+                            working = false;
+                        }, 4000)
+                    },
+                    error: function (data) {
+                        console.log('An error occurred.');
+                        console.log(data);
+                    },
+                });
+            }
+
+
+        } else {
+
+        }
+    })
 
 </script>
 </body>
