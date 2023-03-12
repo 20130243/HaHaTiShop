@@ -100,14 +100,15 @@
                                                        placeholder="Mật khẩu"
                                                        value="" required/>
                                             </div>
-                                            <div class="button-box" style="display: flex">
+                                            <div class="button-box">
                                                 <div class="login-toggle-btn">
                                                     <input id="checkSave" type="checkbox" name="save"
                                                            value="checked"/>
                                                     <label for="checkSave">Lưu thông tin</label>
-                                                    <a href="forgotPass.jsp">Quên mật khẩu?</a>
+                                                    <a href="/forgotPass">Quên mật khẩu?</a>
                                                 </div>
-                                                <div class="button-box">
+                                                <div class="button-box"
+                                                     style=" display: flex; justify-content: center;">
                                                     <button class="login-btn btn" type="submit">
                                                         <span>Đăng nhập</span>
                                                     </button>
@@ -212,16 +213,6 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/account/bootstrap.min.js"></script>
-<script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
-<script src="assets/js/vendor/account/js/plugins/slick.min.js"></script>
-<script src="assets/js/vendor/account/js/plugins/jquery.nice-select.min.js"></script>
-
-<script src="assets/js/vendor/account/js/plugins/image-zoom.min.js"></script>
-<script src="assets/js/vendor/account/js/plugins/fancybox.js"></script>
-<script src="assets/js/vendor/account/js/plugins/scrollup.min.js"></script>
-<script src="assets/js/vendor/account/js/plugins/jqueryui.min.js"></script>
-<script src="assets/js/vendor/account/js/main.js"></script>
-<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
 <script>
     function handleCredentialResponse(response) {
         const resp = jwt_decode(response.credential);

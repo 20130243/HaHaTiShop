@@ -29,10 +29,10 @@ public class RegisterController extends HttpServlet {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
 
-        User user = new User(0, username, password, name, "", phone, email, 0, "");
+        User user = new User(0, username,  name, "", phone, email, 0, "");
         if (!userService.checkUsername(user)) {
-            userService.insert(user);
-            user = userService.login(user);
+            userService.insert(user,password);
+            user = userService.login(email,password);
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
             response.getWriter().write("2");
