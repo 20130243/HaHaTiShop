@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.bean.Cart;
 import vn.edu.hcmuaf.fit.bean.Coupon;
 import vn.edu.hcmuaf.fit.bean.Item;
 import vn.edu.hcmuaf.fit.services.CouponService;
+import vn.edu.hcmuaf.fit.services.ProductService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -34,8 +35,14 @@ public class EditCartController extends HttpServlet {
                     String quantityChange = request.getParameter("quantityChange" + id);
                     int quantity = Integer.parseInt(quantityChange);
                     if (items.get(i).getId() == id) {
-                        items.get(i).setQuantity(quantity);
-                        items.get(i).updatePrice();
+                        if (!new ProductService().checkInventoryProduct(id)){
+
+                            items.get(i).setQuantity(quantity);
+                            items.get(i).updatePrice();
+                        }else{
+                            //
+                        }
+
                     }
                 } else if (remove != null) {
                     int removeId = Integer.parseInt(remove);

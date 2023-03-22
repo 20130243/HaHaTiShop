@@ -167,6 +167,9 @@ public class ProductService {
             (new PriceSizeService()).updateByProductId(priceSize);
         }
     }
+    public boolean checkInventoryProduct(int proid){
+        return dao.checkInventoryProduct(proid);
+    }
 
     public Product convertMapToProduct(Map<String, Object> map) {
         Product product = new Product();
