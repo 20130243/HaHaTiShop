@@ -127,22 +127,21 @@ public class ProductDAO extends RD {
 
     public boolean checkInventoryProduct(int proid) {
         boolean result = false;
-       List<Product> list =  JDBIConnector.get().withHandle(h ->
+       List<Map<String, Object>> list =  JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT * FROM " + tableName + " WHERE `id` =   "+proid)
-
-                        .mapToBean(Product.class)
-                        .stream()
-                        .collect(Collectors.toList())
+                        .mapToMap()
+                        .list()
         );
        if (list.size()==1){
-           Product p = list.get(0);
-//           Category category = new CategoryService().getById(p.getIdCategory());
-           if (p.getStatus() >= 2){
+           Map<String, Object> p = list.get(0);
+           Category category = new CategoryService().getById((int)p.get("category_id"));
+
+           if ((int)p.get("status") >= 2){
                result=true;
            }
-//           else if (category.getStatus() >=1) {
-//               result=true;
-//           }
+           else if (category.getStatus() >=1) {
+               result=true;
+           }
        }
         return result;
        
