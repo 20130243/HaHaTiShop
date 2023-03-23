@@ -274,3 +274,22 @@ element.style {
 .pagination-style-one .page-item a:focus {
   box-shadow: none
 }
+/*#overlay-cart-item{*/
+/*  position: absolute;*/
+/*  top: 0;left: 0;width: 100%;height: 100%;*/
+/*  background-color: rgba(0,0,0,0.5);*/
+/*  z-index: 2;*/
+/*}*/
+/*#text-overlay-cart-item{*/
+/*  position: absolute;*/
+/*  height: 40%;*/
+/*  width: 100%;*/
+/*  background-color: #1fa198;*/
+/*  top: 80%;*/
+/*  left: 50%;*/
+/*  font-size: 14px;*/
+/*  color: white;*/
+/*  text-align: center;*/
+/*  transform: translate(-50%,-50%);*/
+/*  -ms-transform: translate(-50%,-50%);*/
+/*}*/

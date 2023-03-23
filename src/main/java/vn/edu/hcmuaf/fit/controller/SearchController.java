@@ -29,7 +29,7 @@ public class SearchController extends HttpServlet {
             throw new RuntimeException(e);
         }
         CategoryService categoryService = new CategoryService();
-        List<Product> listProduct = service.searchProduct(search);
+        List<Product> listProduct = service.searchProducts(search,"");
         List<Category> listCategories = categoryService.getAll();
         listCategories.add(0, new Category(0,"Tất cả",0));
         request.setAttribute("listCategories", listCategories);

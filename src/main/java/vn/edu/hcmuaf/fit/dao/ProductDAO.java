@@ -164,7 +164,7 @@ public class ProductDAO extends RD {
 
     public static void main(String[] args) {
 
-        boolean b = new ProductDAO().checkInventoryProduct(1);
+        boolean b = new ProductDAO().checkInventoryProduct(127);
         System.out.println(b);
     }
 

@@ -185,47 +185,80 @@
                                         if (items.size() > 0) {
                                             for (Item item : items) {
                                                 Product p = item.getProduct();
-                                %>
-                                <form action="/editcart" method="get" id="myForm">
-                                    <div class="cart-product-item">
-                                        <div class="cart-product-name">
-                                            <img src="<%=p.getImage().get(0).getUrl()%>" width="32" height="32">
-                                            <h5><%=p.getName()%> (<%=p.getPriceSize().get(0).getSize()%>)</h5>
-                                            <input class="product-modal-id" type="text" name="<%=item.getId()%>"
-                                                   value="<%=item.getId()%>" checked="checked">
-                                        </div>
-                                        <div>
-                                            <div>Giá: <p
-                                                    class="cart-product-detail-price"><%= new CurrencyFormat().format((int) item.getProduct().getPriceSize().get(0).getPrice())%>
-                                            </p></div>
-                                        </div>
-                                        <div class="cart-product-detail justify-content-between">
-                                            <div class="detail">Topping:
-                                                <%
-                                                    if (p.getTopping().size() > 0) {
-                                                        for (Topping tp : p.getTopping()) {
-                                                %>
-                                                <p class="topping-item"><%=tp.getName()%> x <%=item.getQuantity()%>
-                                                </p>
-                                                <%
+                                                List<Product> listProductUnavaiable =(List<Product>) session.getAttribute("listProductUnavaiable")==null?null:(List<Product>) session.getAttribute("listProductUnavaiable");
+                                                Product productUnavaiable = null;
+                                                if (listProductUnavaiable != null){
+                                                    for (Product p2:
+                                                            listProductUnavaiable) {
+                                                        if (p2.getId() == p.getId()){
+                                                            productUnavaiable = p;
                                                         }
                                                     }
-                                                %>
+                                                }
+
+                                %>
+                                <form action="/editcart" method="get" id="myForm">
+                                    <div style="position: relative;width: 100%;height: 170px;">
+                                        <div class="cart-product-item">
+                                            <div class="cart-product-name">
+                                                <img src="<%=p.getImage().get(0).getUrl()%>" width="32" height="32">
+                                                <h5><%=p.getName()%> (<%=p.getPriceSize().get(0).getSize()%>)</h5>
+                                                <input class="product-modal-id" type="text" name="<%=item.getId()%>"
+                                                       value="<%=item.getId()%>" checked="checked">
                                             </div>
-                                            <div class="cart-product-quantity">
-                                                <input name="quantityChange<%=item.getId()%>"
-                                                       class="cart-quantity-input quantity" type="number"
-                                                       value="<%=item.getQuantity()%>">
-                                                <a href="editcart?rpID=<%=item.getId()%>" style="border: none"> <i
-                                                        class="fa-solid fa-xmark remove"></i></a>
+                                            <div>
+                                                <div>Giá: <p
+                                                        class="cart-product-detail-price"><%= new CurrencyFormat().format((int) item.getProduct().getPriceSize().get(0).getPrice())%>
+                                                </p></div>
+                                            </div>
+                                            <div class="cart-product-detail justify-content-between">
+                                                <div class="detail">Topping:
+                                                    <%
+                                                        if (p.getTopping().size() > 0) {
+                                                            for (Topping tp : p.getTopping()) {
+                                                    %>
+                                                    <p class="topping-item"><%=tp.getName()%> x <%=item.getQuantity()%>
+                                                    </p>
+                                                    <%
+                                                            }
+                                                        }
+                                                    %>
+                                                </div>
+                                                <div class="cart-product-quantity">
+                                                    <input name="quantityChange<%=item.getId()%>"
+                                                           class="cart-quantity-input quantity" type="number"
+                                                           value="<%=item.getQuantity()%>">
+                                                    <a href="editcart?rpID=<%=item.getId()%>" style="border: none"> <i
+                                                            class="fa-solid fa-xmark remove"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="cart-product-price">
+                                                <%=new CurrencyFormat().format((int) item.getPrice())%>
+                                                * <%=item.getQuantity()%>
+                                                = <%=new CurrencyFormat().format((int) item.getPrice())%>
                                             </div>
                                         </div>
-                                        <div class="cart-product-price">
-                                            <%=new CurrencyFormat().format((int) item.getPrice())%>
-                                            * <%=item.getQuantity()%>
-                                            = <%=new CurrencyFormat().format((int) item.getPrice())%>
+                                        <%if (productUnavaiable != null ){%>
+                                        <div id="overlay-cart-item" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%; background-color: rgba(0,0,0,0.5);z-index: 2;">
+
+                                            <div id="text-overlay-cart-item" style="position: absolute;
+                                            height: 40%;
+                                            width: 100%;
+                                            background-color: #1fa198;
+                                              top: 80%;
+                                              left: 50%;
+                                              font-size: 14px;
+                                              color: white;
+                                              text-align: center;
+                                              transform: translate(-50%,-50%);
+                                              -ms-transform: translate(-50%,-50%);">
+                                                <span >Mặt hàng không còn khả dụng</span>
+                                                <a href="editcart?rpID=<%=item.getId()%>" style="color: red">Hủy</a>
+                                            </div>
                                         </div>
+                                        <%}%>
                                     </div>
+
                                     <%
                                             }
                                         }
