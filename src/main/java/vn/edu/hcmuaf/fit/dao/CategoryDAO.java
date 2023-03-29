@@ -84,4 +84,8 @@ public class CategoryDAO extends RD {
                         "LIMIT ? , 10;").bind(0, (index - 1) * 10).mapToMap().list()
         );
     }
+
+    public static void main(String[] args) {
+        System.out.println(new CategoryDAO().getById(1));
+    }
 }
