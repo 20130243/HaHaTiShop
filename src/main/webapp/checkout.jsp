@@ -1,9 +1,6 @@
-<%@ page import="vn.edu.hcmuaf.fit.bean.Cart" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.Item" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.Topping" %>
 <%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.User" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.bean.*" %><%--
   Created by IntelliJ IDEA.
   User: tinh
   Date: 12/15/2022
@@ -32,6 +29,8 @@
 <%
   Cart cart = (Cart) session.getAttribute("cart");
   User user = (User) session.getAttribute("user");
+  List<Product> listProductUnavaiable =(List<Product>) session.getAttribute("listProductUnavaiable")==null?null:(List<Product>) session.getAttribute("listProductUnavaiable");
+
 %>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -119,7 +118,22 @@
               <td class="quantity__item">
                 <div class="quantity">
                   <div class="pro-qty-2">
+                    <% boolean isAvaiable = true;
+                      if (listProductUnavaiable != null){
+                      for (Product p2:
+                           listProductUnavaiable) {
+
+                      if (item.getProduct().getId() == p2.getId()){
+
+                      isAvaiable = false;
+                    %>
+                    <span>Mặt hàng này không còn khả dụng</span>
+                    <%}%>
+                    <%}}%>
+                    <%if (isAvaiable ==true){%>
                     <input name="quantityChange<%=item.getId()%>" class="quantity" type="number" value="<%=item.getQuantity()%>">
+
+                    <%}%>
                   </div>
                 </div>
               </td>
