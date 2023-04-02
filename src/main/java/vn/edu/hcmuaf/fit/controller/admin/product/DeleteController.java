@@ -13,7 +13,7 @@ import java.io.IOException;
 public class DeleteController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        response.sendRedirect("/Error404");
     }
 
     @Override

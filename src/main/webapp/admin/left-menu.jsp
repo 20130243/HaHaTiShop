@@ -75,6 +75,16 @@
                     <span> Quản lí topping </span>
                 </a>
             </li>
+            <c:choose>
+                <c:when test="${sessionScope.admin.level ge 1}">
+                    <li class="side-nav-item">
+                        <a href="<c:out value="${pageContext.request.contextPath}"/>/admin/sale" class="side-nav-link">
+                            <i class="uil-calender"></i>
+                            <span> Quản lí người dùng</span>
+                        </a>
+                    </li>
+                </c:when>
+            </c:choose>
         </ul>
         <!-- End Sidebar -->
 

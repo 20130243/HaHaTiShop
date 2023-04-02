@@ -29,7 +29,6 @@
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
     <link rel="stylesheet" href="css/account.css" type="text/css"/>
     <link rel="stylesheet" href="css/header-footer.css" type="text/css"/>
-
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous"
@@ -107,6 +106,7 @@
                                                     <label for="checkSave">Lưu thông tin</label>
                                                     <a href="/forgotPass">Quên mật khẩu?</a>
                                                 </div>
+
                                                 <div class="button-box"
                                                      style=" display: flex; justify-content: center;">
                                                     <button class="login-btn btn" type="submit">
@@ -199,9 +199,9 @@
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
-<script async defer crossorigin="anonymous"
-        src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0&appId=2143582525828112&autoLogAppEvents=1"
-        nonce="jhCmVurm"></script>
+<%--<script async defer crossorigin="anonymous"--%>
+<%--        src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0&appId=2143582525828112&autoLogAppEvents=1"--%>
+<%--        nonce="jhCmVurm"></script>--%>
 
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.nice-select.min.js"></script>
@@ -213,6 +213,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/account/bootstrap.min.js"></script>
+<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
 <script>
     function handleCredentialResponse(response) {
         const resp = jwt_decode(response.credential);
@@ -282,7 +283,6 @@
         });
     });
 </script>
-
 
 </body>
 </html>
