@@ -7,7 +7,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "forgotPassword", value = "/forgotPassword")
+@WebServlet(name = "forgotPassword", value = "/forgotPass")
 public class ForgotPasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -16,24 +16,24 @@ public class ForgotPasswordController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("user-name");
-        String email = request.getParameter("user-email");
+        String email = request.getParameter("user-email").trim();
         UserService userService = new UserService();
-        if (username != null && email != null) {
+        System.out.println( !email.equals("")  );
+        if ( !email.equals("") ) {
             try {
-                if (userService.checkUsernameAndMail(username, email)) {
-                    userService.passwordRecovery(username, email);
-                    response.sendRedirect("/login");
+                System.out.println(userService.checkEmail( email));
+                if (userService.checkEmail( email)) {
+
+                    userService.passwordRecovery( email);
+                    response.getWriter().write("0");
                 } else {
-                    request.setAttribute("error_forgotpassword","Tài khoản không tồn tại");
-                    request.getRequestDispatcher("/forgotPass.jsp").forward(request, response);
+                    response.getWriter().write("1");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
-            request.setAttribute("error_forgotpassword","Nhập tài khoản và email");
-            request.getRequestDispatcher("/forgotPass.jsp").forward(request, response);
+            response.getWriter().write("2");
         }
     }
 }

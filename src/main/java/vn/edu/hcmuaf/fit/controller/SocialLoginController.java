@@ -27,15 +27,15 @@ public class SocialLoginController extends HttpServlet {
             String id = request.getParameter("id");
             String password = email;
 
-            User userNew = new User(0,id, password, name, "", "", email,0,"");
+            User userNew = new User(0,id,   name, "", "", email,0,"");
 
             if(userService.checkUsername(userNew)) {
-                userNew = userService.login(userNew);
+                userNew = userService.login(email,password);
                 session.setAttribute("user", userNew);
                 response.sendRedirect("/");
             } else {
-                userService.insert(userNew);
-                userNew = userService.login(userNew);
+                userService.insert(userNew,password);
+                userNew = userService.login(email,password);
                 session.setAttribute("user", userNew);
                 response.sendRedirect("/");
             }
@@ -47,15 +47,15 @@ public class SocialLoginController extends HttpServlet {
             String password = email;
             System.out.println(password);
 
-            User user = new User(0,id,password,name,"","",email,0,"");
+            User user = new User(0,id, name,"","",email,0,"");
 
             if(userService.checkUsername(user)){
-                user = userService.login(user);
+                user = userService.login(email,password);
                 session.setAttribute("user", user);
                 response.sendRedirect("/");
             } else {
-                userService.insert(user);
-                user = userService.login(user);
+                userService.insert(user,password);
+                user = userService.login(email,password);
                 session.setAttribute("user", user);
                 response.sendRedirect("/");
             }
