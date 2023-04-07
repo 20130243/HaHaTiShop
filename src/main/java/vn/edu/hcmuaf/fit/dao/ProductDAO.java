@@ -1,9 +1,13 @@
 package vn.edu.hcmuaf.fit.dao;
 
+import vn.edu.hcmuaf.fit.bean.Category;
+import vn.edu.hcmuaf.fit.bean.Product;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
+import vn.edu.hcmuaf.fit.services.CategoryService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ProductDAO extends RD {
     private static final String tableName = "products";
@@ -121,6 +125,28 @@ public class ProductDAO extends RD {
         );
     }
 
+    public boolean checkInventoryProduct(int proid) {
+        boolean result = false;
+       List<Map<String, Object>> list =  JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT * FROM " + tableName + " WHERE `id` =   "+proid)
+                        .mapToMap()
+                        .list()
+        );
+       if (list.size()==1){
+           Map<String, Object> p = list.get(0);
+           Category category = new CategoryService().getById((int)p.get("category_id"));
+
+           if ((int)p.get("status") >= 2){
+               result=true;
+           }
+           else if (category.getStatus() >=1) {
+               result=true;
+           }
+       }
+        return result;
+       
+    }
+
     public List<Map<String, Object>> getSearchProducts(String search, String category) {
         String checkCategory;
         if (category != "") {
@@ -136,8 +162,9 @@ public class ProductDAO extends RD {
     }
 
     public static void main(String[] args) {
-        ProductDAO dao = new ProductDAO();
-        System.out.println(dao.getSearchProducts("", "").size());
+
+        boolean b = new ProductDAO().checkInventoryProduct(127);
+        System.out.println(b);
     }
 
 }

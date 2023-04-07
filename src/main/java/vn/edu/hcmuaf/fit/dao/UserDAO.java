@@ -28,10 +28,10 @@ public class UserDAO extends RD {
         ) : null;
     }
 
-    public Map<String, Object> getByUserName(String username) {
-        return checkUsername(username) ? JDBIConnector.get().withHandle(h ->
-                h.createQuery("SELECT * FROM " + tableName + " WHERE username=:username")
-                        .bind("username", username)
+    public Map<String, Object> getByEmail(String email) {
+        return checkEmail(email) ? JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT * FROM " + tableName + " WHERE email=:email")
+                        .bind("email", email)
                         .mapToMap()
                         .first()
         ) : null;
@@ -89,11 +89,10 @@ public class UserDAO extends RD {
         return a == 1;
     }
 
-    public void update(int id, String username, String password, String name, String address, String phone, String email, int level) {
+    public void update(int id, String username, String name, String address, String phone, String email, int level) {
         JDBIConnector.get().withHandle(h ->
                 h.createUpdate("UPDATE " + tableName + " SET username=:username,password=:password,name=:name,address=:address,phone=:phone,email=:email,level=:level WHERE id=:id")
                         .bind("username", username)
-                        .bind("password", password)
                         .bind("name", name)
                         .bind("address", address)
                         .bind("phone", phone)
@@ -103,19 +102,31 @@ public class UserDAO extends RD {
                         .execute());
 
     }
+    public void update(int id, String password) {
+        JDBIConnector.get().withHandle(h ->
+                h.createUpdate("UPDATE " + tableName + " SET password=:password WHERE id=:id")
+                        .bind("password", password)
+                        .bind("id", id)
+                        .execute());
+
+    }
+
 
     public Map<String, Object> login(String username, String password) {
-
-        if (!checkValid(username, password)) {
-            return null;
-        }
-        return JDBIConnector.get().withHandle(h ->
-                h.createQuery("SELECT * FROM " + tableName + " WHERE username =:username and password=:password")
+        if (JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE username =:username and password =:password")
                         .bind("username", username)
                         .bind("password", password)
-                        .mapToMap()
-                        .first());
-
+                        .mapTo(Integer.class).first()) != 1) {
+            return null;
+        } else {
+            return JDBIConnector.get().withHandle(h ->
+                    h.createQuery("SELECT * FROM " + tableName + " WHERE username =:username and password=:password")
+                            .bind("username", username)
+                            .bind("password", password)
+                            .mapToMap()
+                            .first());
+        }
     }
 
     public Map<String, Object> login(String token) {
@@ -134,6 +145,31 @@ public class UserDAO extends RD {
         int result = JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE username =:username and password =:password")
                         .bind("username", username)
+                        .bind("password", password)
+                        .mapTo(Integer.class).first());
+        return result == 1;
+    }
+
+    public boolean checkEmail(String email) {
+        return JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE email =:email ")
+                        .bind("email", email)
+                        .mapTo(Integer.class).first()) == 1;
+    }
+
+    public boolean checkPassword(int id, String password) {
+        int result = JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE id =:id AND password =:password")
+                        .bind("id", id)
+                        .bind("password", password)
+                        .mapTo(Integer.class).first());
+        return result == 1;
+    }
+
+    public boolean checkPassword(String email, String password) {
+        int result = JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE email =:email AND password =:password")
+                        .bind("email", email)
                         .bind("password", password)
                         .mapTo(Integer.class).first());
         return result == 1;

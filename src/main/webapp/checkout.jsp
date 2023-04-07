@@ -1,9 +1,6 @@
-<%@ page import="vn.edu.hcmuaf.fit.bean.Cart" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.Item" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.Topping" %>
 <%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.User" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.bean.*" %><%--
   Created by IntelliJ IDEA.
   User: tinh
   Date: 12/15/2022
@@ -30,8 +27,11 @@
 
 <body>
 <%
-    Cart cart = (Cart) session.getAttribute("cart");
-    User user = (User) session.getAttribute("user");
+
+  Cart cart = (Cart) session.getAttribute("cart");
+  User user = (User) session.getAttribute("user");
+  List<Product> listProductUnavaiable =(List<Product>) session.getAttribute("listProductUnavaiable")==null?null:(List<Product>) session.getAttribute("listProductUnavaiable");
+
 %>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -141,6 +141,120 @@
                         </tbody>
                     </table>
                 </div>
+              </td>
+              <td>
+                <%
+                List<Topping> toppingList = item.getProduct().getTopping();
+                if(toppingList.size() > 0) {
+                  for (Topping topping : toppingList) {
+                %>
+                <p class="w-150"><%=topping.getName()%></p>
+                <%
+                    }
+                  } else {
+                %>
+                <p class="w-150"></p>
+                <%}%>
+              </td>
+              <td class="quantity__item">
+                <div class="quantity">
+                  <div class="pro-qty-2">
+                    <% boolean isAvaiable = true;
+                      if (listProductUnavaiable != null){
+                      for (Product p2:
+                           listProductUnavaiable) {
+
+                      if (item.getProduct().getId() == p2.getId()){
+
+                      isAvaiable = false;
+                    %>
+                    <span>Mặt hàng này không còn khả dụng</span>
+                    <%}%>
+                    <%}}%>
+                    <%if (isAvaiable ==true){%>
+                    <input name="quantityChange<%=item.getId()%>" class="quantity" type="number" value="<%=item.getQuantity()%>">
+
+                    <%}%>
+                  </div>
+                </div>
+              </td>
+              <td class="cart__price"><%= new CurrencyFormat().format((int)item.getPrice())%></td>
+              <td class="cart__close"><a href="editcart?rpID=<%=item.getId()%>" style="border: none"><i class="fa fa-close"></i></a></td>
+            </tr>
+            <%
+                }
+              }
+            %>
+              </form>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <form action="order" method="get" >
+        <div class="cart__discount checkout__form shadow p-4">
+          <div class="row">
+            <div class="col-lg-12 col-md-12">
+              <h6 class="">Thông tin nhận hàng</h6>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="checkout__input">
+                    <p>Tên người nhận<span>*</span></p>
+                    <input name="nameUser" type="text" value="<%=user != null ? user.getName() : ""%>">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="checkout__input">
+                    <p>Số điện thoại người nhận<span>*</span></p>
+                    <input name="phoneUser" type="tel" pattern="[0]{1}[0-9]{9}" required value="<%=user != null ? user.getPhone() : ""%>">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="checkout__input">
+                    <p>Địa chỉ nhận hàng<span>*</span></p>
+                    <textarea name="addressUser" cols="" rows="2" style="width: 100%;"><%= request.getAttribute("addressUser") != null? request.getAttribute("addressUser"): user!=null?user.getAddress():"" %></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="checkout__input">
+                    <p>Ghi chú<span>*</span></p>
+                    <textarea name="noteUser" cols="" rows="2" style="width: 100%;"><%=request.getAttribute("noteUser")!=null?request.getAttribute("noteUser"):""%></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="coupon_form">
+                <input name="coupon" type="text" placeholder="Nhập mã giảm giá " value="<%=cart != null && cart.getCoupon()!=null? cart.getCoupon().getCode():""%>">
+                <button type="submit" formaction="/coupon" >Áp dụng</button>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <h6 class="mt-4  mb-3">Tổng giỏ hàng</h6>
+                  <div>
+                    <%
+                    if(cart!=null) {
+                    %>
+                    <p>Tổng tiền: <span><%=new CurrencyFormat().format((int) cart.getTotalMoney())%></span></p>
+                    <p>Đã giảm: <span><%=cart.getCoupon()!=null? cart.getCoupon().getPercent()+"%" : "0%"%></span>
+                    </p>
+                    <%
+                      } else {
+                    %>
+                    <p>Tổng tiền: <span><%=new CurrencyFormat().format((int) 0)%></span></p>
+                    <p>Đã giảm: <span>0%</span></p>
+                    <%
+                      }
+                    %>
+                  </div>
+                  <button type="submit" class="primary-btn w-100 text-center">Đặt hàng</button>
+                </div>
+              </div>
+
             </div>
             <div class="col-lg-4">
                 <form id="order_form" action="order" method="post">
