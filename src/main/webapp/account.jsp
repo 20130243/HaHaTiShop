@@ -2,15 +2,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.bean.Order" %>
 <%@ page import="vn.edu.hcmuaf.fit.bean.Item" %>
-<%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %><%--
-  Created by IntelliJ IDEA.
-  User: tinh
-  Date: 12/18/2022
-  Time: 9:37 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<html >
+<html>
 
 <head>
     <meta charset="UTF-8"/>
@@ -131,9 +125,8 @@
                                             <h3>Quản lý tài khoản</h3>
                                             <div class="row">
                                                 <div class="d111 col-md-4">
-                                                    <h6>
-                                                        Thông tin cá nhân
-                                                        <span class="sp111"><a class="btn__edit" href="#">Chỉnh sửa</a></span>
+                                                    <h6> Thông tin cá nhân <span class="sp111"><a class="btn__edit"
+                                                                                                  href="#">Chỉnh sửa</a></span>
                                                     </h6>
                                                     <p><%=user.getName()%>
                                                     </p>
@@ -152,8 +145,7 @@
                                                     </p>
                                                     <p><%=user.getEmail()%>
                                                     </p>
-                                                    <p>
-                                                        <%=user.getAddress()%>
+                                                    <p><%=user.getAddress()%>
                                                     </p>
                                                 </div>
                                             </div>
@@ -179,15 +171,14 @@
                                                     <tr>
                                                         <td><%=order.getId()%>
                                                         </td>
-
                                                         <td>
                                                             <%
-                                                                List<Item> items = order.getCart().getItems();
+                                                                List<Item> items = order.getListItems();
                                                                 if (items != null && items.size() > 0) {
                                                                     for (Item item : items) {
                                                             %>
                                                             <img class="img111"
-                                                                 src="<%=item.getProduct().getImage().get(0).getUrl()%>"
+                                                                 src="<%=item.getProduct().getMainImage().getUrl()%>"
                                                                  alt=""/>
                                                             <%
                                                                     }
@@ -196,8 +187,9 @@
                                                         </td>
                                                         <td><%=order.getTime()%>
                                                         </td>
-                                                        <td><%=order.getStatus() == 0 ? "Đã nhận" : order.getStatus() == 1 ? "Đang vận chuyển" :
-                                                                order.getStatus() == 2 ? "Thành công" : "Đã huỷ"
+                                                        <td><%=order.getStatus() == 0 ? "Chờ xác nhận" : order.getStatus() == 1 ? "Đang chuẩn bị" :
+                                                                order.getStatus() == 2 ? "Đang vận chuyển" :
+                                                                order.getStatus() == 3 ? "Thành công" : "Đã huỷ"
                                                         %>
                                                         </td>
                                                         <td><%=format.format((int) order.getTotal())%>
@@ -272,64 +264,64 @@
                                             </div>
                                         </div>
                                         <!-- đơn hàng -->
-                                        <div class="tab-pane fade" id="orders">
-                                            <h3>Đơn hàng</h3>
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Đơn hàng số #</th>
-                                                        <th>Sản phẩm</th>
-                                                        <th>Ngày đặt hàng</th>
-                                                        <th>Trạng thái</th>
-                                                        <th>Tổng cộng</th>
-                                                        <th>Chi tiết</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <%
-                                                        if (orders != null && orders.size() > 0) {
-                                                            for (Order order : orders) {
-                                                    %>
-                                                    <tr>
-                                                        <td><%=order.getId()%>
-                                                        </td>
+                                        <%--                                        <div class="tab-pane fade" id="orders">--%>
+                                        <%--                                            <h3>Đơn hàng</h3>--%>
+                                        <%--                                            <div class="table-responsive">--%>
+                                        <%--                                                <table class="table">--%>
+                                        <%--                                                    <thead>--%>
+                                        <%--                                                    <tr>--%>
+                                        <%--                                                        <th>Đơn hàng số #</th>--%>
+                                        <%--                                                        <th>Sản phẩm</th>--%>
+                                        <%--                                                        <th>Ngày đặt hàng</th>--%>
+                                        <%--                                                        <th>Trạng thái</th>--%>
+                                        <%--                                                        <th>Tổng cộng</th>--%>
+                                        <%--                                                        <th>Chi tiết</th>--%>
+                                        <%--                                                    </tr>--%>
+                                        <%--                                                    </thead>--%>
+                                        <%--                                                    <tbody>--%>
+                                        <%--                                                    <%--%>
+                                        <%--                                                        if (orders != null && orders.size() > 0) {--%>
+                                        <%--                                                            for (Order order : orders) {--%>
+                                        <%--                                                    %>--%>
+                                        <%--                                                    <tr>--%>
+                                        <%--                                                        <td><%=order.getId()%>--%>
+                                        <%--                                                        </td>--%>
 
-                                                        <td>
-                                                            <%
-                                                                List<Item> items = order.getCart().getItems();
-                                                                if (items != null && items.size() > 0) {
-                                                                    for (Item item : items) {
-                                                            %>
-                                                            <img class="img111"
-                                                                 src="<%=item.getProduct().getImage().get(0).getUrl()%>"
-                                                                 alt=""/>
-                                                            <%
-                                                                    }
-                                                                }
-                                                            %>
-                                                        </td>
-                                                        <td><%=order.getTime()%>
-                                                        </td>
-                                                        <td><%=order.getStatus() == 0 ? "Đã nhận" : order.getStatus() == 1 ? "Đang vận chuyển" :
-                                                                order.getStatus() == 2 ? "Thành công" : "Đã huỷ"
-                                                        %>
-                                                        </td>
-                                                        <td><%=format.format((int) order.getTotal())%>
-                                                        </td>
-                                                        <td>
-                                                            <a href="orderDetail?index=<%=order.getId()%>" class="view"
-                                                               target="_blank">Xem</a>
-                                                        </td>
-                                                    </tr>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                        <%--                                                        <td>--%>
+                                        <%--                                                            <%--%>
+                                        <%--                                                                List<Item> items = order.getCart().getItems();--%>
+                                        <%--                                                                if (items != null && items.size() > 0) {--%>
+                                        <%--                                                                    for (Item item : items) {--%>
+                                        <%--                                                            %>--%>
+                                        <%--                                                            <img class="img111"--%>
+                                        <%--                                                                 src="<%=item.getProduct().getImage().get(0).getUrl()%>"--%>
+                                        <%--                                                                 alt=""/>--%>
+                                        <%--                                                            <%--%>
+                                        <%--                                                                    }--%>
+                                        <%--                                                                }--%>
+                                        <%--                                                            %>--%>
+                                        <%--                                                        </td>--%>
+                                        <%--                                                        <td><%=order.getTime()%>--%>
+                                        <%--                                                        </td>--%>
+                                        <%--                                                        <td><%=order.getStatus() == 0 ? "Đã nhận" : order.getStatus() == 1 ? "Đang vận chuyển" :--%>
+                                        <%--                                                                order.getStatus() == 2 ? "Thành công" : "Đã huỷ"--%>
+                                        <%--                                                        %>--%>
+                                        <%--                                                        </td>--%>
+                                        <%--                                                        <td><%=format.format((int) order.getTotal())%>--%>
+                                        <%--                                                        </td>--%>
+                                        <%--                                                        <td>--%>
+                                        <%--                                                            <a href="orderDetail?index=<%=order.getId()%>" class="view"--%>
+                                        <%--                                                               target="_blank">Xem</a>--%>
+                                        <%--                                                        </td>--%>
+                                        <%--                                                    </tr>--%>
+                                        <%--                                                    <%--%>
+                                        <%--                                                            }--%>
+                                        <%--                                                        }--%>
+                                        <%--                                                    %>--%>
+                                        <%--                                                    </tbody>--%>
+                                        <%--                                                </table>--%>
+                                        <%--                                            </div>--%>
+                                        <%--                                        </div>--%>
                                         <!-- địa chỉ -->
                                         <div class="tab-pane" id="address">
                                             <h3>Sổ địa chỉ</h3>
@@ -350,10 +342,10 @@
                                                                        value="<%=user.getAddress()%>"/>
                                                                 <div class="button-box">
                                                                     <button class="btn default-btn" type="submit"
-                                                                            id="submit_save__adress">
-                                                                        lưu địa chỉ
+                                                                            id="submit_save__adress"> lưu địa chỉ
                                                                     </button>
                                                                 </div>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -412,6 +404,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </section>
 <%
     }

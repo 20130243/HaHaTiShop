@@ -50,11 +50,11 @@ public class OrderService {
 
     public void insert(Order order) {
         dao.insert(order.getUser_id(), order.getName(), order.getPhone(),
-                order.getAddress(), order.getNote(), order.getCart().getCoupon() == null ? 0 : order.getCart().getCoupon().getId(), order.getTotal());
+                order.getAddress(), order.getNote(), order.getCoupon() == null ? 0 : order.getCoupon().getId(), order.getTotal());
     }
 
     public void update(Order order) {
-        dao.update(order.getId(), order.getName(), order.getPhone(), order.getAddress(), order.getNote(), order.getCart().getCoupon().getId(), order.getTotal());
+        dao.update(order.getId(), order.getName(), order.getPhone(), order.getAddress(), order.getNote(), order.getCoupon().getId(), order.getTotal());
     }
 
     public Order getById(int id) {
@@ -71,7 +71,7 @@ public class OrderService {
             for (Order item : listOrder) {
                 order.setId(item.getId());
             }
-            List<Item> items = order.getCart().getItems();
+            List<Item> items = order.getListItems();
             for (Item item : items) {
                 detail_dao.insert(order.getId(), item.getProduct().getPriceSize().get(0).getProduct_id(), item.getQuantity());
                 List<Topping> toppings = item.getProduct().getTopping();
@@ -160,5 +160,6 @@ public class OrderService {
     }
 
     public static void main(String[] args) {
+        new OrderService().logOrder( 14,  1,  2);
     }
 }

@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import com.google.gson.Gson;
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Product;
 import vn.edu.hcmuaf.fit.services.CategoryService;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,15 +21,20 @@ import java.util.List;
 public class ProductsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         String url = ((HttpServletRequest) request).getRequestURI().toString();
         session.setAttribute("url", url);
+        PrintWriter writer = response.getWriter();
 
         String hideSticky = request.getParameter("hideSticky");
         CategoryService categoryService = new CategoryService();
         List<Category> listCategories = categoryService.getAll();
         listCategories.add(0, new Category(0,"Tất cả",0));
         ProductService productService;
+
+        List<Product> listProduct;
         try {
             productService = new ProductService();
         } catch (Exception e) {
@@ -36,15 +43,12 @@ public class ProductsController extends HttpServlet {
 
         if (hideSticky == null || !hideSticky.equals("1")) {
             String indexPage = request.getParameter("index");
-            String sort = "none";
             int index;
             if(indexPage == null) {
                 index = 1;
             } else {
                 index = Integer.parseInt(indexPage);
             }
-
-            List<Product> listProduct;
 
             listProduct = productService.getPagingProduct(index);
 
@@ -53,14 +57,12 @@ public class ProductsController extends HttpServlet {
             if(count % 12 != 0) {
                 endPage++;
             }
-
-            request.setAttribute("listProduct", listProduct);
+            request.setAttribute("sort", "");
             request.setAttribute("endPage", endPage);
             request.setAttribute("pageIndex", index);
-            request.setAttribute("sort", sort);
 
         } else {
-            List<Product> listProduct;
+
 
             String search = request.getParameter("search");
             String category =  request.getParameter("category");
@@ -78,12 +80,12 @@ public class ProductsController extends HttpServlet {
                listProduct = productService.sortDECS(listProduct);
            }
 
-            request.setAttribute("listProduct", listProduct);
+
             request.setAttribute("endPage", 0);
             request.setAttribute("pageIndex", 0);
             request.setAttribute("sort", sort);
         }
-
+        request.setAttribute("listProduct", listProduct);
         request.setAttribute("hideSticky" , hideSticky);
         request.setAttribute("listCategories", listCategories);
         request.getRequestDispatcher("shop.jsp").forward(request, response);

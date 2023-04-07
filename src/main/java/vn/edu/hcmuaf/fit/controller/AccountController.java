@@ -20,13 +20,12 @@ public class AccountController extends HttpServlet {
         HttpSession session = request.getSession();
         User user =(User) session.getAttribute("user");
         if(user != null) {
-            List<Order> orders = new ArrayList<>();
             try {
-                orders = cartOrderService.orderByUser(user.getId());
+                List<Order> orders = cartOrderService.getOrderByUser(user.getId());
+                request.setAttribute("orders", orders);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            request.setAttribute("orders", orders);
         }
         request.getRequestDispatcher("account.jsp").forward(request,response);
     }

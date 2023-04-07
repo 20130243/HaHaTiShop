@@ -67,8 +67,13 @@
                             <div class="card-body">
                                 <div class="row mb-2">
                                     <div class="col-sm-4">
-                                        <a href="/admin/blog/create" class="btn btn-danger mb-2"><i
-                                                class="mdi mdi-plus-circle mr-2"></i>Thêm tin tức</a>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.admin.level ge 1}">
+                                                <a href="/admin/blog/create" class="btn btn-danger mb-2"><i
+                                                        class="mdi mdi-plus-circle mr-2"></i>Thêm tin tức</a>
+                                            </c:when>
+                                        </c:choose>
+
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -77,9 +82,13 @@
                                         <thead class="thead-light">
                                         <tr>
                                             <th class="all">Tiêu đề</th>
-                                            <th>Nội dung</th>
-                                            <th>Thời gian</th>
-                                            <th>Hành động</th>
+                                            <th class="text-center">Nội dung</th>
+                                            <th class="text-center">Thời gian</th>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.admin.level ge 1}">
+                                                    <th class="text-center">Hành động</th>
+                                                </c:when>
+                                            </c:choose>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -96,7 +105,6 @@
                                                         <br/>
                                                     </p>
                                                 </td>
-
                                                 <td>
                                                     <div data-simplebar data-simplebar-lg
                                                          style="max-height: 60px;width: 400px;" class="form-group">
@@ -108,25 +116,28 @@
                                                     <hr>
                                                         ${item.end_date}
                                                 </td>
+                                                <c:choose>
+                                                    <c:when test="${sessionScope.admin.level ge 1}">
+                                                        <form action="/admin/blog/delete" method="post"
+                                                              id="delete-form-<c:out value="${item.id}"/>">
+                                                            <td class="table-action text-center">
+                                                                <a href="/admin/blog/update?id=<c:out value="${item.id}"/>"
+                                                                   class="action-icon"> <i
+                                                                        class="mdi mdi-square-edit-outline"></i></a>
+                                                                <input type="text" name="id" id="id"
+                                                                       value="<c:out value="${item.id}"/>" class="d-none">
+                                                                <button type="submit" class="d-none"></button>
+                                                                <a href="javascript:{0}"
+                                                                   class="action-icon"> <i class="mdi mdi-delete delete-btn"
+                                                                                           data-name="<c:out value="${item.name}"/>"
+                                                                                           data-id="<c:out value="${item.id}"/>"></i>
+                                                                </a>
 
+                                                            </td>
+                                                        </form>
+                                                    </c:when>
+                                                </c:choose>
 
-                                                <form action="/admin/blog/delete" method="post"
-                                                      id="delete-form-<c:out value="${item.id}"/>">
-                                                    <td class="table-action text-center">
-                                                        <a href="/admin/blog/update?id=<c:out value="${item.id}"/>"
-                                                           class="action-icon"> <i
-                                                                class="mdi mdi-square-edit-outline"></i></a>
-                                                        <input type="text" name="id" id="id"
-                                                               value="<c:out value="${item.id}"/>" class="d-none">
-                                                        <button type="submit" class="d-none"></button>
-                                                        <a href="javascript:{0}"
-                                                           class="action-icon"> <i class="mdi mdi-delete delete-btn"
-                                                                                   data-name="<c:out value="${item.name}"/>"
-                                                                                   data-id="<c:out value="${item.id}"/>"></i>
-                                                        </a>
-
-                                                    </td>
-                                                </form>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

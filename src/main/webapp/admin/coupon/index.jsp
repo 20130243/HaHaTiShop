@@ -70,8 +70,12 @@
                             <div class="card-body">
                                 <div class="row mb-2">
                                     <div class="col-sm-4">
-                                        <a href="/admin/coupon/create" class="btn btn-danger mb-2"><i
-                                                class="mdi mdi-plus-circle mr-2"></i>Thêm mã giảm giá</a>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.admin.level ge 1}">
+                                                <a href="/admin/coupon/create" class="btn btn-danger mb-2"><i
+                                                        class="mdi mdi-plus-circle mr-2"></i>Thêm mã giảm giá</a>
+                                            </c:when>
+                                        </c:choose>
                                     </div>
                                     <div class="col-sm-8">
                                         <!-- <div class="text-sm-right">
@@ -94,7 +98,11 @@
                                             <th class="text-center">Số lượng còn lại</th>
                                             <th class="text-center">Thời gian</th>
                                             <th class="text-center">Tình trạng</th>
-                                            <th>Hành động</th>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.admin.level ge 1}">
+                                                    <th class="text-center">Hành động</th>
+                                                </c:when>
+                                            </c:choose>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -137,23 +145,26 @@
 
                                                 </td>
 
-
-                                                <td class="table-action text-center">
-                                                    <form action="/admin/coupon/delete" method="post"
-                                                          id="delete-form-<c:out value="${item.id}"/>"><a
-                                                            href="/admin/coupon/update?id=<c:out value="${item.id}"/>"
-                                                            class="action-icon"> <i
-                                                            class="mdi mdi-square-edit-outline"></i></a>
-                                                        <input type="text" name="id" id="id"
-                                                               value="<c:out value="${item.id}"/>" class="d-none">
-                                                        <button type="submit" class="d-none"></button>
-                                                        <a href="javascript:{0}"
-                                                           class="action-icon"> <i class="mdi mdi-delete delete-btn"
-                                                                                   data-name="<c:out value="${item.code}"/>"
-                                                                                   data-id="<c:out value="${item.id}"/>"></i>
-                                                        </a>
-                                                    </form>
-                                                </td>
+                                                <c:choose>
+                                                    <c:when test="${sessionScope.admin.level ge 1}">
+                                                        <td class="table-action text-center">
+                                                            <form action="/admin/coupon/delete" method="post"
+                                                                  id="delete-form-<c:out value="${item.id}"/>"><a
+                                                                    href="/admin/coupon/update?id=<c:out value="${item.id}"/>"
+                                                                    class="action-icon"> <i
+                                                                    class="mdi mdi-square-edit-outline"></i></a>
+                                                                <input type="text" name="id" id="id"
+                                                                       value="<c:out value="${item.id}"/>" class="d-none">
+                                                                <button type="submit" class="d-none"></button>
+                                                                <a href="javascript:{0}"
+                                                                   class="action-icon"> <i class="mdi mdi-delete delete-btn"
+                                                                                           data-name="<c:out value="${item.code}"/>"
+                                                                                           data-id="<c:out value="${item.id}"/>"></i>
+                                                                </a>
+                                                            </form>
+                                                        </td>
+                                                    </c:when>
+                                                </c:choose>
 
                                             </tr>
                                         </c:forEach>
