@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.*" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.bean.*" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %><%--
   Created by IntelliJ IDEA.
   User: tinh
   Date: 12/3/2022
@@ -9,9 +10,9 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
- 
+
 <html lang="zxx">
- 
+
 
 <head>
     <meta charset="UTF-8">
@@ -35,7 +36,7 @@
     <link rel="stylesheet" href="css/shop.css" type="text/css">
     <link rel="stylesheet" href="css/modal.css" type="text/css">
     <link rel="stylesheet" href="css/header-footer.css" type="text/css">
- 
+
 </head>
 
 <body>
@@ -62,7 +63,7 @@
 
 <!-- Header Section Begin -->
 <%@include file="header.jsp" %>
- 
+
 <!-- Header Section End -->
 
 <!-- Shop Section Begin -->
@@ -78,58 +79,58 @@
             <div class=" col-lg-9">
                 <!-- Button trigger modal -->
                 <form id="category_filter" name="form_filter" method="get" action="">
-                <div class="row search_bar">
+                    <div class="row search_bar">
 
-                    <div class="col-lg-4 col-md-4 col-sm-4 ">
-                        <h6 class="search_bar_text">Tìm kiếm</h6>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4">
-                        <h6 class="search_bar_text">Nhóm sản phẩm</h6>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 ">
-                        <h6 class="search_bar_text">Theo giá</h6>
-                    </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
+                            <h6 class="search_bar_text">Tìm kiếm</h6>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <h6 class="search_bar_text">Nhóm sản phẩm</h6>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
+                            <h6 class="search_bar_text">Theo giá</h6>
+                        </div>
 
-                    <div class="col-lg-4 col-md-4 col-sm-4 shop__sidebar__search">
+                        <div class="col-lg-4 col-md-4 col-sm-4 shop__sidebar__search">
                             <input name="search" type="text" placeholder="Tìm kiếm sản phẩm"
                                    style="padding-right:42px ;" value="<%=request.getParameter("search") != null? request.getParameter("search") : ""%>">
                             <button type="submit"><span class="icon_search"></span></button>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
+                            <select id="category" name="category" onchange="form_filter.submit()">
+                                <%
+                                    List<Category> listCategories = (List<Category>) request.getAttribute("listCategories");
+                                    String checkCategories = request.getParameter("category");
+                                    for (Category category : listCategories) {
+                                %>
+
+                                <option  <%= checkCategories!=null?checkCategories.equals(category.getName())? "selected" : "" : ""%> value="<%=category.getName()%>"><%=category.getName()%> <%=category.getStatus()==1?" (Hết nguyên liệu)" : category.getStatus()==2?" (Ngừng kinh doanh)" : ""%></option>
+
+                                <%}%>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
+
+                            <select id="sort" name="sort" onchange="form_filter.submit()">
+                                <%
+                                    String sort = (String)  request.getAttribute("sort");
+                                %>
+                                <option value="none" <%=sort.equals("none")? "selected" : ""%>>Lựa chọn lọc </option>
+                                <option value="price-asc" <%=sort.equals("price-asc")? "selected" : ""%>>Sắp xếp theo giá tiền tăng dần</option>
+                                <option value="price-desc" <%=sort.equals("price-desc")? "selected" : ""%>>Sắp xếp theo giá tiền giảm dần</option>
+                            </select>
+
+                        </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
-                        <select id="category" name="category" onchange="form_filter.submit()">
-                            <%
-                                List<Category> listCategories = (List<Category>) request.getAttribute("listCategories");
-                                String checkCategories = request.getParameter("category");
-                                for (Category category : listCategories) {
-                            %>
- 
-                            <option  <%= checkCategories!=null?checkCategories.equals(category.getName())? "selected" : "" : ""%> value="<%=category.getName()%>"><%=category.getName()%> <%=category.getStatus()==1?" (Hết nguyên liệu)" : category.getStatus()==2?" (Ngừng kinh doanh)" : ""%></option>
- 
-                            <%}%>
-                        </select>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="z-index: 99;">
- 
-                        <select id="sort" name="sort" onchange="form_filter.submit()">
-                            <%
-                                String sort = (String)  request.getAttribute("sort");
-                            %>
-                            <option value="none" <%=sort.equals("none")? "selected" : ""%>>Lựa chọn lọc </option>
-                            <option value="price-asc" <%=sort.equals("price-asc")? "selected" : ""%>>Sắp xếp theo giá tiền tăng dần</option>
-                            <option value="price-desc" <%=sort.equals("price-desc")? "selected" : ""%>>Sắp xếp theo giá tiền giảm dần</option>
-                        </select>
- 
-                    </div>
-                </div>
                     <input type="text" name="hideSticky" value="1" style="display: none">
                 </form>
-                <div class="row">
+                <div id="product-container" class="row">
                     <%
                         List<Product> list = (List<Product>) request.getAttribute("listProduct");
                         if(list != null) {
-                        for (Product p : list) {
+                            for (Product p : list) {
                     %>
-                    <div class="col-lg-3 col-md-4 col-sm-4">
+                    <div class="product-amount col-lg-3 col-md-4 col-sm-4">
                         <div class="product__item sale" data-toggle="modal"
                              data-target="#myModal<%=p.getId()%>" data-id="<%=p.getId()%>">
                             <div class="product__item__pic set-bg" data-setbg="<%=p.getImage().get(0).getUrl()%>">
@@ -140,7 +141,7 @@
                                 <%}%>
                             </div>
                             <div class="product__item__text">
-                                <h5><%=p.getName()%>
+                                <h5 class="product-name"><%=p.getName()%>
                                 </h5>
                                 <%
                                     int price = 0;
@@ -152,18 +153,158 @@
                                         price = 0;
                                     }
                                 %>
-                                <h6><%=currency.format(price)%>
+                                <h6 class="product-price"><%=currency.format(price)%>
                                 </h6>
                             </div>
+
                         </div>
-                        <jsp:include page='/modal.jsp'>
-                            <jsp:param name="id" value="<%=p.getId()%>"/>
-                        </jsp:include>
+                        <form action="addToCart" method="get">
+                            <div id="myModal<%=p.getId()%>" class="modal fade in" tabindex="-1" role="dialog">
+                                <div class="modal-dialog product-modal" role="document">
+                                    <div class="modal-content flex-row">
+                                        <div class="w-50">
+                                            <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
+                                                <!--Slides-->
+                                                <div class="carousel-inner " role="listbox" style="height: 500px; padding: 50px">
+                                                    <%
+                                                    if(p.getImage() != null) {
+                                                        for (int i = 0; i < p.getImage().size(); i++) {
+                                                    %>
+                                                    <div class="carousel-item active">
+                                                        <img class="d-block " src="<%=p.getImage().get(i).getUrl()%>" alt=" slide">
+                                                    </div>
+                                                    <% }} %>
+                                                </div>
+                                                <!--/.Slides-->
+                                                <!--Controls-->
+                                                <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev" style="left: 25px;">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next right-25" href="#carousel-thumb" role="button" data-slide="next" style="right: 25px;">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                                <!--/.Controls-->
+
+                                                <ol class="carousel-indicators" style="position: inherit; top: -50px">
+                                                    <%
+                                                        if(p.getImage() != null) {
+                                                            for (int i = 0; i < p.getImage().size(); i++) {
+                                                    %>
+                                                    <li data-target="#carousel-thumb" data-slide-to="<%=i%>" class="active"> <img class="d-block" width="50px" src="<%=p.getImage().get(i).getUrl()%>"></li>
+                                                    <% }} %>
+                                                </ol>
+                                            </div>
+                                            <div class="product-modal-price">
+                                                <%
+                                                    if(p.getPriceSize().size() > 0) {
+                                                        List<PriceSize> sizes = p.getPriceSize();
+                                                        for(PriceSize size : sizes) {
+                                                            if(sizes.size() == 1) {
+                                                %>
+                                                <h6 class="<%=(p.getPriceSize().get(0).getSize().equalsIgnoreCase("M") || p.getPriceSize().get(0).getSize().equalsIgnoreCase("L"))?"active":"d-none"%> size<%=p.getId()%>"> <%= new CurrencyFormat().format((int) size.getPrice())%></h6>
+                                                <%} else {
+                                                %>
+                                                <h6 class="<%=size.getSize().equalsIgnoreCase("M")?"active":"d-none"%> size<%=p.getId()%>"> <%= new CurrencyFormat().format((int) size.getPrice())%></h6>
+                                                <%
+                                                            }}}%>
+                                            </div>
+                                        </div>
+                                        <div class="w-50 product-modal-detail">
+                                            <div class="product-modal-header">
+                                                <h3><%=p.getName()%>
+                                                </h3>
+                                                <input class="product-modal-id" type="text" name="product_id" value="<%=p.getId()%>" checked="checked">
+                                            </div>
+                                            <div class="product-modal-middle">
+                                                <div class="product-modal-option ">
+                                                    <h6 class="title">Kích cỡ:</h6>
+                                                    <div class="product-modal-size">
+                                                        <%
+                                                            if(p.getPriceSize().size() > 0) {
+                                                                List<PriceSize> sizes = p.getPriceSize();
+
+                                                                if(sizes.size() == 1) {
+                                                        %>
+                                                        <input class="size" type="radio" name="size<%=p.getId()%>" id="m_size<%=p.getId()%>" value="<%=sizes.get(0).getSize()%>" checked="checked">
+                                                        <label class="size-radio active" for="m_size<%=p.getId()%>"><%=sizes.get(0).getSize()%></label>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <input class="size" type="radio" name="size<%=p.getId()%>" id="m_size<%=p.getId()%>" value="<%=sizes.get(0).getSize()%>" checked="checked">
+                                                        <label class="size-radio" for="m_size<%=p.getId()%>"><%=sizes.get(0).getSize()%></label>
+
+                                                        <input class="size" type="radio" name="size<%=p.getId()%>" id="l_size<%=p.getId()%>" value="<%=sizes.get(1).getSize()%>" >
+                                                        <label class="size-radio" for="l_size<%=p.getId()%>"><%=sizes.get(1).getSize()%></label>
+                                                        <%
+                                                                } }
+                                                        %>
+                                                    </div>
+                                                </div>
+                                                <div class="product-modal-option">
+                                                    <h6 class="title">Số lượng:</h6>
+                                                    <div class="quantity-control ">
+                                                        <input type="number" name="quantity<%=p.getId()%>" class="quantity-num cart-quantity-input" min="0" value="1" id="modal-quantity<%=p.getId()%>">
+                                                    </div>
+                                                </div>
+                                                <div class="product-modal-option align-items-start">
+
+                                                    <h6 class="title">Topping:</h6>
+                                                    <div class="product-modal-topping ">
+                                                        <%
+                                                            if(p.getTopping().size() > 0) {
+                                                                List<Topping> toppingList = p.getTopping();
+                                                                for(Topping topping : toppingList) {
+                                                        %>
+                                                        <div class="d-none topping_price <%=topping.getName()%>"><%=topping.getPrice()%></div>
+                                                        <input class="topping-checked" type="checkbox" name="<%=topping.getId()%>" id="<%=p.getId()%><%=topping.getId()%>" value="<%=topping.getName()%>" data-id="<%=p.getId()%>"
+                                                            <%=topping.getStatus()==1?"disabled":""%>>
+                                                        <label class="topping-detail" for="<%=p.getId()%><%=topping.getId()%>">
+                                                            <%=topping.getName()%> + <%=topping.getStatus()==1?"Hết nguyên liệu":currency.format((int) topping.getPrice())%></label>
+                                                        <%
+                                                            } } else {
+                                                        %>
+                                                        <label class="topping-detail active" for="">
+                                                            Sản phẩm không hỗ trợ Topping</label>
+                                                        <%
+                                                            }
+                                                        %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-modal-option align-items-start">
+                                                    <h6 class="title">Ghi chú:</h6>
+                                                    <div>
+                                                        <textarea name="note" id="" cols="25" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="product-modal-option">
+                                                    <h6 class="title">Giá: </h6>
+                                                    <h6 id="totalprice<%=p.getId()%>"><%=currency.format((int) p.getPriceSize().get(0).getPrice())%></h6>
+                                                </div>
+                                            </div>
+
+                                            <div class="product-modal-footer">
+                                                <%Category c = new CategoryService().getById(p.getIdCategory());
+                                                    if(c.getStatus() == 0) {
+                                                %>
+                                                <button class="btn modal-btn" class="btn modal-btn" type="submit" >Thêm vào giỏ hàng</button>
+                                                <%} else if(c.getStatus() == 1) {%>
+                                                <button class="btn modal-btn" class="btn modal-btn" type="submit" disabled>Hết nguyên liệu</button>
+                                                <%} else if(c.getStatus() == 2) {%>
+                                                <button class="btn modal-btn" class="btn modal-btn" type="submit" disabled>Ngừng kinh doanh</button>
+                                                <%}%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- /.modal-content -->
+
+                            </div><!-- /.modal-dialog -->
+                            <!-- /.modal -->
+                        </form>
                     </div>
-                    <button type="button" class="btn btn-primary btn-lg d-none" id="btn-modal<%=p.getId()%>"
-                            data-toggle="modal"
-                            data-target="#myModal">
-                    </button>
+
                     <% }}%>
                 </div>
             </div>
@@ -280,9 +421,9 @@
                 </div>
             </div>
         </div>
-        <div class="row spad">
+        <div class="row spad end-page">
             <div class="col-lg-12">
- 
+
                 <div class="product__pagination">
                     <%
                         int count = (int) request.getAttribute("endPage");
@@ -293,9 +434,10 @@
                     </a>
                     <%}%>
                 </div>
- 
+
             </div>
         </div>
+    </div>
     </div>
 </section>
 <!-- Shop Section End -->
@@ -311,7 +453,7 @@
 <!-- Js Plugins -->
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
- 
+
 <script src="js/jquery.nice-select.min.js"></script>
 <script src="js/jquery.nicescroll.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>
@@ -322,9 +464,10 @@
 <script src="js/main.js"></script>
 <script src="js/cart.js" defer></script>
 <script src="js/modal.js" defer></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-</script>
+<%--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"--%>
+<%--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">--%>
+<%--</script>--%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
 <script>
@@ -335,7 +478,9 @@
             $(s).click();
         });
     });
- 
+
+
+
 </script>
 </body>
 
