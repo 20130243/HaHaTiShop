@@ -27,17 +27,17 @@
 
 <body>
 <%
-  Order order = (Order) request.getAttribute("order");
-  Cart cart = new Cart();
-  if(order != null){
-    cart = order.getCart();
-  }
-  
-// Order order = (Order) request.getAttribute("order");
-//List<Item> list = null;
-//if (order != null) {
-//list = order.getListItems();
-//}
+//  Order order = (Order) request.getAttribute("order");
+//  Cart cart = new Cart();
+//  if(order != null){
+//    cart = order.getCart();
+//  }
+
+ Order order = (Order) request.getAttribute("order");
+List<Item> list = null;
+if (order != null) {
+list = order.getListItems();
+}
 
 %>
 <!-- Page Preloder -->
