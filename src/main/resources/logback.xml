@@ -2,7 +2,7 @@
     <appender name="Order" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>src/main/webapp/WEB-INF/logs/Hahati-Order.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>src/main/webapp/WEB-INF/logs/Hahati-Order.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>src/main/webapp/WEB-INF/logs/Hahati-Order-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - Order: %mdc{order},

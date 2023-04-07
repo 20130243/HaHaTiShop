@@ -160,5 +160,6 @@ public class OrderService {
     }
 
     public static void main(String[] args) {
+        new OrderService().logOrder( 14,  1,  2);
     }
 }
