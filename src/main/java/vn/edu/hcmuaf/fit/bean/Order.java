@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Order implements Serializable {
     int id;
@@ -11,11 +12,13 @@ public class Order implements Serializable {
     String address;
     Timestamp time;
     String note;
-    Cart cart;
+//    Cart cart;
+private Coupon coupon;
+    List<Item> listItems;
     float total;
     int status;
 
-    public Order(int id, int user_id, String name, String phone, String address, Timestamp time, String note, int coupon_id, Cart cart, float total, int status) {
+    public Order(int id, int user_id, String name, String phone, String address, Timestamp time, String note, Coupon coupon, List<Item> listItems, float total, int status) {
         this.id = id;
         this.user_id = user_id;
         this.name = name;
@@ -23,7 +26,8 @@ public class Order implements Serializable {
         this.address = address;
         this.time = time;
         this.note = note;
-        this.cart = cart;
+        this.coupon = coupon;
+        this.listItems = listItems;
         this.total = total;
         this.status = status;
     }
@@ -103,21 +107,48 @@ public class Order implements Serializable {
         this.status = status;
     }
 
+//    public void setTotal() {
+//        if(this.cart != null) {
+//            this.total = this.cart.getTotalMoney();
+//        }
+//        this.total = 0;
+//
+//    }
+
     public void setTotal() {
-        if(this.cart != null) {
-            this.total = this.cart.getTotalMoney();
+        if(this.listItems.size() > 0) {
+            for (Item item : this.listItems) {
+                this.total += item.getPrice();
+            }
+        } else {
+             this.total = 0;
         }
-        this.total = 0;
-
     }
 
-    public Cart getCart() {
-        return cart;
+//    public Cart getCart() {
+//        return cart;
+//    }
+//
+//    public void setCart(Cart cart) {
+//        this.cart = cart;
+//    }
+
+    public void setListItems(List<Item> listItems) {
+        this.listItems = listItems;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public List<Item> getListItems() {
+        return listItems;
     }
+
+    public Coupon getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(Coupon coupon) {
+        this.coupon = coupon;
+    }
+
 
     @Override
     public String toString() {
@@ -128,7 +159,7 @@ public class Order implements Serializable {
                 ", address='" + address + '\'' +
                 ", time=" + time +
                 ", note='" + note + '\'' +
-                ", cart=" + cart +
+
                 ", total=" + total +
                 ", status=" + status +
                 '}';

@@ -35,12 +35,11 @@ public class RegisterController extends HttpServlet {
             user = userService.login(email,password);
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
+            session.setMaxInactiveInterval(24 * 60 * 60);
             response.getWriter().write("2");
-            response.sendRedirect("account");
         } else {
             request.setAttribute("error_register", "Tên đăng nhập đã được sử dụng");
             response.getWriter().write("1");
-            request.getRequestDispatcher("login").forward(request, response);
         }
 
     }

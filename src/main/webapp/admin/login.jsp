@@ -37,7 +37,7 @@
 
                         </div>
 
-                        <form action="/admin-login" method="post" id="login">
+                        <form action="${pageContext.request.contextPath}/admin-login" method="post" id="login">
                             <span class="text-danger" id="login-username-error">${messages['error_login']}</span>
                             <div class="form-group">
                                 <label for="username">Tài khoản</label>

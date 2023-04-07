@@ -140,7 +140,17 @@ public class UserDAO extends RD {
                         .first());
 
     }
+    public Map<String, Object> loginSocial(String email) {
+        if (!checkEmail(email)) {
+            return null;
+        }
+        return JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT * FROM " + tableName + " WHERE email =:email")
+                        .bind("email", email)
+                        .mapToMap()
+                        .first());
 
+    }
     public boolean checkValid(String username, String password) {
         int result = JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE username =:username and password =:password")

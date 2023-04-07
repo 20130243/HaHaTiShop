@@ -41,8 +41,8 @@ public class UserService {
     }
 
 
-    public User login(String username, String password) {
-        Map<String, Object> map = dao.login(username, hashPassword(password));
+    public User login(String email, String password) {
+        Map<String, Object> map = dao.login(email, hashPassword(password));
         return map != null ? convertMapToUser(map) : null;
     }
 
@@ -50,7 +50,10 @@ public class UserService {
         Map<String, Object> map = dao.login(token);
         return map != null ? convertMapToUser(map) : null;
     }
-
+    public User loginSocial(String email) {
+        Map<String, Object> map = dao.loginSocial(email);
+        return map != null ? convertMapToUser(map) : null;
+    }
     public void update(User user) {
         dao.update(user.getId(), user.getUsername(), user.getName(), user.getAddress(), user.getPhone(), user.getEmail(), user.getLevel());
 
@@ -110,7 +113,7 @@ public class UserService {
             String link = "http://localhost:8080/forgotpassword?token=" + token.getToken();
             String text = "Xin chào " + user.getName() + ",\n" +
                     "\n" +
-                    "Ai đó đã yêu cầu mật khẩu mới cho tài khoản Username: " + user.getUsername() + " được liên kết với Email: " + user.getEmail() + " .\n" +
+                    "Ai đó đã yêu cầu mật khẩu mới cho tài khoản của bạn  được liên kết với Email: " + user.getEmail() + " .\n" +
                     "\n" +
                     "Mật khẩu mới của bạn: " + link +
                     "\n" +

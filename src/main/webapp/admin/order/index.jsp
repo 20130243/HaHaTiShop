@@ -152,20 +152,10 @@
                                                     </h5>
                                                 </td>
                                                 <td>
-                                                    <form action="/admin/order/delete" method="post"
-                                                          id="delete-form-<c:out value="${item.id}"/>"><a
-                                                            href="/admin/order/update?id=${item.id}"
-                                                            class="action-icon"> <i
-                                                            class="mdi mdi-square-edit-outline"></i></a>
-                                                        <input type="text" name="id" id="id"
-                                                               value="${item.id}" class="d-none">
-                                                        <button type="submit" class="d-none"></button>
-                                                        <a href="javascript:{0}"
-                                                           class="action-icon"> <i class="mdi mdi-delete delete-btn"
-                                                                                   data-name="${item.id}"
-                                                                                   data-id="${item.id}"></i>
-                                                        </a>
-                                                    </form>
+                                                    <a href="javascript:{0}"
+                                                       class="action-icon"> <i class="mdi mdi-delete delete-btn"
+                                                                               data-name="${item.id}"
+                                                                               data-id="${item.id}"></i>
                                                 </td>
                                             </tr>
                                         </c:forEach>

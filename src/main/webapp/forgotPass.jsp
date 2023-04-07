@@ -19,7 +19,30 @@
     <%@include file="css.jsp" %>
     <link rel="stylesheet" href="css/account.css" type="text/css"/>
 </head>
+<style>
+    .loading:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border-radius: 50%;
+        border: 2px solid  #0b2e13;
+        border-top-color: #fff;
+        animation: spin .8s linear infinite;
+        opacity: 1;
+        pointer-events: none;
+    }
 
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -81,7 +104,7 @@
                                                         <a href="/login-register" style="color: blue">Đăng nhập</a>
                                                     </div>
                                                     <div class="button-box">
-                                                        <button class="login-btn btn" type="submit">
+                                                        <button class="login-btn btn  " id="send" type="submit">
                                                             <span>Gửi</span>
                                                         </button>
                                                     </div>
@@ -134,6 +157,8 @@
     $(document).ready(function () {
         $("#forgot_form").submit(function (e) {
             e.preventDefault();
+            $("#send").addClass("loading");
+            $('button').prop('disabled', true);
             $.ajax({
                 type: $(this).attr('method'),
                 url: $(this).attr('action'),
@@ -163,16 +188,25 @@
                     } else if (data == 1) {
                         $("#register-username-error").empty();
                         $("#register-username-error").append("Không tìm thấy địa chỉ email");
+                        $("#send").removeClass('loading');
+                        $('button').prop('disabled', false);
                     } else if (data == 2) {
                         $("#register-username-error").empty();
                         $("#register-username-error").append("Vui lòng nhập email");
+                        $("#send").removeClass('loading');
+                        $('button').prop('disabled', false);
                     }
-
                 },
                 error: function (data) {
                     console.log('An error occurred.');
                     console.log(data);
+                    $("#send").removeClass('loading');
+                    $('button').prop('disabled', false);
                 },
+                complete: function() {
+                    $("#send").removeClass('loading');
+                    $('button').prop('disabled', false);
+                }
             });
         });
     });

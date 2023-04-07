@@ -41,6 +41,19 @@
             <param-value>Initialization Paramter</param-value>
         </init-param>
     </filter>
+    <filter>
+        <description></description>
+        <display-name>ManagerFilter</display-name>
+        <filter-name>ManagerFilter</filter-name>
+        <filter-class>vn.edu.hcmuaf.fit.filter.ManagerFilter</filter-class>
+        <init-param>
+            <param-name>test-param</param-name>
+            <param-value>Initialization Paramter</param-value>
+        </init-param>
+    </filter>
+
+
+
     <filter-mapping>
         <filter-name>CookieFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -53,6 +66,31 @@
         <filter-name>AdminFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>ManagerFilter</filter-name>
+        <url-pattern>/admin/blog/update/*</url-pattern>
+        <url-pattern>/admin/product/update/*</url-pattern>
+        <url-pattern>/admin/coupon/update/*</url-pattern>
+        <url-pattern>/admin/category/update/*</url-pattern>
+        <url-pattern>/admin/topping/update/*</url-pattern>
+        <url-pattern>/admin/sale/update/*</url-pattern>
+
+        <url-pattern>/admin/blog/create/*</url-pattern>
+        <url-pattern>/admin/product/create/*</url-pattern>
+        <url-pattern>/admin/coupon/create/*</url-pattern>
+        <url-pattern>/admin/category/create/*</url-pattern>
+        <url-pattern>/admin/topping/create/*</url-pattern>
+        <url-pattern>/admin/sale/create/*</url-pattern>
+
+        <url-pattern>/admin/blog/delete/*</url-pattern>
+        <url-pattern>/admin/product/delete/*</url-pattern>
+        <url-pattern>/admin/coupon/delete/*</url-pattern>
+        <url-pattern>/admin/category/delete/*</url-pattern>
+        <url-pattern>/admin/topping/delete/*</url-pattern>
+        <url-pattern>/admin/sale/delete/*</url-pattern>
+    </filter-mapping>
+
+
 
     <error-page>
         <error-code>404</error-code>
