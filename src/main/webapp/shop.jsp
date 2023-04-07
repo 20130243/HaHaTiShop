@@ -78,7 +78,7 @@
         <div class="row">
             <div class=" col-lg-9">
                 <!-- Button trigger modal -->
-                <form id="category_filter" name="form_filter" method="get">
+                <form id="category_filter" name="form_filter" method="get" action="">
                     <div class="row search_bar">
 
                         <div class="col-lg-4 col-md-4 col-sm-4 ">

@@ -127,7 +127,7 @@ public class CouponService {
     }
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(new CouponService().getAll());
+        System.out.println(new CouponService().getPaging(1));
     }
 
 }
