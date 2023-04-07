@@ -1,12 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
-import vn.edu.hcmuaf.fit.bean.Cart;
-import vn.edu.hcmuaf.fit.bean.Coupon;
-import vn.edu.hcmuaf.fit.bean.Item;
-import vn.edu.hcmuaf.fit.bean.Product;
-import vn.edu.hcmuaf.fit.services.CouponService;
+import vn.edu.hcmuaf.fit.bean.*;
 import vn.edu.hcmuaf.fit.services.ProductService;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -42,17 +37,12 @@ public class EditCartController extends HttpServlet {
                     String quantityChange = request.getParameter("quantityChange" + id);
                     int quantity = Integer.parseInt(quantityChange);
                     if (items.get(i).getId() == id) {
-
                         boolean isUnavaiable = new ProductService().checkInventoryProduct(items.get(i).getProduct().getId());
                         if (isUnavaiable ==false){
-
                             items.get(i).setQuantity(quantity);
                             items.get(i).updatePrice();
-//                            System.out.println("set quan");
                         }else{
-                            //
                             listProductUnavaiable.add(items.get(i).getProduct());
-//                            System.out.println("unavailble");
                             items.get(i).setQuantity(0);
                             items.get(i).updatePrice();
                         }
@@ -69,7 +59,7 @@ public class EditCartController extends HttpServlet {
             session.setAttribute("cart", cart);
             session.setAttribute("listProductUnavaiable", listProductUnavaiable);
             response.sendRedirect(request.getContextPath() + url);
-//            response.sendRedirect("/milkteashop_war/shop");
+
         }else {
             response.sendRedirect(request.getContextPath() + url);
         }
