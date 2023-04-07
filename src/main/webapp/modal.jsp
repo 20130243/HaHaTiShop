@@ -34,6 +34,7 @@
     <div class="modal-dialog product-modal" role="document">
         <div class="modal-content flex-row">
             <div class="w-50">
+
                 <div class="product-modal-img">
                     <img class="img-src" src="<%=p.getImage().get(0).getUrl()%>">
                 </div>

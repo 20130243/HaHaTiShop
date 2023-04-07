@@ -163,8 +163,38 @@
                                 <div class="modal-dialog product-modal" role="document">
                                     <div class="modal-content flex-row">
                                         <div class="w-50">
-                                            <div class="product-modal-img">
-                                                <img class="img-src" src="<%=p.getImage().get(0).getUrl()%>">
+                                            <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
+                                                <!--Slides-->
+                                                <div class="carousel-inner " role="listbox" style="height: 500px; padding: 50px">
+                                                    <%
+                                                    if(p.getImage() != null) {
+                                                        for (int i = 0; i < p.getImage().size(); i++) {
+                                                    %>
+                                                    <div class="carousel-item active">
+                                                        <img class="d-block " src="<%=p.getImage().get(i).getUrl()%>" alt=" slide">
+                                                    </div>
+                                                    <% }} %>
+                                                </div>
+                                                <!--/.Slides-->
+                                                <!--Controls-->
+                                                <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev" style="left: 25px;">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next right-25" href="#carousel-thumb" role="button" data-slide="next" style="right: 25px;">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                                <!--/.Controls-->
+
+                                                <ol class="carousel-indicators" style="position: inherit; top: -50px">
+                                                    <%
+                                                        if(p.getImage() != null) {
+                                                            for (int i = 0; i < p.getImage().size(); i++) {
+                                                    %>
+                                                    <li data-target="#carousel-thumb" data-slide-to="<%=i%>" class="active"> <img class="d-block" width="50px" src="<%=p.getImage().get(i).getUrl()%>"></li>
+                                                    <% }} %>
+                                                </ol>
                                             </div>
                                             <div class="product-modal-price">
                                                 <%
