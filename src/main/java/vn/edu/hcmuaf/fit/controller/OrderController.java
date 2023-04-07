@@ -1,8 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
-import com.google.gson.Gson;
 import vn.edu.hcmuaf.fit.bean.Cart;
-import vn.edu.hcmuaf.fit.bean.Item;
 import vn.edu.hcmuaf.fit.bean.Order;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.services.CartOrderService;
@@ -15,17 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet(name = "OrderController", value = "/order")
 public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("checkout").forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
         User user = (User) session.getAttribute("user");
@@ -36,10 +28,9 @@ public class OrderController extends HttpServlet {
             String addressUser = request.getParameter("addressUser");
             String noteUser = request.getParameter("noteUser");
             if(nameUser.equals("") || phoneUser.equals("") || addressUser.equals("")) {
-                request.setAttribute("addressUser", nameUser);
-                request.setAttribute("noteUser", noteUser);
-                response.getWriter().write("1");
-                return;
+                String error = "202";
+                session.setAttribute("errorCheckout", error);
+                request.getRequestDispatcher("checkout").forward(request, response);
             } else {
                 Order order = new Order();
                 order.setUser_id(user.getId());
@@ -47,9 +38,7 @@ public class OrderController extends HttpServlet {
                 order.setPhone(phoneUser);
                 order.setAddress(addressUser);
                 order.setNote(noteUser);
-                List<Item> listItems = cart.getItems();
-                order.setListItems(listItems);
-                order.setCoupon(cart.getCoupon());
+                order.setCart(cart);
                 order.setTotal(cart.getTotalMoney());
                 try {
                     cartOrderService.addOrder(order);
@@ -57,11 +46,17 @@ public class OrderController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 session.removeAttribute("cart");
-                response.getWriter().write("0");
-                return;
+                response.sendRedirect("account");
             }
         } else if(user == null){
-            response.getWriter().write("2");
+            String error = "204";
+            session.setAttribute("errorCheckout", error);
+            request.getRequestDispatcher("checkout").forward(request, response);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }
