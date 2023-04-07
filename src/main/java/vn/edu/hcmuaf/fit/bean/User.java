@@ -6,7 +6,6 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1;
     private int id;
     private String username;
-    private String password;
     private String name;
     private String address;
     private String phone;
@@ -14,10 +13,9 @@ public class User implements Serializable {
     private int level;
     private String token;
 
-    public User(int id, String username, String password, String name, String address, String phone, String email, int level, String token) {
+    public User(int id, String username,  String name, String address, String phone, String email, int level, String token) {
         this.id = id;
         this.username = username;
-        this.password = password;
         this.name = name;
         this.address = address;
         this.phone = phone;
@@ -46,13 +44,6 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getName() {
         return name;
@@ -107,7 +98,6 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +

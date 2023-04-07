@@ -11,7 +11,6 @@ import javax.mail.internet.MimeMessage;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Properties;
 
@@ -25,8 +24,8 @@ public class UserService {
         return map != null ? convertMapToUser(map) : null;
     }
 
-    public void insert(User user) {
-        dao.insert(user.getUsername(), hashPassword(user.getPassword()), user.getName(), user.getAddress(), user.getPhone(), user.getEmail(), user.getLevel());
+    public void insert(User user, String password) {
+        dao.insert(user.getUsername(), hashPassword(password), user.getName(), user.getAddress(), user.getPhone(), user.getEmail(), user.getLevel());
     }
 
     public String hashPassword(String password) {
@@ -41,35 +40,38 @@ public class UserService {
         }
     }
 
-    public User login(User user) {
-        Map<String, Object> map = dao.login(user.getUsername(), hashPassword(user.getPassword()));
-        return map != null ? convertMapToUser(map) : null;
-    }
 
     public User login(String username, String password) {
         Map<String, Object> map = dao.login(username, hashPassword(password));
         return map != null ? convertMapToUser(map) : null;
     }
+
     public User login(String token) {
         Map<String, Object> map = dao.login(token);
         return map != null ? convertMapToUser(map) : null;
     }
 
     public void update(User user) {
-        dao.update(user.getId(), user.getUsername(), user.getPassword(), user.getName(), user.getAddress(), user.getPhone(), user.getEmail(), user.getLevel());
+        dao.update(user.getId(), user.getUsername(), user.getName(), user.getAddress(), user.getPhone(), user.getEmail(), user.getLevel());
 
     }
-
+    public void updatePassword(User user, String password){
+        dao.update(user.getId(), hashPassword(password));
+    }
+    public void updatePassword(int id, String password){
+        dao.update(id, hashPassword(password));
+    }
     public boolean checkUsername(User user) {
         return dao.checkUsername(user.getUsername());
     }
 
-    public boolean checkUsernameAndMail(String username, String email){
-        return dao.checkUsernameAndMail(username, email);
+
+    public boolean checkEmail(String email) {
+        return dao.checkEmail(email);
     }
 
-    public User getByUsername(String username) {
-        Map<String, Object> map = dao.getByUserName(username);
+    public User getByEmail(String email) {
+        Map<String, Object> map = dao.getByEmail(email);
         return map != null ? convertMapToUser(map) : null;
     }
 
@@ -101,17 +103,14 @@ public class UserService {
         return true;
     }
 
-    public boolean passwordRecovery(String username, String email) {
-        User user = getByUsername(username);
-        if (user != null && user.getEmail().equals(email)) {
-//            String password = ramdomPassword();
-//            user.setPassword(hashPassword(password));
-//            update(user);
+    public boolean passwordRecovery( String email) {
+        User user = getByEmail(email);
+        if (user != null ) {
             Token token = generateToken(user);
             String link = "http://localhost:8080/forgotpassword?token=" + token.getToken();
             String text = "Xin chào " + user.getName() + ",\n" +
                     "\n" +
-                    "Ai đó đã yêu cầu mật khẩu mới cho tài khoản Username: "+ user.getUsername()+" được liên kết với Email: "+ user.getEmail()+" .\n" +
+                    "Ai đó đã yêu cầu mật khẩu mới cho tài khoản Username: " + user.getUsername() + " được liên kết với Email: " + user.getEmail() + " .\n" +
                     "\n" +
                     "Mật khẩu mới của bạn: " + link +
                     "\n" +
@@ -120,17 +119,9 @@ public class UserService {
                     "http://localhost:8080/login";
             return sendMail(email, "Password recovery", text);
 
-        } else {
+        } else {  return false;        }
 
-        }
 
-        return false;
-    }
-
-    public String ramdomPassword() {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        String pwd = RandomStringUtils.random(8, characters);
-        return pwd;
     }
 
     public Token generateToken(User user) {
@@ -138,15 +129,22 @@ public class UserService {
         return service.generateToken(user);
     }
 
+    public boolean checkPassword(int id, String password) {
+
+        return dao.checkPassword(id, hashPassword(password));
+    }
+    public boolean checkPassword(String email, String password) {
+        return dao.checkPassword(email, hashPassword(password));
+    }
+
     public boolean checkAdmin(User user) {
-        return user.getLevel() >= 1;
+        return user.getLevel() == 1;
     }
 
     public User convertMapToUser(Map<String, Object> map) {
         User user = new User();
         user.setId((int) map.get("id"));
         user.setUsername((String) map.get("username"));
-        user.setPassword((String) map.get("password"));
         user.setName((String) map.get("name"));
         user.setEmail((String) map.get("email"));
         user.setPhone((String) map.get("phone"));
@@ -163,6 +161,6 @@ public class UserService {
     }
 
     public static void main(String[] args) {
-        new UserService().insert(new User(0,"admin","123","admin","","","",2,"") );
+        System.out.println(new UserService().checkEmail("manhha584224@gmail.com"));
     }
 }
