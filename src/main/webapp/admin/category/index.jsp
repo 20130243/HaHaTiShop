@@ -66,8 +66,13 @@
                             <div class="card-body">
                                 <div class="row mb-2">
                                     <div class="col-sm-4">
-                                        <a href="/admin/category/create" class="btn btn-danger mb-2"><i
-                                                class="mdi mdi-plus-circle mr-2"></i>Thêm loại</a>
+
+                                        <c:choose>
+                                            <c:when test="${sessionScope.admin.level ge 1}">
+                                                <a href="/admin/category/create" class="btn btn-danger mb-2"><i
+                                                        class="mdi mdi-plus-circle mr-2"></i>Thêm loại</a>
+                                            </c:when>
+                                        </c:choose>
                                     </div>
                                     <div class="col-sm-8">
                                         <!-- <div class="text-sm-right">
@@ -86,7 +91,11 @@
                                         <tr>
                                             <th class="all">Tên loại</th>
                                             <th class="text-center">Tình trạng</th>
-                                            <th class="text-center">Hành động</th>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.admin.level ge 1}">
+                                                    <th class="text-center">Hành động</th>
+                                                </c:when>
+                                            </c:choose>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -114,25 +123,29 @@
                                                         </c:when>
                                                     </c:choose>
                                                 </td>
-                                                <form action="/admin/category/delete" method="post"
-                                                      id="delete-form-<c:out value="${item.id}"/>">
-                                                    <td class="table-action text-center">
-                                                        <a href="/admin/category/update?id=<c:out value="${item.id}"/>"
-                                                           class="action-icon"> <i
-                                                                class="mdi mdi-square-edit-outline"></i></a>
+                                                <c:choose>
+                                                    <c:when test="${sessionScope.admin.level ge 1}">
+                                                        <form action="/admin/category/delete" method="post"
+                                                              id="delete-form-<c:out value="${item.id}"/>">
+                                                            <td class="table-action text-center">
+                                                                <a href="/admin/category/update?id=<c:out value="${item.id}"/>"
+                                                                   class="action-icon"> <i
+                                                                        class="mdi mdi-square-edit-outline"></i></a>
+                                                                <input type="text" name="id" id="id"
+                                                                       value="<c:out value="${item.id}"/>" class="d-none">
+                                                                <button type="submit" class="d-none"></button>
+                                                                <a href="javascript:{0}"
+                                                                   class="action-icon"> <i class="mdi mdi-delete delete-btn"
+                                                                                           data-name="<c:out value="${item.name}"/>"
+                                                                                           data-id="<c:out value="${item.id}"/>"></i>
+                                                                </a>
+
+                                                            </td>
+                                                        </form>
+                                                    </c:when>
+                                                </c:choose>
 
 
-                                                        <input type="text" name="id" id="id"
-                                                               value="<c:out value="${item.id}"/>" class="d-none">
-                                                        <button type="submit" class="d-none"></button>
-                                                        <a href="javascript:{0}"
-                                                           class="action-icon"> <i class="mdi mdi-delete delete-btn"
-                                                                                   data-name="<c:out value="${item.name}"/>"
-                                                                                   data-id="<c:out value="${item.id}"/>"></i>
-                                                        </a>
-
-                                                    </td>
-                                                </form>
                                             </tr>
                                         </c:forEach>
                                         </tbody>
