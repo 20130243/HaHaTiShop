@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.*" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.bean.*" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %><%--
   Created by IntelliJ IDEA.
   User: tinh
   Date: 12/3/2022
@@ -140,7 +141,7 @@
                                 <%}%>
                             </div>
                             <div class="product__item__text">
-                                <h5><%=p.getName()%>
+                                <h5 class="product-name"><%=p.getName()%>
                                 </h5>
                                 <%
                                     int price = 0;
@@ -152,20 +153,129 @@
                                         price = 0;
                                     }
                                 %>
-                                <h6><%=currency.format(price)%>
+                                <h6 class="product-price"><%=currency.format(price)%>
                                 </h6>
                             </div>
-                        </div>
-                        <jsp:include page='/modal.jsp'>
-                            <jsp:param name="id" value="<%=p.getId()%>"/>
-                        </jsp:include>
-                    </div>
-                    <button type="button" class="btn btn-primary btn-lg d-none" id="btn-modal<%=p.getId()%>"
-                            data-toggle="modal"
-                            data-target="#myModal">
-                    </button>
-                    <% }}%>
 
+                        </div>
+                        <form action="addToCart" method="get">
+                            <div id="myModal<%=p.getId()%>" class="modal fade in" tabindex="-1" role="dialog">
+                                <div class="modal-dialog product-modal" role="document">
+                                    <div class="modal-content flex-row">
+                                        <div class="w-50">
+                                            <div class="product-modal-img">
+                                                <img class="img-src" src="<%=p.getImage().get(0).getUrl()%>">
+                                            </div>
+                                            <div class="product-modal-price">
+                                                <%
+                                                    if(p.getPriceSize().size() > 0) {
+                                                        List<PriceSize> sizes = p.getPriceSize();
+                                                        for(PriceSize size : sizes) {
+                                                            if(sizes.size() == 1) {
+                                                %>
+                                                <h6 class="<%=(p.getPriceSize().get(0).getSize().equalsIgnoreCase("M") || p.getPriceSize().get(0).getSize().equalsIgnoreCase("L"))?"active":"d-none"%> size<%=p.getId()%>"> <%= new CurrencyFormat().format((int) size.getPrice())%></h6>
+                                                <%} else {
+                                                %>
+                                                <h6 class="<%=size.getSize().equalsIgnoreCase("M")?"active":"d-none"%> size<%=p.getId()%>"> <%= new CurrencyFormat().format((int) size.getPrice())%></h6>
+                                                <%
+                                                            }}}%>
+                                            </div>
+                                        </div>
+                                        <div class="w-50 product-modal-detail">
+                                            <div class="product-modal-header">
+                                                <h3><%=p.getName()%>
+                                                </h3>
+                                                <input class="product-modal-id" type="text" name="product_id" value="<%=p.getId()%>" checked="checked">
+                                            </div>
+                                            <div class="product-modal-middle">
+                                                <div class="product-modal-option ">
+                                                    <h6 class="title">Kích cỡ:</h6>
+                                                    <div class="product-modal-size">
+                                                        <%
+                                                            if(p.getPriceSize().size() > 0) {
+                                                                List<PriceSize> sizes = p.getPriceSize();
+
+                                                                if(sizes.size() == 1) {
+                                                        %>
+                                                        <input class="size" type="radio" name="size<%=p.getId()%>" id="m_size<%=p.getId()%>" value="<%=sizes.get(0).getSize()%>" checked="checked">
+                                                        <label class="size-radio active" for="m_size<%=p.getId()%>"><%=sizes.get(0).getSize()%></label>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <input class="size" type="radio" name="size<%=p.getId()%>" id="m_size<%=p.getId()%>" value="<%=sizes.get(0).getSize()%>" checked="checked">
+                                                        <label class="size-radio" for="m_size<%=p.getId()%>"><%=sizes.get(0).getSize()%></label>
+
+                                                        <input class="size" type="radio" name="size<%=p.getId()%>" id="l_size<%=p.getId()%>" value="<%=sizes.get(1).getSize()%>" >
+                                                        <label class="size-radio" for="l_size<%=p.getId()%>"><%=sizes.get(1).getSize()%></label>
+                                                        <%
+                                                                } }
+                                                        %>
+                                                    </div>
+                                                </div>
+                                                <div class="product-modal-option">
+                                                    <h6 class="title">Số lượng:</h6>
+                                                    <div class="quantity-control ">
+                                                        <input type="number" name="quantity<%=p.getId()%>" class="quantity-num cart-quantity-input" min="0" value="1" id="modal-quantity<%=p.getId()%>">
+                                                    </div>
+                                                </div>
+                                                <div class="product-modal-option align-items-start">
+
+                                                    <h6 class="title">Topping:</h6>
+                                                    <div class="product-modal-topping ">
+                                                        <%
+                                                            if(p.getTopping().size() > 0) {
+                                                                List<Topping> toppingList = p.getTopping();
+                                                                for(Topping topping : toppingList) {
+                                                        %>
+                                                        <div class="d-none topping_price <%=topping.getName()%>"><%=topping.getPrice()%></div>
+                                                        <input class="topping-checked" type="checkbox" name="<%=topping.getId()%>" id="<%=p.getId()%><%=topping.getId()%>" value="<%=topping.getName()%>" data-id="<%=p.getId()%>"
+                                                            <%=topping.getStatus()==1?"disabled":""%>>
+                                                        <label class="topping-detail" for="<%=p.getId()%><%=topping.getId()%>">
+                                                            <%=topping.getName()%> + <%=topping.getStatus()==1?"Hết nguyên liệu":currency.format((int) topping.getPrice())%></label>
+                                                        <%
+                                                            } } else {
+                                                        %>
+                                                        <label class="topping-detail active" for="">
+                                                            Sản phẩm không hỗ trợ Topping</label>
+                                                        <%
+                                                            }
+                                                        %>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-modal-option align-items-start">
+                                                    <h6 class="title">Ghi chú:</h6>
+                                                    <div>
+                                                        <textarea name="note" id="" cols="25" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="product-modal-option">
+                                                    <h6 class="title">Giá: </h6>
+                                                    <h6 id="totalprice<%=p.getId()%>"><%=currency.format((int) p.getPriceSize().get(0).getPrice())%></h6>
+                                                </div>
+                                            </div>
+
+                                            <div class="product-modal-footer">
+                                                <%Category c = new CategoryService().getById(p.getIdCategory());
+                                                    if(c.getStatus() == 0) {
+                                                %>
+                                                <button class="btn modal-btn" class="btn modal-btn" type="submit" >Thêm vào giỏ hàng</button>
+                                                <%} else if(c.getStatus() == 1) {%>
+                                                <button class="btn modal-btn" class="btn modal-btn" type="submit" disabled>Hết nguyên liệu</button>
+                                                <%} else if(c.getStatus() == 2) {%>
+                                                <button class="btn modal-btn" class="btn modal-btn" type="submit" disabled>Ngừng kinh doanh</button>
+                                                <%}%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- /.modal-content -->
+
+                            </div><!-- /.modal-dialog -->
+                            <!-- /.modal -->
+                        </form>
+                    </div>
+
+                    <% }}%>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -265,6 +375,7 @@
             </div>
         </div>
     </div>
+    </div>
 </section>
 <!-- Shop Section End -->
 
@@ -305,83 +416,7 @@
         });
     });
 
-    function isScrollToEnd() {
-        // lấy chiều cao của cửa sổ trình duyệt
-        let windowHeight = window.innerHeight;
-        // lấy chiều cao của nội dung trang web
-        let fullHeight = document.body.scrollHeight;
-        // lấy vị trí hiện tại của trang web đang được cuộn
-        let scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
-        // kiểm tra xem đã cuộn đến cuối trang hay chưa
-        if (scrollPosition + windowHeight >= fullHeight) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-
-    // Sử dụng hàm isScrollToEnd() để kiểm tra xem đã cuộn đến cuối trang hay chưa
-    var working = false;
-    window.addEventListener('scroll', () => {
-        if (isScrollToEnd()) {
-            if (working === false) {
-                working = true;
-                $.ajax({
-                    type: "GET",
-                    url: "/load",
-                    success: function (data) {
-                         var container = document.getElementById("product-container");
-                        var listProduct = JSON.parse(data);
-                        var item = "<div>"+ listProduct[0].image[0].url+"</div>";
-                        var items;
-
-                        $("#product-container").append(` <div class="product-amount col-lg-3 col-md-4 col-sm-4">
-                            <div class="product__item sale" data-toggle="modal"
-                                 data-target="#myModal`+listProduct[0].id+`" data-id="`+listProduct[0].id+`">
-                                <div class="product__item__pic set-bg" data-setbg="`+listProduct[0].image[0].url+`">
-                                    <img src="`+listProduct[0].image[0].url+`" alt="" srcset="">
-                                   <span class="label">Sale</span>
-                                </div>
-                                <div class="product__item__text">
-                                    <h5>
-                                        `+listProduct[0].name+`
-                                    </h5>
-                                    <h6>
-                                        `+listProduct[0].priceSize[0].price+`
-                                    đ </h6>
-                                </div>
-                            </div>
-                        </div>`);
-                        $("#product-container").append(<jsp:include page='/modal.jsp'>
-                            <jsp:param name="id" value="117"/>
-                            </jsp:include>);
-
-                        $("#product-container").append(`
-                        <button type="button" class="btn btn-primary btn-lg d-none" id="btn-modal`+listProduct[0].id+`"
-                                data-toggle="modal"
-                                data-target="#myModal">
-                        </button>`);
-
-                         console.log(listProduct);
-                        setTimeout(function() {
-                            working = false;
-                        }, 4000)
-                    },
-                    error: function (data) {
-                        console.log('An error occurred.');
-                        console.log(data);
-                    },
-                });
-            }
-
-
-        } else {
-
-        }
-    })
 
 </script>
 </body>
