@@ -173,7 +173,7 @@
                                                         </td>
                                                         <td>
                                                             <%
-                                                                List<Item> items = order.getCart().getItems();
+                                                                List<Item> items = order.getListItems();
                                                                 if (items != null && items.size() > 0) {
                                                                     for (Item item : items) {
                                                             %>
