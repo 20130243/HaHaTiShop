@@ -176,6 +176,34 @@
                   </div>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="checkout__input" >
+                    <p>Tỉnh/Thành phố<span>*</span></p>
+                    <select name="addressCity" class="nice-select" id="addressCity"  required>
+                      <option >--Chọn--</option>
+                      <option value="Hồ Chí Minh" id="202">Hồ Chí Minh</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="checkout__input">
+                    <p>Quận/Huyện<span>*</span></p>
+                    <select name="addressDistrict" id="addressDistrict" class="nice-select" required>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="checkout__input">
+                    <p>Phường/Xã<span>*</span></p>
+                    <select name="addressWard" class="nice-select" id="addressWard"  required>
+
+                    </select>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-lg-12">
                   <div class="checkout__input">
@@ -234,19 +262,88 @@
 <!-- Search End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery.nicescroll.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/cart.js"></script>
-<script src="js/account/bootstrap.min.js"></script>
-<script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+<script src="js/jquery-3.6.0.min.js"></script>
 <script>
+
+  jQuery(function () {
+
+    // What to do when the response is ready
+    fetch('http://140.238.54.136/api/auth/login', {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+              {
+                email: 'thaha8788@gmail.com',
+                password: '123456'
+              }
+      )
+    })
+            .then((response) => {
+              return response.json()
+            })
+            .then((data) => {
+              const accessToken = data.access_token
+              localStorage.setItem('accessToken', accessToken)
+            })
+
+    var changeCity = $("#addressCity");
+    var changeDistrict = $("#addressDistrict");
+    var changeWard = $("#addressWard");
+    changeCity.on('change' , function (e) {
+      changeDistrict.empty();
+      var idValueSelected = $(this).children(":selected").attr("id");
+        fetch('http://140.238.54.136/api/district'+"?provinceID="+idValueSelected, {
+          method: "GET", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          headers: {
+            "Authorization": "Bearer "+localStorage.getItem('accessToken'),
+          },
+        })
+                .then((response) => {
+                  return response.json()
+                })
+                .then((data) => {
+                  let districtDatas =  data.original.data;
+                  districtDatas.map((district,index)=>{
+                    changeDistrict.append(`<option value="`+district.DistrictName+`" id="`+district.DistrictID+`">`+district.DistrictName+`</option>`)
+                  })
+                })
+
+    })
+
+    changeDistrict.on('change' , function (e) {
+      changeWard.empty();
+      var idValueSelected = $(this).children(":selected").attr("id");
+      fetch('http://140.238.54.136/api/ward'+"?districtID="+idValueSelected, {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          "Authorization": "Bearer "+localStorage.getItem('accessToken'),
+        },
+      })
+              .then((response) => {
+                return response.json()
+              })
+              .then((data) => {
+                let wardDatas =  data.original.data;
+                wardDatas.map((ward,index)=>{
+                  changeWard.append(`<option value="`+ward.WardName+`" id="`+ward.WardCode+`">`+ward.WardName+`</option>`)
+                })
+              })
+
+    })
+
+
+  })
+
+
+
+
+
+
   <% String error = (String) session.getAttribute("errorCheckout");
     if(error !=null){
       if(error.equals("202")) {
@@ -258,8 +355,21 @@
   alert('Mỗi giỏ hàng sử dụng được 1 lần');
   <%} else if(error.equals("102")) {%>
   alert('Mã giảm hết số lượng hoặc hết hạn');
-   <%} session.setAttribute("errorCheckout",null);}%>
+  <%} session.setAttribute("errorCheckout",null);}%>
 </script>
+
+<script src="js/jquery.nicescroll.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/jquery.slicknav.js"></script>
+<script src="js/mixitup.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/account/bootstrap.min.js"></script>
+
+
+
 </body>
 
 </html>

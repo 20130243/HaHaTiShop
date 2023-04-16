@@ -129,4 +129,14 @@ public class Product implements Serializable {
         }
     }
 
+    public Image getMainImage() {
+        for (Image image : this.image) {
+            if (image.getStatus() == 1) {
+                return image;
+            }
+
+        }
+        return image.get(0);
+    }
+
 }
