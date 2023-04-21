@@ -144,9 +144,7 @@
       </div>
 
       <div class="col-lg-4">
-
         <form id="order_form" action="order" method="post" >
-
           <div class="cart__discount checkout__form shadow p-4">
             <div class="row">
               <div class="col-lg-12 col-md-12">
@@ -156,31 +154,14 @@
                     <div class="checkout__input">
                       <p>Tên người nhận<span>*</span></p>
                       <input name="nameUser" type="text" value="<%=user != null ? user.getName() : ""%>">
-
-
-
-        <div class="cart__discount checkout__form shadow p-4">
-          <div class="row">
-            <div class="col-lg-12 col-md-12">
-              <h6 class="">Thông tin nhận hàng</h6>
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="checkout__input">
-                    <p>Tên người nhận<span>*</span></p>
-                    <input name="nameUser" type="text" value="<%=user != null ? user.getName() : ""%>">
-
-        
-
                     </div>
-
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="checkout__input">
                       <p>Số điện thoại người nhận<span>*</span></p>
-                      <input name="phoneUser" type="tel" pattern="[0]{1}[0-9]{9}" required
-                             value="<%=user != null ? user.getPhone() : ""%>">
+                      <input name="phoneUser" type="tel" pattern="[0]{1}[0-9]{9}" required value="<%=user != null ? user.getPhone() : ""%>">
                     </div>
                   </div>
                 </div>
@@ -188,97 +169,55 @@
                   <div class="col-lg-12">
                     <div class="checkout__input">
                       <p>Địa chỉ nhận hàng<span>*</span></p>
-                      <textarea name="addressUser" cols="" rows="2"
-                                style="width: 100%;"><%= request.getAttribute("addressUser") != null ? request.getAttribute("addressUser") : user != null ? user.getAddress() : "" %></textarea>
+                      <textarea name="addressUser" cols="" rows="2" style="width: 100%;"><%= request.getAttribute("addressUser") != null? request.getAttribute("addressUser"): user!=null?user.getAddress():"" %></textarea>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="checkout__input" >
-                    <p>Tỉnh/Thành phố<span>*</span></p>
-                    <select name="addressCity" class="nice-select" id="addressCity"  required>
-                      <option >--Chọn--</option>
-                      <option value="Hồ Chí Minh" id="202">Hồ Chí Minh</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="checkout__input">
-                    <p>Quận/Huyện<span>*</span></p>
-                    <select name="addressDistrict" id="addressDistrict" class="nice-select" required>
-
-                    </select>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="checkout__input">
-                    <p>Phường/Xã<span>*</span></p>
-                    <select name="addressWard" class="nice-select" id="addressWard"  required>
-
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="checkout__input">
-                    <p>Ghi chú<span>*</span></p>
-                    <textarea name="noteUser" cols="" rows="2" style="width: 100%;"><%=request.getAttribute("noteUser")!=null?request.getAttribute("noteUser"):""%></textarea>
-
-
-
-                  </div>
-
-
-              </div>
-              <div class="coupon_form">
-                <input id="coupon_code_input" name="coupon" type="text"
-                       placeholder="Nhập mã giảm giá "
-                       value="<%=cart != null && cart.getCoupon()!=null? cart.getCoupon().getCode():""%>">
-                <button type="button" id="coupon_code_submit">Áp dụng</button>
-              </div>
-              <div class="row">
-                <div class="col-lg-12">
-                  <h6 class="mt-4  mb-3">Tổng giỏ hàng</h6>
-                  <div>
-                    <%
-                      if (cart != null) {
-                    %>
-                    <p>Tổng tiền:
-                      <span id ="price_decreased"><%=new CurrencyFormat().format((int) cart.getTotalMoney())%></span>
-                    </p>
-                    <p>Đã giảm:
-                      <span id="percent_decreased"><%=cart.getCoupon() != null ? cart.getCoupon().getPercent() + "%" : "0%"%></span>
-                    </p>
-                    <%
-                    } else {
-                    %>
-                    <p>Tổng tiền: <span><%=new CurrencyFormat().format((int) 0)%></span></p>
-                    <p>Đã giảm: <span>0%</span></p>
-                    <%
-                      }
-                    %>
-
-                                  
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="checkout__input" >
+                      <p>Tỉnh/Thành phố<span>*</span></p>
+                      <select name="addressCity" class="nice-select" id="addressCity"  required>
+                        <option >--Chọn--</option>
+                        <option value="Hồ Chí Minh" id="202">Hồ Chí Minh</option>
+                      </select>
                     </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="checkout__input">
+                      <p>Quận/Huyện<span>*</span></p>
+                      <select name="addressDistrict" id="addressDistrict" class="nice-select" required>
 
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="checkout__input">
+                      <p>Phường/Xã<span>*</span></p>
+                      <select name="addressWard" class="nice-select" id="addressWard"  required>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="checkout__input">
+                      <p>Ghi chú<span>*</span></p>
+                      <textarea name="noteUser" cols="" rows="2" style="width: 100%;"><%=request.getAttribute("noteUser")!=null?request.getAttribute("noteUser"):""%></textarea>
+                    </div>
                   </div>
                 </div>
                 <div class="coupon_form">
-                  <input id="coupon_code_input" name="coupon" type="text"
-                         placeholder="Nhập mã giảm giá "
-                         value="<%=cart != null && cart.getCoupon()!=null? cart.getCoupon().getCode():""%>">
-                  <button type="button" id="coupon_code_submit">Áp dụng</button>
+                  <p>Mã giảm giá</p>
+                  <input name="coupon" onchange="useCoupon()" type="text" placeholder="Nhập mã giảm giá " value="<%=cart != null && cart.getCoupon()!=null? cart.getCoupon().getCode():""%>">
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
                     <h6 class="mt-4  mb-3">Tổng giỏ hàng</h6>
                     <div>
                       <%
-                        if (cart != null) {
+                        if(cart!=null) {
                       %>
                       <p>Tổng tiền:
                         <span id ="price_decreased"><%=new CurrencyFormat().format((int) cart.getTotalMoney())%></span>
@@ -296,18 +235,17 @@
                       %>
                     </div>
                     <button type="submit" class="primary-btn w-100 text-center">Đặt hàng</button>
-
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
+        </form>
+        <form id="couponForm" method="post" action="/coupon">
+          <input id="coupon_code" name="coupon" type="hidden" value="">
+        </form>
       </div>
-      </form>
-      <form id="couponForm" method="post" action="/coupon">
-        <input id="coupon_code" name="coupon" type="hidden" value="">
-      </form>
+
 
     </div>
   </div>
@@ -403,37 +341,39 @@
       $("#couponForm").submit();
     });
   });
-  $("#couponForm").submit(function (e) {
-    e.preventDefault();
-    $.ajax({
-      type: $(this).attr('method'),
-      url: $(this).attr('action'),
-      data: $(this).serialize(),
-      success: function (data) {
-        console.log('Submission was successful.');
-        if(2 == data ) {
-          alert('Vui lòng đăng nhập');
-          window.location.href = "/login";
-        } else if(1 == data) {
-          alert('Mã giảm hết số lượng hoặc hết hạn');
-        } else if(3 == data) {
-          alert('Mỗi giỏ hàng sử dụng được 1 lần');
-        } else if(4 == data) {
-          alert('Mã giảm giá không đúng');
-        }  else {
-          let jsonObject = JSON.parse(data);
-          let cartArray = Object.values(jsonObject);
-          let coupon = Object.values(cartArray[5]) ;
-          $("#price_decreased").text(cartArray[3].toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
-          $("#percent_decreased").text(coupon[2] + "%");
-        }
-      },
-      error: function (data) {
-        console.log('An error occurred.');
-        console.log(data);
-      },
-    });
-  });
+
+  function useCoupon() {
+      $.ajax({
+        type: "POST",
+        url: "/coupon",
+         data: {coupon: document.getElementsByName('coupon')[0].value},
+        success: function (data) {
+          if(2 == data ) {
+            alert('Vui lòng đăng nhập');
+            window.location.href = "/login";
+          } else if(1 == data) {
+            alert('Mã giảm hết số lượng hoặc hết hạn');
+          } else if(3 == data) {
+            alert('Mỗi giỏ hàng sử dụng được 1 lần');
+          } else if(4 == data) {
+            alert('Mã giảm giá không đúng');
+          }  else {
+            let jsonObject = JSON.parse(data);
+            let cartArray = Object.values(jsonObject);
+            let coupon = Object.values(cartArray[5]) ;
+            $("#price_decreased").text(cartArray[3].toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
+            $("#percent_decreased").text(coupon[2] + "%");
+
+          }
+        },
+        error: function (data) {
+          console.log('An error occurred.');
+          console.log(data);
+        },
+      });
+  }
+
+
   $("#order_form").submit(function (e) {
     e.preventDefault();
     $.ajax({
@@ -442,22 +382,18 @@
       data: $(this).serialize(),
       success: function (data) {
         if(0 == data) {
-          console.log(data);
           window.location.href = "/account";
         }
         if(2 == data) {
-          console.log(data);
           alert('Vui lòng đăng nhập');
           window.location.href = "/login";
         }
         if(1 == data) {
-          console.log(data);
           alert('Vui lòng điền đủ thông tin');
         }
       },
       error: function (data) {
         console.log('An error occurred.');
-        console.log(data);
       },
     });
   });

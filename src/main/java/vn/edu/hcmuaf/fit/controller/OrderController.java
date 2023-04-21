@@ -34,10 +34,16 @@ public class OrderController extends HttpServlet {
             String nameUser = request.getParameter("nameUser");
             String phoneUser = request.getParameter("phoneUser");
             String addressUser = request.getParameter("addressUser");
+            String addressCity = request.getParameter("addressCity");
+            String addressDistrict = request.getParameter("addressDistrict");
+            String addressWard = request.getParameter("addressWard");
             String noteUser = request.getParameter("noteUser");
+
+            String address = addressUser + " " + addressCity + " " + addressDistrict + " " + addressWard;
+
             if(nameUser.equals("") || phoneUser.equals("") || addressUser.equals("")) {
-                request.setAttribute("addressUser", nameUser);
-                request.setAttribute("noteUser", noteUser);
+//                request.setAttribute("addressUser", nameUser);
+//                request.setAttribute("noteUser", noteUser);
                 response.getWriter().write("1");
                 return;
             } else {
@@ -45,7 +51,7 @@ public class OrderController extends HttpServlet {
                 order.setUser_id(user.getId());
                 order.setName(nameUser);
                 order.setPhone(phoneUser);
-                order.setAddress(addressUser);
+                order.setAddress(address);
                 order.setNote(noteUser);
                 List<Item> listItems = cart.getItems();
                 order.setListItems(listItems);
