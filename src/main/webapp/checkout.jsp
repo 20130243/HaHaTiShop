@@ -147,7 +147,7 @@
         </div>
       </div>
       <div class="col-lg-4">
-        <form action="order" method="get" >
+        <form id="order_form" action="order" method="post" >
         <div class="cart__discount checkout__form shadow p-4">
           <div class="row">
             <div class="col-lg-12 col-md-12">
@@ -241,6 +241,9 @@
             </div>
           </div>
         </div>
+        </form>
+        <form id="couponForm" method="post" action="/coupon">
+          <input id="coupon_code" name="coupon" type="hidden" value="">
         </form>
       </div>
     </div>
@@ -342,18 +345,12 @@
 
 
 
-  <% String error = (String) session.getAttribute("errorCheckout");
-      if(error !=null){
-        if(error.equals("202")) {
-
-     <%} session.setAttribute("errorCheckout",null);}%>
-
-          $(document).ready(function () {
-            $("#coupon_code_submit").click(function () {
-              $("#coupon_code").val($("#coupon_code_input").val());
-              $("#couponForm").submit();
-            });
-          });
+  $(document).ready(function () {
+    $("#coupon_code_submit").click(function () {
+      $("#coupon_code").val($("#coupon_code_input").val());
+      $("#couponForm").submit();
+    });
+  });
   $("#couponForm").submit(function (e) {
     e.preventDefault();
     $.ajax({
@@ -412,19 +409,6 @@
       },
     });
   });
-
-<%--  <% String error = (String) session.getAttribute("errorCheckout");--%>
-<%--    if(error !=null){--%>
-<%--      if(error.equals("202")) {--%>
-<%--  %>--%>
-<%--  alert('Vui lòng điền đủ thông tin');--%>
-<%--  <%} else if(error.equals("204")) {%>--%>
-<%--  alert('Vui lòng đăng nhập');--%>
-<%--  <%} else if(error.equals("101")) {%>--%>
-<%--  alert('Mỗi giỏ hàng sử dụng được 1 lần');--%>
-<%--  <%} else if(error.equals("102")) {%>--%>
-<%--  alert('Mã giảm hết số lượng hoặc hết hạn');--%>
-<%--  <%} session.setAttribute("errorCheckout",null);}%>--%>
 </script>
 
 <script src="js/jquery.nicescroll.min.js"></script>

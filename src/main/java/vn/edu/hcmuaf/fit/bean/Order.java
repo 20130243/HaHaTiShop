@@ -12,8 +12,8 @@ public class Order implements Serializable {
     String address;
     Timestamp time;
     String note;
-//    Cart cart;
-private Coupon coupon;
+
+    private Coupon coupon;
     List<Item> listItems;
     float total;
     int status;
