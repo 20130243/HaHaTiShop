@@ -1,12 +1,8 @@
+
+
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.*" %><%--
-  Created by IntelliJ IDEA.
-  User: tinh
-  Date: 12/15/2022
-  Time: 4:13 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="vn.edu.hcmuaf.fit.bean.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html lang="zxx">
 
@@ -84,64 +80,64 @@
             </thead>
             <tbody>
             <form action="/editcart" method="post" id="myForm">
-            <%
-              if (cart!= null) {
-                List<Item> listItems = cart.getItems();
-              for (Item item : listItems) {
-            %>
-            <tr>
-              <td class="product__cart__item">
-                <div class="product__cart__item__pic">
-                  <img src="<%=item.getProduct().getImage().get(0).getUrl()%>" alt="" width="150">
-                </div>
-                <div class="product__cart__item__text">
-                  <h5><%=item.getProduct().getName()%></h5>
-                  <input style="display: none" class="product-modal-id" type="text" name="<%=item.getId()%>" value="<%=item.getId()%>" checked="checked">
-                  <h6><%=new CurrencyFormat().format((int)item.getProduct().getPriceSize().get(0).getPrice())%></h6>
-                </div>
-              </td>
-              <td>
-                <%
-                List<Topping> toppingList = item.getProduct().getTopping();
-                if(toppingList.size() > 0) {
-                  for (Topping topping : toppingList) {
-                %>
-                <p class="w-150"><%=topping.getName()%></p>
-                <%
+              <%
+                if (cart!= null) {
+                  List<Item> listItems = cart.getItems();
+                  for (Item item : listItems) {
+              %>
+              <tr>
+                <td class="product__cart__item">
+                  <div class="product__cart__item__pic">
+                    <img src="<%=item.getProduct().getImage().get(0).getUrl()%>" alt="" width="150">
+                  </div>
+                  <div class="product__cart__item__text">
+                    <h5><%=item.getProduct().getName()%></h5>
+                    <input style="display: none" class="product-modal-id" type="text" name="<%=item.getId()%>" value="<%=item.getId()%>" checked="checked">
+                    <h6><%=new CurrencyFormat().format((int)item.getProduct().getPriceSize().get(0).getPrice())%></h6>
+                  </div>
+                </td>
+                <td>
+                  <%
+                    List<Topping> toppingList = item.getProduct().getTopping();
+                    if(toppingList.size() > 0) {
+                      for (Topping topping : toppingList) {
+                  %>
+                  <p class="w-150"><%=topping.getName()%></p>
+                  <%
                     }
                   } else {
-                %>
-                <p class="w-150"></p>
-                <%}%>
-              </td>
-              <td class="quantity__item">
-                <div class="quantity">
-                  <div class="pro-qty-2">
-                    <% boolean isAvaiable = true;
-                      if (listProductUnavaiable != null){
-                      for (Product p2:
-                           listProductUnavaiable) {
-                      if (item.getProduct().getId() == p2.getId()){
-                      isAvaiable = false;
-                    %>
-                    <span>Mặt hàng này không còn khả dụng</span>
-                    <%}%>
-                    <%}}%>
-                    <%if (isAvaiable ==true){%>
-                    <input name="quantityChange<%=item.getId()%>" class="quantity" type="number" value="<%=item.getQuantity()%>">
+                  %>
+                  <p class="w-150"></p>
+                  <%}%>
+                </td>
+                <td class="quantity__item">
+                  <div class="quantity">
+                    <div class="pro-qty-2">
+                      <% boolean isAvaiable = true;
+                        if (listProductUnavaiable != null){
+                          for (Product p2:
+                                  listProductUnavaiable) {
+                            if (item.getProduct().getId() == p2.getId()){
+                              isAvaiable = false;
+                      %>
+                      <span>Mặt hàng này không còn khả dụng</span>
+                      <%}%>
+                      <%}}%>
+                      <%if (isAvaiable ==true){%>
+                      <input name="quantityChange<%=item.getId()%>" class="quantity" type="number" value="<%=item.getQuantity()%>">
 
-                    <%}%>
+                      <%}%>
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td class="cart__price"><%= new CurrencyFormat().format((int)item.getPrice())%></td>
-              <td class="cart__close"><a href="editcart?rpID=<%=item.getId()%>" style="border: none"><i class="fa fa-close"></i></a></td>
-            </tr>
-            <%
+                </td>
+                <td class="cart__price"><%= new CurrencyFormat().format((int)item.getPrice())%></td>
+                <td class="cart__close"><a href="editcart?rpID=<%=item.getId()%>" style="border: none"><i class="fa fa-close"></i></a></td>
+              </tr>
+              <%
+                  }
                 }
-              }
-            %>
-              </form>
+              %>
+            </form>
             </tbody>
           </table>
         </div>
@@ -150,6 +146,19 @@
       <div class="col-lg-4">
 
         <form id="order_form" action="order" method="post" >
+
+          <div class="cart__discount checkout__form shadow p-4">
+            <div class="row">
+              <div class="col-lg-12 col-md-12">
+                <h6 class="">Thông tin nhận hàng</h6>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="checkout__input">
+                      <p>Tên người nhận<span>*</span></p>
+                      <input name="nameUser" type="text" value="<%=user != null ? user.getName() : ""%>">
+
+
+
         <div class="cart__discount checkout__form shadow p-4">
           <div class="row">
             <div class="col-lg-12 col-md-12">
@@ -161,6 +170,7 @@
                     <input name="nameUser" type="text" value="<%=user != null ? user.getName() : ""%>">
 
         
+
                     </div>
 
                   </div>
@@ -218,6 +228,40 @@
                     <p>Ghi chú<span>*</span></p>
                     <textarea name="noteUser" cols="" rows="2" style="width: 100%;"><%=request.getAttribute("noteUser")!=null?request.getAttribute("noteUser"):""%></textarea>
 
+
+
+                  </div>
+
+
+              </div>
+              <div class="coupon_form">
+                <input id="coupon_code_input" name="coupon" type="text"
+                       placeholder="Nhập mã giảm giá "
+                       value="<%=cart != null && cart.getCoupon()!=null? cart.getCoupon().getCode():""%>">
+                <button type="button" id="coupon_code_submit">Áp dụng</button>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <h6 class="mt-4  mb-3">Tổng giỏ hàng</h6>
+                  <div>
+                    <%
+                      if (cart != null) {
+                    %>
+                    <p>Tổng tiền:
+                      <span id ="price_decreased"><%=new CurrencyFormat().format((int) cart.getTotalMoney())%></span>
+                    </p>
+                    <p>Đã giảm:
+                      <span id="percent_decreased"><%=cart.getCoupon() != null ? cart.getCoupon().getPercent() + "%" : "0%"%></span>
+                    </p>
+                    <%
+                    } else {
+                    %>
+                    <p>Tổng tiền: <span><%=new CurrencyFormat().format((int) 0)%></span></p>
+                    <p>Đã giảm: <span>0%</span></p>
+                    <%
+                      }
+                    %>
+
                                   
                     </div>
 
@@ -252,20 +296,21 @@
                       %>
                     </div>
                     <button type="submit" class="primary-btn w-100 text-center">Đặt hàng</button>
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </form>
-        <form id="couponForm" method="post" action="/coupon">
-          <input id="coupon_code" name="coupon" type="hidden" value="">
-        </form>
-        <form id="couponForm" method="post" action="/coupon">
-          <input id="coupon_code" name="coupon" type="hidden" value="">
-        </form>
+
       </div>
+      </form>
+      <form id="couponForm" method="post" action="/coupon">
+        <input id="coupon_code" name="coupon" type="hidden" value="">
+      </form>
+
     </div>
+  </div>
   </div>
 
 </section>
@@ -286,9 +331,7 @@
 <!-- Js Plugins -->
 <script src="js/jquery-3.6.0.min.js"></script>
 <script>
-
   jQuery(function () {
-
     // What to do when the response is ready
     fetch('http://140.238.54.136/api/auth/login', {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -310,32 +353,29 @@
               const accessToken = data.access_token
               localStorage.setItem('accessToken', accessToken)
             })
-
     var changeCity = $("#addressCity");
     var changeDistrict = $("#addressDistrict");
     var changeWard = $("#addressWard");
     changeCity.on('change' , function (e) {
       changeDistrict.empty();
       var idValueSelected = $(this).children(":selected").attr("id");
-        fetch('http://140.238.54.136/api/district'+"?provinceID="+idValueSelected, {
-          method: "GET", // *GET, POST, PUT, DELETE, etc.
-          mode: "cors", // no-cors, *cors, same-origin
-          headers: {
-            "Authorization": "Bearer "+localStorage.getItem('accessToken'),
-          },
-        })
-                .then((response) => {
-                  return response.json()
+      fetch('http://140.238.54.136/api/district'+"?provinceID="+idValueSelected, {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          "Authorization": "Bearer "+localStorage.getItem('accessToken'),
+        },
+      })
+              .then((response) => {
+                return response.json()
+              })
+              .then((data) => {
+                let districtDatas =  data.original.data;
+                districtDatas.map((district,index)=>{
+                  changeDistrict.append(`<option value="`+district.DistrictName+`" id="`+district.DistrictID+`">`+district.DistrictName+`</option>`)
                 })
-                .then((data) => {
-                  let districtDatas =  data.original.data;
-                  districtDatas.map((district,index)=>{
-                    changeDistrict.append(`<option value="`+district.DistrictName+`" id="`+district.DistrictID+`">`+district.DistrictName+`</option>`)
-                  })
-                })
-
+              })
     })
-
     changeDistrict.on('change' , function (e) {
       changeWard.empty();
       var idValueSelected = $(this).children(":selected").attr("id");
@@ -355,15 +395,8 @@
                   changeWard.append(`<option value="`+ward.WardName+`" id="`+ward.WardCode+`">`+ward.WardName+`</option>`)
                 })
               })
-
     })
-
-
   })
-
-
-
-
   $(document).ready(function () {
     $("#coupon_code_submit").click(function () {
       $("#coupon_code").val($("#coupon_code_input").val());
