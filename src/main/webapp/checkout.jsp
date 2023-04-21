@@ -253,7 +253,6 @@
                       }
                     %>
                   </div>
-                  <button type="submit" class="primary-btn w-100 text-center">Đặt hàng</button>
                 </div>
               </div>
             </div>
