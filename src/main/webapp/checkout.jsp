@@ -342,20 +342,89 @@
 
 
 
-
-
   <% String error = (String) session.getAttribute("errorCheckout");
-    if(error !=null){
-      if(error.equals("202")) {
-  %>
-  alert('Vui lòng điền đủ thông tin');
-  <%} else if(error.equals("204")) {%>
-  alert('Vui lòng đăng nhập');
-  <%} else if(error.equals("101")) {%>
-  alert('Mỗi giỏ hàng sử dụng được 1 lần');
-  <%} else if(error.equals("102")) {%>
-  alert('Mã giảm hết số lượng hoặc hết hạn');
-  <%} session.setAttribute("errorCheckout",null);}%>
+      if(error !=null){
+        if(error.equals("202")) {
+
+     <%} session.setAttribute("errorCheckout",null);}%>
+
+          $(document).ready(function () {
+            $("#coupon_code_submit").click(function () {
+              $("#coupon_code").val($("#coupon_code_input").val());
+              $("#couponForm").submit();
+            });
+          });
+  $("#couponForm").submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: $(this).attr('method'),
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+      success: function (data) {
+        console.log('Submission was successful.');
+        if(2 == data ) {
+          alert('Vui lòng đăng nhập');
+          window.location.href = "/login";
+        } else if(1 == data) {
+          alert('Mã giảm hết số lượng hoặc hết hạn');
+        } else if(3 == data) {
+          alert('Mỗi giỏ hàng sử dụng được 1 lần');
+        } else if(4 == data) {
+          alert('Mã giảm giá không đúng');
+        }  else {
+          let jsonObject = JSON.parse(data);
+          let cartArray = Object.values(jsonObject);
+          let coupon = Object.values(cartArray[5]) ;
+          $("#price_decreased").text(cartArray[3].toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
+          $("#percent_decreased").text(coupon[2] + "%");
+        }
+      },
+      error: function (data) {
+        console.log('An error occurred.');
+        console.log(data);
+      },
+    });
+  });
+  $("#order_form").submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: $(this).attr('method'),
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+      success: function (data) {
+        if(0 == data) {
+          console.log(data);
+          window.location.href = "/account";
+        }
+        if(2 == data) {
+          console.log(data);
+          alert('Vui lòng đăng nhập');
+          window.location.href = "/login";
+        }
+        if(1 == data) {
+          console.log(data);
+          alert('Vui lòng điền đủ thông tin');
+        }
+      },
+      error: function (data) {
+        console.log('An error occurred.');
+        console.log(data);
+      },
+    });
+  });
+
+<%--  <% String error = (String) session.getAttribute("errorCheckout");--%>
+<%--    if(error !=null){--%>
+<%--      if(error.equals("202")) {--%>
+<%--  %>--%>
+<%--  alert('Vui lòng điền đủ thông tin');--%>
+<%--  <%} else if(error.equals("204")) {%>--%>
+<%--  alert('Vui lòng đăng nhập');--%>
+<%--  <%} else if(error.equals("101")) {%>--%>
+<%--  alert('Mỗi giỏ hàng sử dụng được 1 lần');--%>
+<%--  <%} else if(error.equals("102")) {%>--%>
+<%--  alert('Mã giảm hết số lượng hoặc hết hạn');--%>
+<%--  <%} session.setAttribute("errorCheckout",null);}%>--%>
 </script>
 
 <script src="js/jquery.nicescroll.min.js"></script>
