@@ -2,13 +2,7 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %>
-<%@ page import="vn.edu.hcmuaf.fit.bean.*" %><%--
-  Created by IntelliJ IDEA.
-  User: tinh
-  Date: 12/15/2022
-  Time: 4:13 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="vn.edu.hcmuaf.fit.bean.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html lang="zxx">
 
@@ -152,7 +146,7 @@
       <div class="col-lg-4">
 
         <form id="order_form" action="order" method="post" >
-<<<<<<< HEAD
+
           <div class="cart__discount checkout__form shadow p-4">
             <div class="row">
               <div class="col-lg-12 col-md-12">
@@ -164,7 +158,7 @@
                       <input name="nameUser" type="text" value="<%=user != null ? user.getName() : ""%>">
 
 
-=======
+
         <div class="cart__discount checkout__form shadow p-4">
           <div class="row">
             <div class="col-lg-12 col-md-12">
@@ -176,7 +170,7 @@
                     <input name="nameUser" type="text" value="<%=user != null ? user.getName() : ""%>">
 
         
->>>>>>> f23489462684ae1d0f0457483a87ff9d5fa688ce
+
                     </div>
 
                   </div>
@@ -234,7 +228,7 @@
                     <p>Ghi chú<span>*</span></p>
                     <textarea name="noteUser" cols="" rows="2" style="width: 100%;"><%=request.getAttribute("noteUser")!=null?request.getAttribute("noteUser"):""%></textarea>
 
-<<<<<<< HEAD
+
 
                   </div>
 
@@ -267,7 +261,7 @@
                     <%
                       }
                     %>
-=======
+
                                   
                     </div>
 
@@ -302,22 +296,13 @@
                       %>
                     </div>
                     <button type="submit" class="primary-btn w-100 text-center">Đặt hàng</button>
->>>>>>> f23489462684ae1d0f0457483a87ff9d5fa688ce
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
-<<<<<<< HEAD
-=======
-        </form>
-        <form id="couponForm" method="post" action="/coupon">
-          <input id="coupon_code" name="coupon" type="hidden" value="">
-        </form>
-        <form id="couponForm" method="post" action="/coupon">
-          <input id="coupon_code" name="coupon" type="hidden" value="">
-        </form>
->>>>>>> f23489462684ae1d0f0457483a87ff9d5fa688ce
+
       </div>
       </form>
       <form id="couponForm" method="post" action="/coupon">
