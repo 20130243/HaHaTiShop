@@ -145,7 +145,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">Tiền vận chuyển</td>
-                                    <td class="text-end">Tạm chưa làm</td>
+                                    <td class="text-end"><%=new CurrencyFormat().format((int) order.getTotal()-subtotal)%></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Giảm giá (Code: <%=order.getCoupon() != null ? order.getCoupon().getCode(): ""%>)</td>
@@ -253,7 +253,9 @@
 <!-- Search End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
+
+<script src="js/jquery-3.6.0.min.js"></script>
+
 <script src="js/jquery.nice-select.min.js"></script>
 <script src="js/jquery.nicescroll.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>
