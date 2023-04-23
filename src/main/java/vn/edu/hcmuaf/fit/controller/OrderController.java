@@ -38,8 +38,9 @@ public class OrderController extends HttpServlet {
             String addressDistrict = request.getParameter("addressDistrict");
             String addressWard = request.getParameter("addressWard");
             String noteUser = request.getParameter("noteUser");
+            int priceLogistic = Integer.parseInt( request.getParameter("priceLogistic"));
 
-            String address = addressUser + " " + addressCity + " " + addressDistrict + " " + addressWard;
+            String address = addressUser + "-" + addressCity + "-" + addressDistrict + "-" + addressWard;
 
             if(nameUser.equals("") || phoneUser.equals("") || addressUser.equals("")) {
 //                request.setAttribute("addressUser", nameUser);
@@ -56,7 +57,7 @@ public class OrderController extends HttpServlet {
                 List<Item> listItems = cart.getItems();
                 order.setListItems(listItems);
                 order.setCoupon(cart.getCoupon());
-                order.setTotal(cart.getTotalMoney());
+                order.setTotal(cart.getTotalMoney()+priceLogistic);
                 try {
                     cartOrderService.addOrder(order);
                 } catch (SQLException e) {
