@@ -149,7 +149,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${object.cart.items}" var="item">
+                                        <c:forEach items="${object.listItems}" var="item">
                                             <tr>
                                                 <td>${item.product.name}</td>
                                                 <td>${item.product.priceSize[0].size}</td>
