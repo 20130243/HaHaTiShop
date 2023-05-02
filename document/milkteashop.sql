@@ -881,6 +881,12 @@ CREATE TABLE `forgot_pass` (
   `send_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `order_logistic` (
+                               `order_id` int(11) NOT NULL,
+
+                               `logistic_id` varchar(100) NOT NULL
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1174,6 +1180,10 @@ ALTER TABLE `sale_detail`
 --
 ALTER TABLE `toppings`
   ADD CONSTRAINT `toppings_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+--
+-- order logistic Các ràng buộc
+ALTER TABLE `order_logistic`
+    ADD CONSTRAINT `order_logistic_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
 
 --
 -- Các ràng buộc cho bảng `topping_order`
@@ -1182,6 +1192,7 @@ ALTER TABLE `topping_order`
   ADD CONSTRAINT `topping_order_ibfk_1` FOREIGN KEY (`order_detail_id`) REFERENCES `order_detail` (`id`),
   ADD CONSTRAINT `topping_order_ibfk_2` FOREIGN KEY (`topping_id`) REFERENCES `toppings` (`id`);
 COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

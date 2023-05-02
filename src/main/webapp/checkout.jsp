@@ -229,6 +229,11 @@
                         <input style="display: none" class="product-modal-id" type="text" name="priceLogistic" value="0" checked="checked">
 
                       </p>
+                      <p id ="time_logistic_p">Ước lượng thời gian:
+                        <span id ="time_logistic"></span>
+
+
+                      </p>
                       <p>Đã giảm:
                         <span id="percent_decreased"><%=cart.getCoupon() != null ? cart.getCoupon().getPercent() + "%" : "0%"%></span>
                       </p>
@@ -239,12 +244,15 @@
                       <p>Phí vận chuyện:
                         <span>0</span>
                       </p>
+                      <p>Ước lượng thời gian:
+                        <span></span>
+                      </p>
                       <p>Đã giảm: <span>0%</span></p>
                       <%
                         }
                       %>
                     </div>
-                    <button type="submit" class="primary-btn w-100 text-center">Đặt hàng</button>
+                    <button type="submit" id="checkout-button" class="primary-btn w-100 text-center">Đặt hàng</button>
                   </div>
                 </div>
               </div>
@@ -343,7 +351,7 @@
     changeCity.on('change' , function (e) {
       changeDistrict.empty();
       var idValueSelected = $(this).children(":selected").attr("id");
-      console.log(idValueSelected)
+      // console.log(idValueSelected)
       fetch('http://140.238.54.136/api/district'+"?provinceID="+idValueSelected, {
         method: "GET", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
@@ -366,7 +374,7 @@
     changeDistrict.on('change' , function (e) {
       changeWard.empty();
       var idValueSelected = $(this).children(":selected").attr("id");
-      console.log(idValueSelected)
+      // console.log(idValueSelected)
       fetch('http://140.238.54.136/api/ward'+"?districtID="+idValueSelected, {
         method: "GET", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
@@ -387,7 +395,7 @@
     })
 
 
-    changeWard.on('change' , function (e) {
+     changeWard.on('change' , async function (e) {
       let idWardValueSelected = $(this).children(":selected").attr("id");
       let idDistrictValueSelected = changeDistrict.children(":selected").attr("id");
       var details = {
@@ -408,8 +416,8 @@
         formBody.push(encodedKey + "=" + encodedValue);
       }
       formBody = formBody.join("&");
-
-        fetch('http://140.238.54.136/api/calculateFee', {
+        // get fee logistic
+       await fetch('http://140.238.54.136/api/calculateFee', {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           // mode: "cors",
           headers: {
@@ -429,6 +437,28 @@
                 price_logistic_span.innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(moneyLogistic)
 
               })
+
+      //get time logistic
+       await fetch('http://140.238.54.136/api/leadTime', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        // mode: "cors",
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          "Authorization": "Bearer "+localStorage.getItem('accessToken'),
+        },body: formBody
+      })
+              .then((response) => {
+                return response.json()
+              })
+              .then((datas) => {
+                let timeLogistic =  datas.data[0].formattedDate;
+                const time_logistic_p = document.getElementById('time_logistic_p')
+                const time_logistic_span = time_logistic_p.getElementsByTagName('span')[0]
+
+                time_logistic_span.innerText = timeLogistic.split('T')[1].split('Z')[0] +" "+ timeLogistic.split('T')[0];
+
+              })
+
 
      })
 
