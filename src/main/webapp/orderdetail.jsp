@@ -26,6 +26,7 @@
 </head>
 
 <body>
+
 <%
     Order order = (Order) request.getAttribute("order");
     List<Item> list = null;
@@ -33,6 +34,10 @@
         list = order.getListItems();
     }
 %>
+
+<style>
+
+</style>
 <!-- Page Preloder -->
 <div id="preloder">
     <div class="loader"></div>
@@ -68,162 +73,171 @@
     </div>
 </div>
 <!-- Breadcrumb Section End -->
-<!-- Shopping Cart Section Begin -->
+
+<!-- Order detail Section Begin -->
 <section class="cart">
-    <div class="container">
-        <div class="row mb-3">
-            <div class="col-lg-8  ">
-                <div class="shopping__cart__table p-3 shadow ">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Sản phẩm</th>
-                            <th>Topping</th>
-                            <th>Số lượng</th>
-                            <th>Giá tiền</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <form action="#" method="get" id="myForm">
-                            <%
-                                if (list != null) {
-                                    for (Item item : list) {
-                            %>
-                            <tr>
-                                <td class="product__cart__item">
-                                    <div class="product__cart__item__pic">
-                                        <img src="<%=item.getProduct().getImage().get(0).getUrl()%>" alt="" width="150">
-                                    </div>
-                                    <div class="product__cart__item__text">
-                                        <h5><%=item.getProduct().getName()%>
-                                        </h5>
-                                        <input style="display: none" disabled class="product-modal-id" type="text"
-                                               name="<%=item.getId()%>" value="<%=item.getId()%>" checked="checked">
-                                        <h6><%=new CurrencyFormat().format((int) item.getProduct().getPriceSize().get(0).getPrice())%>
-                                        </h6>
-                                    </div>
-                                </td>
-                                <td>
-                                    <%
-                                        List<Topping> toppingList = item.getProduct().getTopping();
-                                        if (toppingList.size() > 0) {
-                                            for (Topping topping : toppingList) {
-                                    %>
-                                    <p class="w-150"><%=topping.getName()%>
-                                    </p>
-                                    <%
-                                        }
-                                    } else {
-                                    %>
-                                    <p class="w-150"></p>
-                                    <%}%>
-                                </td>
-                                <td class="quantity__item">
-                                    <div class="quantity">
-                                        <div class="pro-qty-2">
-                                            <input name="quantityChange<%=item.getId()%>" disabled class="quantity"
-                                                   type="number" value="<%=item.getQuantity()%>">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart__price"><%= new CurrencyFormat().format((int) item.getPrice())%>
-                                </td>
-                            </tr>
-                            <%
-                                    }
-                                }
-                            %>
-                        </form>
-                        </tbody>
-                    </table>
-                </div>
+    <div class="container-fluid">
+        <div class="container">
+            <%
+            if(order != null){
+            %>
+            <!-- Title -->
+            <div class="d-flex justify-content-between align-items-center py-3">
+                <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order #<%=order.getId()%></h2>
             </div>
 
-            <div class="col-lg-4">
-                <form  <% if (order.getStatus() == 0 || order.getStatus() == 1) { %>
-                        action="cancel" method="post"                        <% }%>>
+            <!-- Main content -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Details -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="mb-3 d-flex justify-content-between">
+                                <div>
+                                    <span class="me-3"><%=order.getTime()%></span>
+                                    <span class="me-3">#<%=order.getId()%></span>
+                                    <span class="badge rounded-pill bg-info">
+                                        <%=order.getStatus() == 0 ? "Đang chờ" : order.getStatus() == 1 ? "Đã xác nhận" : order.getStatus() == 2 ? "Đã vận chuyển" :
+                                                        order.getStatus() == 3 ? "Thành công" : "Đã huỷ"%>
+                                    </span>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text" id="print-btn"><i class="fa-solid fa-download"></i><span class="text">Xuất hoá đơn</span></button>
+                                </div>
+                            </div>
+                            <table class="table table-borderless">
+                                <tbody>
+                                <%
+                                    int subtotal = 0;
+                                if (list!=null) {
+                                    for(Item item : list) {
+                                        subtotal +=(int) item.getPrice();
+                                %>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex mb-2">
+                                            <div class="flex-shrink-0">
+                                                <img src="<%=item.getProduct().getMainImage().getUrl()%>" alt="" width="35" class="img-fluid">
+                                            </div>
+                                            <div class="flex-lg-grow-1 ms-3">
+                                                <h6 class="small mb-0"><a href="#" class="text-reset"><%=item.getProduct().getName()%> <strong> Size: </strong><%=item.getProduct().getPriceSize().get(0).getSize()%></a></h6>
+                                                <span class="small">Topping:
+                                                <%
+                                                    List<Topping> toppings = item.getProduct().getTopping();
+                                                    if(toppings.size() > 0){
+                                                   for(Topping topping : toppings){
+                                               %>
+                                                <%=topping.getName() + ", "%>
+                                                <%}}%>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><%=item.getQuantity()%></td>
+                                    <td class="text-end"><%=new CurrencyFormat().format((int) item.getPrice())%></td>
+                                </tr>
+                                <%}}%>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="2">Tạm tính</td>
+                                    <td class="text-end"><%=new CurrencyFormat().format((int) subtotal)%></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Tiền vận chuyển</td>
+                                    <td class="text-end"><%=new CurrencyFormat().format((int) order.getTotal()-subtotal)%></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Giảm giá (Code: <%=order.getCoupon() != null ? order.getCoupon().getCode(): ""%>)</td>
+                                    <td class="text-danger text-end">-<%=order.getCoupon() != null ? order.getCoupon().getPercent() + "%" : "0%"%></td>
+                                </tr>
+                                <tr class="fw-bold">
+                                    <td colspan="2">Tổng giá</td>
+                                    <td class="text-end"><%=new CurrencyFormat().format((int) order.getTotal())%></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <div class="progress-track">
+                                <%
+                                if(order.getStatus() != 4) {
+                                %>
+                                <ul id="progressbar">
+                                    <li class="step0 <%=order.getStatus() >=0? "active" : ""%> " id="step1">Đang chờ</li>
+                                    <li class="step0 <%=order.getStatus() >=1? "active" : ""%> text-center" id="step2">Đã nhận đơn</li>
+                                    <li class="step0 <%=order.getStatus() >=2? "active" : ""%> text-right" id="step3">Đang giao</li>
+                                    <li class="step0 <%=order.getStatus() >=3? "active" : ""%> text-right" id="step4">Thành công</li>
+                                </ul>
 
-                    <div class="cart__discount checkout__form shadow p-4">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12">
-                                <h6 class="">Thông tin nhận hàng</h6>
-                                <input hidden name="orderid" value="<%=order.getId()%>">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="checkout__input">
-                                            <p>Tên người nhận<span>*</span></p>
-                                            <input name="nameUser" disabled type="text" value="<%=order.getName()%>">
-                                        </div>
-                                    </div>
+                                <%} else {%>
+                                <ul id="progressbar" style="padding-left: 170px;">
+                                    <li class="step0 active " id="step5">Đã nhận</li>
+                                    <li class="step0 active text-right" id="step6">Đã huỷ</li>
+                                </ul>
+                                <%}%>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Payment -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h3 class="h6">Phương thức thanh toán</h3>
+                                    <p>Thanh toán khi nhận hàng <br>
+                                        Tổng: <%=new CurrencyFormat().format((int)order.getTotal())%> <span class="badge bg-success rounded-pill">PAID</span></p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="checkout__input">
-                                            <p>Số điện thoại người nhận<span>*</span></p>
-                                            <input name="phoneUser" disabled type="phone" value="<%=order.getPhone()%>">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="checkout__input">
-                                            <p>Địa chỉ nhận hàng<span>*</span></p>
-                                            <textarea name="addressUser" disabled cols="" rows="2"
-                                                      style="width: 100%;"><%=order.getAddress()%></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="checkout__input">
-                                            <p>Ghi chú<span>*</span></p>
-                                            <textarea name="noteUser" disabled cols="" rows="2"
-                                                      style="width: 100%;"><%=order.getNote()%></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="coupon_form">
-                                    <input name="coupon" disabled type="text" placeholder="Nhập mã giảm giá"
-                                           value="<%=order.getCoupon()!=null? order.getCoupon().getCode() : ""%>">
-                                    <%System.out.println(order.getCoupon());%>
-                                    <button type="submit" disabled>Áp dụng</button>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h6 class="mt-4  mb-3">Tổng giỏ hàng</h6>
-                                        <div>
-                                            <%
-                                                if (order != null) {
-                                            %>
-                                            <p>Tổng tiền:
-                                                <span><%=new CurrencyFormat().format((int) order.getTotal())%></span>
-                                            </p>
-                                            <p>Đã giảm:
-                                                <span><%=order.getCoupon() != null ? order.getCoupon().getPercent() + "%" : "0%"%></span>
-                                            </p>
-                                            <p>Trạng thái:
-                                                <span><%=order.getStatus() == 0 ? "Đang chờ" : order.getStatus() == 1 ? "Đã xác nhận" : order.getStatus() == 2 ? "Đã vận chuyển" :
-                                                        order.getStatus() == 3 ? "Thành công" : "Đã huỷ"
-                                                %></span></p>
-                                            <%
-                                                }
-                                            %>
-                                        </div>
-                                        <% if (order.getStatus() == 0 || order.getStatus() == 1) { %>
-                                        <button type="submit" class="primary-btn w-100 text-center">Hủy đơn</button>
-                                        <% }%>
-                                    </div>
+                                <div class="col-lg-6">
+                                    <h3 class="h6">Địa chỉ giao hàng</h3>
+                                    <address>
+                                        <strong><%=order.getName()%></strong><br>
+                                        <%=order.getAddress()%><br>
+                                        <abbr title="Phone">P:</abbr> <%=order.getPhone()%>
+                                    </address>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Customer Notes -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h3 class="h6">Ghi chú của khách hàng</h3>
+                            <p><%=order.getNote()%>.</p>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <!-- Shipping information -->
+                        <div class="card-body">
+                            <h3 class="h6">Thông tin vận chuyển</h3>
+                            <strong>FedEx</strong>
+                            <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i class="bi bi-box-arrow-up-right"></i> </span>
+                            <hr>
+                            <h3 class="h6">Địa chỉ</h3>
+                            <address>
+                                <strong><%=order.getName()%></strong><br>
+                                <%=order.getAddress()%><br>
+                                <abbr title="Phone">P:</abbr> <%=order.getPhone()%>
+                            </address>
+                        </div>
+
+                    </div>
+                    <% if (order.getStatus() == 0 || order.getStatus() == 1) { %>
+                    <form method="post" action="/cancel">
+                        <input hidden name="orderid" value="<%=order.getId()%>">
+                        <button type="submit" class="primary-btn text-center" style="display: block;margin: 0 auto;">Hủy đơn</button>
+                    </form>
+                    <% }%>
+                </div>
             </div>
+            <%}%>
         </div>
     </div>
-
 </section>
+
+
+
 <!-- Footer Section Begin -->
 <%@include file="footer.jsp" %>
 <!-- Footer Section End -->
@@ -239,7 +253,9 @@
 <!-- Search End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
+
+<script src="js/jquery-3.6.0.min.js"></script>
+
 <script src="js/jquery.nice-select.min.js"></script>
 <script src="js/jquery.nicescroll.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>
@@ -259,7 +275,11 @@
     alert('Đơn hàng đã đang vận chuyển, thành công, hoặc đã huỷ');
     <%} session.setAttribute("errorCancelOrder",null);}%>
 
+    const printBtn = document.getElementById("print-btn");
 
+    printBtn.addEventListener("click", function() {
+        window.print();
+    });
 </script>
 </body>
 
