@@ -19,12 +19,7 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String page = request.getParameter("page");
-        int index;
-        if(page == null) {
-            index = 1;
-        } else {
-            index = Integer.parseInt(page);
-        }
+        int index = page == null ? 1 : Integer.parseInt(page);
         ToppingService toppingService = new ToppingService();
         int count = toppingService.getTotal();
         int endPage = count/10;

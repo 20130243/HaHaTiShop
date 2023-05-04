@@ -49,7 +49,7 @@ public class UserDAO extends RD {
     @Override
     public void delete(int id) {
         JDBIConnector.get().withHandle(h ->
-                h.createUpdate("DELETE FROM " + tableName + " WHERE id=:id").bind("id", id).execute());
+                h.createUpdate("UPDATE" + tableName + "SET status = 4 WHERE id=:id").bind("id", id).execute());
     }
 
     public void insert(String username, String password, String name, String address, String phone, String email, int level) {
@@ -102,6 +102,7 @@ public class UserDAO extends RD {
                         .execute());
 
     }
+
     public void update(int id, String password) {
         JDBIConnector.get().withHandle(h ->
                 h.createUpdate("UPDATE " + tableName + " SET password=:password WHERE id=:id")
@@ -140,6 +141,7 @@ public class UserDAO extends RD {
                         .first());
 
     }
+
     public Map<String, Object> loginSocial(String email) {
         if (!checkEmail(email)) {
             return null;
@@ -151,6 +153,7 @@ public class UserDAO extends RD {
                         .first());
 
     }
+
     public boolean checkValid(String username, String password) {
         int result = JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE username =:username and password =:password")
@@ -191,6 +194,14 @@ public class UserDAO extends RD {
                         .bind("token", token)
                         .mapTo(Integer.class).first());
         return result == 1;
+    }
+
+    public List<Map<String, Object>> paging(int index) {
+        return JDBIConnector.get().withHandle(h ->
+                h.createQuery("select * from " + tableName +
+                        " order by id DESC " +
+                        " LIMIT ? , 10;").bind(0, (index - 1) * 10).mapToMap().list()
+        );
     }
 
     public static void main(String[] args) {
