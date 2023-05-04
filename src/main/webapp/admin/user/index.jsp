@@ -52,10 +52,10 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item active">Tin tức</li>
+                                    <li class="breadcrumb-item active">Tài khoản người dùng</li>
                                 </ol>
                             </div>
-                            <h4 class="page-title">Tin tức</h4>
+                            <h4 class="page-title">Tài khoản người dùng</h4>
                         </div>
                     </div>
                 </div>
@@ -65,78 +65,49 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <c:choose>
-                                            <c:when test="${sessionScope.admin.level ge 1}">
-                                                <a href="/admin/blog/create" class="btn btn-danger mb-2"><i
-                                                        class="mdi mdi-plus-circle mr-2"></i>Thêm tin tức</a>
-                                            </c:when>
-                                        </c:choose>
 
-                                    </div>
-                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-centered w-100 dt-responsive nowrap"
                                            id="products-datatable">
                                         <thead class="thead-light">
                                         <tr>
-                                            <th class="all">Tiêu đề</th>
-                                            <th class="text-center">Nội dung</th>
-                                            <th class="text-center">Thời gian</th>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.admin.level ge 1}">
-                                                    <th class="text-center">Hành động</th>
-                                                </c:when>
-                                            </c:choose>
+                                            <th class="text-center">Tên</th>
+                                            <th class="text-center">Số điện thoại</th>
+                                            <th class="text-center">email</th>
+                                            <th class="text-center">Địa chỉ</th>
+                                            <th class="text-center">Hành động</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach var="item" items="${requestScope['blogList']}">
+                                        <c:forEach var="item" items="${requestScope['userList']}">
 
                                             <tr>
-                                                <td>
-                                                    <img src="${item.image}" alt="contact-img"
-                                                         title="contact-img" class="rounded mr-3" height="48"/>
-                                                    <p class="m-0 d-inline-block align-middle font-16"
-                                                       style="max-width: 200px;">
-                                                        <a href="" style="pointer-events: none; cursor: default;"
-                                                           class="text-body">${item.name}</a>
-                                                        <br/>
-                                                    </p>
+                                                <td class="">
+                                                        ${item.name}
+                                                </td>
+                                                <td class="">
+                                                        ${item.phone}
+                                                </td>
+                                                <td class="">
+                                                        ${item.email}
                                                 </td>
                                                 <td>
                                                     <div data-simplebar data-simplebar-lg
-                                                         style="max-height: 60px;width: 400px;" class="form-group">
-                                                            ${fn:substring(item.content, 0, 300)}
+                                                         style="max-height: 60px;width: 200px;" class="form-group">
+                                                            ${fn:substring(item.address, 0, 300)}
                                                     </div>
                                                 </td>
-                                                <td>
-                                                        ${item.start_date}
-                                                    <hr>
-                                                        ${item.end_date}
-                                                </td>
-                                                <c:choose>
-                                                    <c:when test="${sessionScope.admin.level ge 1}">
-                                                        <form action="/admin/blog/delete" method="post"
-                                                              id="delete-form-<c:out value="${item.id}"/>">
-                                                            <td class="table-action text-center">
-                                                                <a href="/admin/blog/update?id=<c:out value="${item.id}"/>"
-                                                                   class="action-icon"> <i
-                                                                        class="mdi mdi-square-edit-outline"></i></a>
-                                                                <input type="text" name="id" id="id"
-                                                                       value="<c:out value="${item.id}"/>" class="d-none">
-                                                                <button type="submit" class="d-none"></button>
-                                                                <a href="javascript:{0}"
-                                                                   class="action-icon"> <i class="mdi mdi-delete delete-btn"
-                                                                                           data-name="<c:out value="${item.name}"/>"
-                                                                                           data-id="<c:out value="${item.id}"/>"></i>
-                                                                </a>
-
-                                                            </td>
-                                                        </form>
-                                                    </c:when>
-                                                </c:choose>
+                                                <form action="/admin/user/delete" method="post"
+                                                      id="delete-form-<c:out value="${item.id}"/>">
+                                                    <td class="table-action text-center">
+                                                        <button type="submit" class="d-none"></button>
+                                                        <a href="javascript:{0}" class="action-icon">
+                                                            <i class="mdi mdi-delete delete-btn"
+                                                               data-name="${item.name}"
+                                                               data-id="${item.id}"></i>
+                                                        </a>
+                                                    </td>
+                                                </form>
 
                                             </tr>
                                         </c:forEach>
@@ -154,7 +125,7 @@
                                     <nav>
                                         <ul class="pagination pagination-rounded mb-0">
                                             <li class="page-item  <c:if test="${currentPage eq 1 }"> d-none </c:if>">
-                                                <a class="page-link" href="/admin/blog?page=<c:out value='${i-1}'/>"
+                                                <a class="page-link" href="/admin/user?page=<c:out value='${i-1}'/>"
                                                    aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only">Previous</span>
@@ -163,13 +134,13 @@
                                             <c:forEach var="i" begin="1" end="${endPage}">
                                                 <li class="page-item  <c:if test="${currentPage eq i }"> active </c:if>">
                                                     <a class="page-link"
-                                                       href="/admin/blog?page=<c:out value='${i}'/>">
+                                                       href="/admin/user?page=<c:out value='${i}'/>">
                                                         <c:out value="${i}"/>
                                                     </a>
                                                 </li>
                                             </c:forEach>
                                             <li class="page-item <c:if test="${currentPage eq endPage }"> d-none </c:if>">
-                                                <a class="page-link" href="/admin/blog?page=<c:out value='${i+1}'/>"
+                                                <a class="page-link" href="/admin/user?page=<c:out value='${i+1}'/>"
                                                    aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only">Next</span>
@@ -183,7 +154,7 @@
                     </div> <!-- end col -->
                 </div>       <!-- end row -->
             </div> <!-- container -->
-         </div> <!-- content -->
+        </div> <!-- content -->
     </div>
     <!-- content -->
 

@@ -76,7 +76,7 @@
                 </a>
             </li>
             <c:choose>
-                <c:when test="${sessionScope.admin.level ge 1}">
+                <c:when test="${sessionScope.admin.level ge 2}">
                     <li class="side-nav-item">
                         <a href="<c:out value="${pageContext.request.contextPath}"/>/admin/sale" class="side-nav-link">
                             <i class="uil-calender"></i>

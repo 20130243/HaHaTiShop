@@ -246,7 +246,6 @@
             success: function (data) {
                 if (1 == data) {
                     $("#login-username-error").text("Tài khoản hoặc mật khẩu không đúng");
-                    console.log(123);
                 } else if (2 == data) {
                     window.location.href = "/";
                 }

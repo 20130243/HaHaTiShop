@@ -136,7 +136,6 @@ public class UserService {
     }
 
     public boolean checkPassword(int id, String password) {
-
         return dao.checkPassword(id, hashPassword(password));
     }
     public boolean checkPassword(String email, String password) {
@@ -166,8 +165,7 @@ public class UserService {
         dao.updateToken(user.getId(), token);
     }
     public int getTotal() {
-//        return dao.getTotal();
-        return 0;
+        return dao.getTotal();
     }
     public List<User> getPaging(int index) {
         List<User> list = new ArrayList<>();

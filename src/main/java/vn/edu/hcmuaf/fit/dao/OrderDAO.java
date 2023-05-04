@@ -135,7 +135,7 @@ public class OrderDAO extends RD {
 
     public int countCustomer() {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("SELECT  COUNT(DISTINCT user_id) from " + tableName + "WHERE   status = 2")
+                h.createQuery("SELECT  COUNT(DISTINCT user_id) from " + tableName + "WHERE   status = 3")
                         .mapTo(Integer.class).first());
     }
 
@@ -143,7 +143,7 @@ public class OrderDAO extends RD {
         return JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT  COUNT(DISTINCT user_id) from  " + tableName + " WHERE " +
                                 "YEAR(time) = YEAR(CURRENT_DATE)\n" +
-                                "AND MONTH(time) = MONTH(CURRENT_DATE) AND status = 2")
+                                "AND MONTH(time) = MONTH(CURRENT_DATE) AND status = 3")
                         .mapTo(Integer.class).first());
     }
 
@@ -151,13 +151,13 @@ public class OrderDAO extends RD {
         return JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT  COUNT(DISTINCT user_id) from " + tableName + " WHERE " +
                                 "YEAR(time) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)\n" +
-                                "AND MONTH(time) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND status = 2")
+                                "AND MONTH(time) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND status = 3")
                         .mapTo(Integer.class).first());
     }
 
     public int countOrder() {
         return JDBIConnector.get().withHandle(h ->
-                h.createQuery("SELECT  COUNT(DISTINCT id) from " + tableName + " WHERE  status = 2")
+                h.createQuery("SELECT  COUNT(DISTINCT id) from " + tableName + " WHERE  status = 3")
                         .mapTo(Integer.class).first());
     }
 
@@ -165,7 +165,7 @@ public class OrderDAO extends RD {
         return JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT  COUNT(DISTINCT id) from " + tableName + " WHERE " +
                                 "YEAR(time) = YEAR(CURRENT_DATE)\n" +
-                                "AND MONTH(time) = MONTH(CURRENT_DATE)  AND status = 2")
+                                "AND MONTH(time) = MONTH(CURRENT_DATE)  AND status = 3")
                         .mapTo(Integer.class).first());
     }
 
@@ -173,7 +173,7 @@ public class OrderDAO extends RD {
         return JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT  COUNT(DISTINCT id) from " + tableName + " WHERE " +
                                 "YEAR(time) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)\n" +
-                                "AND MONTH(time) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)  AND status = 2")
+                                "AND MONTH(time) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)  AND status = 3")
                         .mapTo(Integer.class).first());
     }
 
@@ -181,7 +181,7 @@ public class OrderDAO extends RD {
         String result = JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT  SUM(total) from " + tableName + " WHERE " +
                                 "YEAR(time) = YEAR(CURRENT_DATE)\n" +
-                                "AND MONTH(time) = MONTH(CURRENT_DATE)  AND status = 2")
+                                "AND MONTH(time) = MONTH(CURRENT_DATE)  AND status = 3")
                         .mapTo(String.class).first());
 
         return result != null ? Float.parseFloat(result) : 0;
@@ -191,7 +191,7 @@ public class OrderDAO extends RD {
         String result = JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT  SUM(total) from " + tableName + " WHERE " +
                                 "YEAR(time) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)\n" +
-                                "AND MONTH(time) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)  AND status = 2")
+                                "AND MONTH(time) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)  AND status = 3")
                         .mapTo(String.class).first());
 
         return result != null ? Float.parseFloat(result) : 0;
@@ -216,8 +216,8 @@ public class OrderDAO extends RD {
 
     public float sumTotalToday() {
         String result = JDBIConnector.get().withHandle(h ->
-                h.createQuery("SELECT  SUM(total) from " + tableName + " WHERE DATE(time) = CURDATE()  AND status = 2")
-                        .mapTo(String.class).first());
+                h.createQuery("SELECT  SUM(total) from " + tableName + " WHERE DATE(time) = CURDATE()  AND status = 3")
+                        .mapTo(String.class).first()); 
         return result != null ? Float.parseFloat(result) : 0;
     }
 
@@ -227,7 +227,7 @@ public class OrderDAO extends RD {
                                 "FROM order_detail JOIN product_size on product_size.id= order_detail.product_size_id  \n" +
                                 "JOIN  " + tableName + " on  " + tableName + ".id= order_detail.order_id \n" +
                                 "JOIN products on products.id=product_size.product_id \n" +
-                                "WHERE  " + tableName + ".time BETWEEN NOW() - INTERVAL 30 DAY AND NOW()  AND " + tableName + ".status = 2 \n" +
+                                "WHERE  " + tableName + ".time BETWEEN NOW() - INTERVAL 30 DAY AND NOW()  AND " + tableName + ".status = 3 \n" +
                                 "GROUP BY products.id,products.name\n" +
                                 "ORDER BY SUM(order_detail.quantity) DESC\n" +
                                 "LIMIT 5")
@@ -242,7 +242,7 @@ public class OrderDAO extends RD {
                                 "JOIN " + tableName + " on " + tableName + ".id= order_detail.order_id \n" +
                                 "JOIN products on products.id=product_size.product_id \n" +
                                 "JOIN categories ON categories.id= products.category_id\n" +
-                                "WHERE " + tableName + ".time BETWEEN NOW() - INTERVAL 30 DAY AND NOW()  AND " + tableName + ".status = 2 \n" +
+                                "WHERE " + tableName + ".time BETWEEN NOW() - INTERVAL 30 DAY AND NOW()  AND " + tableName + ".status = 3 \n" +
                                 "GROUP BY categories.id,categories.name")
                         .mapToMap()
                         .list());
@@ -262,19 +262,19 @@ public class OrderDAO extends RD {
             String[] dayName = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
             for (String day : dayName) {
                 String number = JDBIConnector.get().withHandle(h ->
-                        h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()- INTERVAL 1 WEEK) AND DAYNAME(time) like '" + day + "' AND status = 2")
+                        h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()- INTERVAL 1 WEEK) AND DAYNAME(time) like '" + day + "' AND status = 3")
                                 .mapTo(String.class).first());
                 result.add(number != null ? Float.parseFloat(number) : 0);
             }
             String number = JDBIConnector.get().withHandle(h ->
-                    h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()) AND DAYNAME(time) like '" + "Sunday" + "' AND status = 2")
+                    h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()) AND DAYNAME(time) like '" + "Sunday" + "' AND status = 3")
                             .mapTo(String.class).first());
             result.add(number != null ? Float.parseFloat(number) : 0);
         } else {
             String[] dayName = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
             for (String day : dayName) {
                 String number = JDBIConnector.get().withHandle(h ->
-                        h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()) AND DAYNAME(time) like '" + day + "' AND status = 2")
+                        h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()) AND DAYNAME(time) like '" + day + "' AND status = 3")
                                 .mapTo(String.class).first());
                 result.add(number != null ? Float.parseFloat(number) : 0);
             }
@@ -291,24 +291,24 @@ public class OrderDAO extends RD {
             String[] dayName = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
             for (String day : dayName) {
                 String number = JDBIConnector.get().withHandle(h ->
-                        h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()- INTERVAL 2 WEEK) AND DAYNAME(time) like '" + day + "' AND status = 2")
+                        h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()- INTERVAL 2 WEEK) AND DAYNAME(time) like '" + day + "' AND status = 3")
                                 .mapTo(String.class).first());
                 result.add(number != null ? Float.parseFloat(number) : 0);
             }
             String number = JDBIConnector.get().withHandle(h ->
-                    h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()- INTERVAL 1 WEEK) AND DAYNAME(time) like '" + "Sunday" + "' AND status = 2")
+                    h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()- INTERVAL 1 WEEK) AND DAYNAME(time) like '" + "Sunday" + "' AND status = 3")
                             .mapTo(String.class).first());
             result.add(number != null ? Float.parseFloat(number) : 0);
         } else {
             String[] dayName = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
             for (String day : dayName) {
                 String number = JDBIConnector.get().withHandle(h ->
-                        h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW() - INTERVAL 1 WEEK) AND DAYNAME(time) like '" + day + "' AND status = 2")
+                        h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW() - INTERVAL 1 WEEK) AND DAYNAME(time) like '" + day + "' AND status = 3")
                                 .mapTo(String.class).first());
                 result.add(number != null ? Float.parseFloat(number) : 0);
             }
             String number = JDBIConnector.get().withHandle(h ->
-                    h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()) AND DAYNAME(time) like '" + "Sunday" + "' AND status = 2")
+                    h.createQuery("SELECT SUM(total) FROM " + tableName + " WHERE  YEARWEEK(time) = YEARWEEK(NOW()) AND DAYNAME(time) like '" + "Sunday" + "' AND status = 3")
                             .mapTo(String.class).first());
             result.add(number != null ? Float.parseFloat(number) : 0);
         }
