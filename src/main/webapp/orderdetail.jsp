@@ -33,6 +33,8 @@
     if (order != null) {
         list = order.getListItems();
     }
+    String logisticId = (String) request.getAttribute("logisticId");
+
 %>
 
 <style>
@@ -113,14 +115,16 @@
                                     for(Item item : list) {
                                         subtotal +=(int) item.getPrice();
                                 %>
-                                <tr>
+                                <tr class="tr">
                                     <td>
                                         <div class="d-flex mb-2">
                                             <div class="flex-shrink-0">
                                                 <img src="<%=item.getProduct().getMainImage().getUrl()%>" alt="" width="35" class="img-fluid">
                                             </div>
                                             <div class="flex-lg-grow-1 ms-3">
-                                                <h6 class="small mb-0"><a href="#" class="text-reset"><%=item.getProduct().getName()%> <strong> Size: </strong><%=item.getProduct().getPriceSize().get(0).getSize()%></a></h6>
+                                                <h6 class="small mb-0"><a href="#" class="text-reset"><%=item.getProduct().getName()%> <strong> Size: </strong>
+                                                    <span ><%=item.getProduct().getPriceSize().get(0).getSize()%></span>
+                                                </a></h6>
                                                 <span class="small">Topping:
                                                 <%
                                                     List<Topping> toppings = item.getProduct().getTopping();
@@ -145,7 +149,12 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">Tiền vận chuyển</td>
-                                    <td class="text-end"><%=new CurrencyFormat().format((int) order.getTotal()-subtotal)%></td>
+                                    <td class="text-end" id="moneyLogisticTD" >---</td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">Thời gian vận chuyển</td>
+                                    <td class="text-end" id="timeLogisticTD" >---</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Giảm giá (Code: <%=order.getCoupon() != null ? order.getCoupon().getCode(): ""%>)</td>
@@ -217,7 +226,7 @@
                             <h3 class="h6">Địa chỉ</h3>
                             <address>
                                 <strong><%=order.getName()%></strong><br>
-                                <%=order.getAddress()%><br>
+                               <span id="orderAddress"><%=order.getAddress()%></span> <br>
                                 <abbr title="Phone">P:</abbr> <%=order.getPhone()%>
                             </address>
                         </div>
@@ -266,7 +275,7 @@
 <script src="js/main.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/account/bootstrap.min.js"></script>
-<script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+
 <script>
     <% String error = (String) session.getAttribute("errorCancelOrder");
       if(error !=null){
@@ -280,6 +289,257 @@
     printBtn.addEventListener("click", function() {
         window.print();
     });
+
+    // logistic script
+
+    <%if (logisticId.length()>0){%>
+
+
+    jQuery(function (){
+        const callAPI = async ()=> {
+            await fetch('http://140.238.54.136/api/auth/login', {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                mode: "cors", // no-cors, *cors, same-origin
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(
+                    {
+                        email: 'thaha8788@gmail.com',
+                        password: '123456'
+                    }
+                )
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    const accessToken = data.access_token
+                    localStorage.setItem('accessToken', accessToken)
+                })
+            var details = {
+                'id': '${logisticId.toString()}'
+            };
+
+            var formBody = [];
+            for (var property in details) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(details[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            await fetch('http://140.238.54.136/api/getInfoTransport', {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                // mode: "cors",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                    "Authorization": "Bearer "+localStorage.getItem('accessToken'),
+                },body: formBody
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((datas) => {
+                    const moneyLogistic = datas.data[0].fee;
+                    let moneyLogisticTD = $('#moneyLogisticTD')[0]
+                    moneyLogisticTD.textContent = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(moneyLogistic)
+
+
+                    let timeLogistic = datas.data[0].leadTime;
+                    let timeLogisticTD = $('#timeLogisticTD')[0]
+
+                    const date = new Date(parseInt(timeLogistic) * 1000);
+                    timeLogisticTD.textContent=date.toLocaleTimeString('vi-VN', {hour12: true})+", "+ date.toLocaleDateString('vi-VN');
+
+
+                })
+        }
+        callAPI()
+
+
+    })
+   <%}else if(order.getStatus() <4){%>
+    jQuery(function () {
+
+        var numOfSizeM = 0;
+        var numOfSizeL = 0;
+        // Thông tin nơi giao hàng và size sản phẩm có thể chỉnh
+        var idProvinceFrom =202;
+        var idWardFrom = 90737;
+        var idDistrictFrom = 3695;
+        //
+        var idProvinceTo =202;
+        var idWardTo = 0;
+        var idDistrictTo = 0;
+
+        const sizeM = {
+            size :'M',
+            height: 15,
+            width: 8,
+            length: 8,
+            weight: 55
+        }
+        const sizeL = {
+            size :'L',
+            height: 17,
+            width: 10,
+            length: 10,
+            weight: 65
+        }
+        const listTR = document.getElementsByClassName('tr');
+        let arrTR =Array.from(listTR)
+
+        arrTR.map((tr,index)=>{
+            const sizeText = tr.getElementsByTagName("span")[0];
+            const quantityText =  tr.getElementsByTagName("td")[1];
+
+
+            if (sizeText.textContent===sizeM.size){
+                numOfSizeM += parseInt(quantityText.textContent);
+            }else if (sizeText.textContent===sizeL.size){
+                numOfSizeL += parseInt(quantityText.textContent);
+            }
+        })
+
+        //--------------------------
+        //--------------------------
+        // What to do when the response is ready
+
+
+
+
+        const orderAddress = $('#orderAddress');
+        const addressText=  orderAddress[0].textContent;
+
+        const districtText = addressText.split('-')[2]
+        const wardText = addressText.split('-')[3]
+
+
+        const callAPI = async ()=>{
+            await fetch('http://140.238.54.136/api/auth/login', {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                mode: "cors", // no-cors, *cors, same-origin
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(
+                    {
+                        email: 'thaha8788@gmail.com',
+                        password: '123456'
+                    }
+                )
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    const accessToken = data.access_token
+                    localStorage.setItem('accessToken', accessToken)
+                })
+            await  fetch('http://140.238.54.136/api/district'+"?provinceID="+idProvinceTo, {
+                method: "GET", // *GET, POST, PUT, DELETE, etc.
+                mode: "cors", // no-cors, *cors, same-origin
+                headers: {
+                    "Authorization": "Bearer "+localStorage.getItem('accessToken'),
+                },
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    let districtDatas =  data.original.data;
+                    districtDatas.map((district,index)=>{
+                        if (district.DistrictName === districtText){
+                            idDistrictTo = parseInt(district.DistrictID)
+
+
+                        }
+                    })
+                })
+
+            await fetch('http://140.238.54.136/api/ward'+"?districtID="+idDistrictTo, {
+                method: "GET", // *GET, POST, PUT, DELETE, etc.
+                mode: "cors", // no-cors, *cors, same-origin
+                headers: {
+                    "Authorization": "Bearer "+localStorage.getItem('accessToken'),
+                },
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    let wardDatas =  data.original.data;
+
+                    wardDatas.map((ward,index)=>{
+                        if (ward.WardName === wardText) {
+
+                            idWardTo = parseInt(ward.WardCode)
+
+                        }
+                    })
+                })
+            var details = {
+                'from_district_id': idDistrictFrom,
+                'from_ward_id':idWardFrom,
+                'to_district_id':idDistrictTo,
+                'to_ward_id':idWardTo,
+                'height':(sizeM.height*numOfSizeM)+(sizeL.height*numOfSizeL),
+                'length':(sizeM.length*numOfSizeM)+(sizeL.length*numOfSizeL),
+                'width':(sizeM.width*numOfSizeM)+(sizeL.width*numOfSizeL),
+                'weight':(sizeM.weight*numOfSizeM)+(sizeL.weight*numOfSizeL)
+            };
+
+            var formBody = [];
+            for (var property in details) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(details[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            await fetch('http://140.238.54.136/api/calculateFee', {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                // mode: "cors",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                    "Authorization": "Bearer "+localStorage.getItem('accessToken'),
+                },body: formBody
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((datas) => {
+                    let moneyLogistic =  datas.data[0].service_fee;
+                    let moneyLogisticTD = $('#moneyLogisticTD')[0]
+                    moneyLogisticTD.textContent = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(moneyLogistic)
+
+                })
+
+            await fetch('http://140.238.54.136/api/leadTime', {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                // mode: "cors",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                    "Authorization": "Bearer "+localStorage.getItem('accessToken'),
+                },body: formBody
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((datas) => {
+                    let timeLogistic = datas.data[0].timestamp;
+                    let timeLogisticTD = $('#timeLogisticTD')[0]
+
+                    const date = new Date(parseInt(timeLogistic) * 1000);
+                    timeLogisticTD.textContent=date.toLocaleTimeString('vi-VN', {hour12: true})+", "+ date.toLocaleDateString('vi-VN');
+                })
+        }
+
+        callAPI()
+
+    })
+    <%}%>
+
+
 </script>
 </body>
 
