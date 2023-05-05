@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.controller;
 import vn.edu.hcmuaf.fit.bean.Order;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.services.CartOrderService;
+import vn.edu.hcmuaf.fit.services.OrderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +25,9 @@ public class OrderDetailController extends HttpServlet {
             try {
                 int id = Integer.parseInt(orderId);
                 Order order = new CartOrderService().orderByUserAndOrderId(user.getId(), id);
+                String logisticId = new OrderService().getOrderLogisticId(id);
                 request.setAttribute("order", order);
+                request.setAttribute("logisticId", logisticId);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
