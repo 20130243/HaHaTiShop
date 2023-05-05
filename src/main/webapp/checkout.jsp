@@ -451,11 +451,16 @@
                 return response.json()
               })
               .then((datas) => {
-                let timeLogistic =  datas.data[0].formattedDate;
+
+                let timeLogistic = datas.data[0].leadTime;
+
+                const date = new Date(parseInt(timeLogistic) * 1000);
+
+
                 const time_logistic_p = document.getElementById('time_logistic_p')
                 const time_logistic_span = time_logistic_p.getElementsByTagName('span')[0]
 
-                time_logistic_span.innerText = timeLogistic.split('T')[1].split('Z')[0] +" "+ timeLogistic.split('T')[0];
+                time_logistic_span.innerText = date.toLocaleTimeString('vi-VN', {hour12: true})+", "+ date.toLocaleDateString('vi-VN');
 
               })
 

@@ -51,6 +51,7 @@ public class OrderDAO extends RD {
                         .execute()
         );
     }
+    // update logistic query
     public void insertOrderLogistic(int orderId, String logisticId) {
         JDBIConnector.get().withHandle(h ->
                 h.createUpdate("INSERT INTO `order_logistic`"  + "(order_id,logistic_id) VALUES(:order_id,:logistic_id)")
@@ -60,6 +61,25 @@ public class OrderDAO extends RD {
                         .execute()
         );
     }
+    public String getOrderLogisticId(int orderId) {
+        String rs = "";
+        int a = JDBIConnector.get().withHandle(h ->
+                h.createQuery("SELECT COUNT(*) FROM `order_logistic`" + " WHERE order_id= ?")
+                        .bind(0, orderId)
+                        .mapTo(Integer.class).first());
+        if (a>0){
+            Map<String, Object> result= JDBIConnector.get().withHandle(h ->
+                    h.createQuery("SELECT * FROM `order_logistic`"+ " WHERE order_id = ? ")
+                            .bind(0, orderId)
+                            .mapToMap().first()
+            );
+            rs = result.get("logistic_id").toString();
+        }
+
+        return rs;
+    }
+    // end update logistic
+
     public void update(int id, String name, String phone, String address, String note, int coupon_id, float total) {
         JDBIConnector.get().withHandle(h ->
                 h.createUpdate("UPDATE " + tableName + " SET id = :id, name = :name,phone=:phone,address=:address,note=:note,coupon_id=: coupon_id,total=:total WHERE id =:id")
@@ -324,6 +344,6 @@ public class OrderDAO extends RD {
     }
 
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().perDayPreWeek());
+        System.out.println(new OrderDAO().getOrderLogisticId(12));
     }
 }
