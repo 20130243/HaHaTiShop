@@ -73,7 +73,10 @@ public class AddToCartController extends HttpServlet {
                         cart.addItem(item);
                         cart.updateTotal();
                         session.setAttribute("cart", cart);
-                        response.sendRedirect(request.getContextPath() + url);
+                        if(url!=null){
+                            response.sendRedirect(request.getContextPath() + url);
+                        }
+                        response.sendRedirect("/shop");
                     } else {
                         Cart cart = (Cart) session.getAttribute("cart");
                         List<Item> listItems = cart.getItems();
@@ -98,12 +101,13 @@ public class AddToCartController extends HttpServlet {
                             cart.setCustomer(user);
                         }
                         session.setAttribute("cart", cart);
-                       response.sendRedirect(request.getContextPath() + url);
+                        if(url!=null){
+                            response.sendRedirect(request.getContextPath() + url);
+                        }
+                        response.sendRedirect("/shop");
+
                     }
                 }
-
-
-
             }
         } catch (Exception e) {
             e.printStackTrace();
