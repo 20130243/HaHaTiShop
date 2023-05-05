@@ -160,9 +160,11 @@
                         </div>
                         <form action="addToCart" method="get">
                             <div id="myModal<%=p.getId()%>" class="modal fade in" tabindex="-1" role="dialog">
+
                                 <div class="modal-dialog product-modal" role="document">
                                     <div class="modal-content flex-row">
                                         <div class="w-50">
+
                                             <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
                                                 <!--Slides-->
                                                 <div class="carousel-inner " role="listbox" style="height: 500px; padding: 50px">
@@ -299,7 +301,6 @@
                                         </div>
                                     </div>
                                 </div><!-- /.modal-content -->
-
                             </div><!-- /.modal-dialog -->
                             <!-- /.modal -->
                         </form>
@@ -339,7 +340,7 @@
 
                                 %>
                                 <form action="/editcart" method="get" id="myForm">
-                                    <div style="position: relative;width: 100%;height: 170px;">
+                                    <div style="position: relative;width: 100%;height: auto;">
                                         <div class="cart-product-item">
                                             <div class="cart-product-name">
                                                 <img src="<%=p.getImage().get(0).getUrl()%>" width="32" height="32">
@@ -439,6 +440,7 @@
         </div>
     </div>
     </div>
+
 </section>
 <!-- Shop Section End -->
 
@@ -471,15 +473,6 @@
 
 
 <script>
-    $(document).ready(function () {
-        $(".product__item").click(function (e) {
-            var val = this.getAttribute('data-id');
-            var s = '#btn-modal' + val;
-            $(s).click();
-        });
-    });
-
-
 
 </script>
 </body>
