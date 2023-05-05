@@ -156,6 +156,7 @@
                                                        class="action-icon"> <i class="mdi mdi-delete delete-btn"
                                                                                data-name="${item.id}"
                                                                                data-id="${item.id}"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </c:forEach>

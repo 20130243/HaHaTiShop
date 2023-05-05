@@ -52,7 +52,9 @@ public class OrderService {
         dao.insert(order.getUser_id(), order.getName(), order.getPhone(),
                 order.getAddress(), order.getNote(), order.getCoupon() == null ? 0 : order.getCoupon().getId(), order.getTotal());
     }
-
+    public void insertOrderLogistic(int orderId, String logisticId) {
+        dao.insertOrderLogistic(orderId,logisticId);
+    }
     public void update(Order order) {
         dao.update(order.getId(), order.getName(), order.getPhone(), order.getAddress(), order.getNote(), order.getCoupon().getId(), order.getTotal());
     }

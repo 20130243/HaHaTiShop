@@ -23,10 +23,10 @@ public class EditCartController extends HttpServlet {
         String url =(String) session.getAttribute("url");
         Cart cart = (Cart) session.getAttribute("cart");
         List<Product> listProductUnavaiable = (List<Product>) session.getAttribute("listProductUnavaiable");
-        if (listProductUnavaiable ==null){
+
             listProductUnavaiable = new LinkedList<Product>();
             session.setAttribute("listProductUnavaiable",listProductUnavaiable);
-        }
+
         if(cart != null) {
             String remove = request.getParameter("rpID");
             List<Item> items = cart.getItems();

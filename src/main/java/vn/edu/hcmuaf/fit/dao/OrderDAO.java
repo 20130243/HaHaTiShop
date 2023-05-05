@@ -51,7 +51,15 @@ public class OrderDAO extends RD {
                         .execute()
         );
     }
+    public void insertOrderLogistic(int orderId, String logisticId) {
+        JDBIConnector.get().withHandle(h ->
+                h.createUpdate("INSERT INTO `order_logistic`"  + "(order_id,logistic_id) VALUES(:order_id,:logistic_id)")
+                        .bind("order_id", orderId)
+                        .bind("logistic_id", logisticId)
 
+                        .execute()
+        );
+    }
     public void update(int id, String name, String phone, String address, String note, int coupon_id, float total) {
         JDBIConnector.get().withHandle(h ->
                 h.createUpdate("UPDATE " + tableName + " SET id = :id, name = :name,phone=:phone,address=:address,note=:note,coupon_id=: coupon_id,total=:total WHERE id =:id")
