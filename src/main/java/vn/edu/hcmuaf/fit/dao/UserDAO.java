@@ -91,7 +91,7 @@ public class UserDAO extends RD {
 
     public void update(int id, String username, String name, String address, String phone, String email, int level) {
         JDBIConnector.get().withHandle(h ->
-                h.createUpdate("UPDATE " + tableName + " SET username=:username,password=:password,name=:name,address=:address,phone=:phone,email=:email,level=:level WHERE id=:id")
+                h.createUpdate("UPDATE " + tableName + " SET username=:username,name=:name,address=:address,phone=:phone,email=:email,level=:level WHERE id=:id")
                         .bind("username", username)
                         .bind("name", name)
                         .bind("address", address)
