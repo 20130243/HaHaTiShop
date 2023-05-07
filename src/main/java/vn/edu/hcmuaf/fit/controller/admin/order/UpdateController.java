@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Order;
 import vn.edu.hcmuaf.fit.services.CartOrderService;
 import vn.edu.hcmuaf.fit.services.CategoryService;
+import vn.edu.hcmuaf.fit.services.OrderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +21,8 @@ public class UpdateController extends HttpServlet {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             Order order = new CartOrderService().getOrderById(id);
+            String logisticId = new OrderService().getOrderLogisticId(id);
+            request.setAttribute("logisticId", logisticId);
             request.setAttribute("object", order);
         } catch (SQLException e) {
             throw new RuntimeException(e);

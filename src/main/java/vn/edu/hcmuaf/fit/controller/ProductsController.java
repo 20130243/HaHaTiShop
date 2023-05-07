@@ -24,9 +24,7 @@ public class ProductsController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-        String url = ((HttpServletRequest) request).getRequestURI().toString();
-        session.setAttribute("url", url);
-        PrintWriter writer = response.getWriter();
+        String url = request.getRequestURI();
 
         String hideSticky = request.getParameter("hideSticky");
         CategoryService categoryService = new CategoryService();
@@ -60,6 +58,7 @@ public class ProductsController extends HttpServlet {
             request.setAttribute("sort", "");
             request.setAttribute("endPage", endPage);
             request.setAttribute("pageIndex", index);
+            session.setAttribute("url", url+"?"+request.getQueryString());
 
         } else {
 
@@ -79,11 +78,11 @@ public class ProductsController extends HttpServlet {
            } else if(sort.equals("price-desc")) {
                listProduct = productService.sortDECS(listProduct);
            }
-
-
             request.setAttribute("endPage", 0);
             request.setAttribute("pageIndex", 0);
             request.setAttribute("sort", sort);
+
+            session.setAttribute("url", url+"?"+request.getQueryString());
         }
         request.setAttribute("listProduct", listProduct);
         request.setAttribute("hideSticky" , hideSticky);
