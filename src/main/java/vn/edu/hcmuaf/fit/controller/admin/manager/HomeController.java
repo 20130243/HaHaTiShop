@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.blog;
+package vn.edu.hcmuaf.fit.controller.admin.manager;
 
 import vn.edu.hcmuaf.fit.bean.Blog;
 import vn.edu.hcmuaf.fit.services.BlogService;
@@ -17,7 +17,12 @@ public class    HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String page = request.getParameter("page");
-        int index = page == null ? 1 : Integer.parseInt(page);
+        int index;
+        if(page == null) {
+            index = 1;
+        } else {
+            index = Integer.parseInt(page);
+        }
         BlogService blogService = new BlogService();
         int count = blogService.getTotal();
         int endPage = count/10;

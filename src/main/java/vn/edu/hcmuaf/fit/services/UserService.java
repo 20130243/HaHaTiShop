@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.services;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import vn.edu.hcmuaf.fit.bean.Blog;
 import vn.edu.hcmuaf.fit.bean.Token;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.dao.UserDAO;
@@ -11,6 +12,8 @@ import javax.mail.internet.MimeMessage;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -133,7 +136,6 @@ public class UserService {
     }
 
     public boolean checkPassword(int id, String password) {
-
         return dao.checkPassword(id, hashPassword(password));
     }
     public boolean checkPassword(String email, String password) {
@@ -161,6 +163,20 @@ public class UserService {
         String token = new TokenService().generateNewToken();
         user.setToken(token);
         dao.updateToken(user.getId(), token);
+    }
+    public int getTotal() {
+        return dao.getTotal();
+    }
+    public List<User> getPaging(int index) {
+        List<User> list = new ArrayList<>();
+        for (Map<String, Object> map : dao.paging(index)) {
+            list.add(convertMapToUser(map));
+        }
+        return list;
+    }
+
+    public void delete(int id) {
+        dao.delete(id);
     }
 
     public static void main(String[] args) {
