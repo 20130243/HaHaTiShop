@@ -53,6 +53,16 @@ public class OrderService {
                 order.getAddress(), order.getNote(), order.getCoupon() == null ? 0 : order.getCoupon().getId(), order.getTotal());
     }
 
+    // update logistic query
+    public void insertOrderLogistic(int orderId, String logisticId) {
+        dao.insertOrderLogistic(orderId,logisticId);
+    }
+
+    public String getOrderLogisticId(int orderId) {
+        return dao.getOrderLogisticId(orderId);
+    }
+    // end update logistic
+
     public void update(Order order) {
         dao.update(order.getId(), order.getName(), order.getPhone(), order.getAddress(), order.getNote(), order.getCoupon().getId(), order.getTotal());
     }
