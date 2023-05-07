@@ -78,13 +78,13 @@
             <c:choose>
                 <c:when test="${sessionScope.admin.level ge 2}">
                     <li class="side-nav-item">
-                        <a href="<c:out value="${pageContext.request.contextPath}"/>/admin/sale" class="side-nav-link">
+                        <a href="<c:out value="${pageContext.request.contextPath}"/>/admin/user" class="side-nav-link">
                             <i class="uil-calender"></i>
                             <span> Quản lí người dùng</span>
                         </a>
                     </li>
                     <li class="side-nav-item">
-                        <a href="<c:out value="${pageContext.request.contextPath}"/>/admin/sale" class="side-nav-link">
+                        <a href="<c:out value="${pageContext.request.contextPath}"/>/admin/staff" class="side-nav-link">
                             <i class="uil-calender"></i>
                             <span> Quản lí nhân viên</span>
                         </a>

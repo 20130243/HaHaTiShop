@@ -273,7 +273,6 @@
                     window.location.href = "/";
                 }
                 console.log('Submission was successful.');
-                console.log(data);
             },
             error: function (data) {
                 console.log('An error occurred.');
