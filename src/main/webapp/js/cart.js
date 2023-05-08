@@ -16,11 +16,7 @@ function ready() {
         if (isNaN(input.value) || input.value <= 0) {
             input.value = 1;
         }
-        submitForm();
     }
-    function submitForm() {
-        document.getElementById("myForm").submit();
 
-    }
 
 

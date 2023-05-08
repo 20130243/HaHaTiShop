@@ -80,14 +80,14 @@
             </tr>
             </thead>
             <tbody>
-            <form action="/editcart" method="post" id="myForm">
+            <form action="/editcart" method="post" id="form_edit_cart">
               <%
                 if (cart!= null) {
                   List<Item> listItems = (cart.getItems() != null) ? cart.getItems() : null;
                   if(listItems != null) {
                   for (Item item : listItems) {
               %>
-              <tr>
+              <tr id="product-item-<%=item.getId()%>">
                 <td class="product__cart__item">
                   <div class="product__cart__item__pic">
                     <img src="<%=item.getProduct().getImage().get(0).getUrl()%>" alt="" width="150">
@@ -127,14 +127,16 @@
                       <%}%>
                       <%}}%>
                       <%if (isAvaiable ==true){%>
-                      <input name="quantityChange<%=item.getId()%>" class="quantity" type="number" value="<%=item.getQuantity()%>">
-
+                      <input onchange="$('#form_edit_cart').submit()" name="quantityChange<%=item.getId()%>" class="quantity" type="number" min="1" value="<%=item.getQuantity()%>">
                       <%}%>
                     </div>
                   </div>
                 </td>
-                <td class="cart__price"><%= new CurrencyFormat().format((int)item.getPrice())%></td>
-                <td class="cart__close"><a href="editcart?rpID=<%=item.getId()%>" style="border: none"><i class="fa fa-close"></i></a></td>
+                <td class="cart__price" id="price-product-id-<%=item.getId()%>"><%= new CurrencyFormat().format((int)item.getPrice())%></td>
+                <td class="cart__close">
+                  <input onchange="$('#form_edit_cart').submit()" style="display: none" type="checkbox" name="removeProduct" id="remove-product<%=item.getId()%>" value="<%=item.getId()%>" />
+                  <label for="remove-product<%=item.getId()%>"><i class="fa fa-close"></i></label>
+                </td>
               </tr>
               <%
                   }
@@ -533,6 +535,41 @@
       },
     });
   });
+
+  $("#form_edit_cart").submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: $(this).attr('method'),
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+      success: function (data) {
+        let dataArr = data.split("|");
+        let remove = dataArr[0];
+        if(remove=="remove") {
+          $("#product-item-"+dataArr[1]).remove();
+          var priceCart = parseInt(dataArr[2]);
+          $('#price_decreased').html(priceCart.toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
+        } else {
+          var dataObject = JSON.parse(data);
+          for(var i = 0; i < dataObject.length; i++) {
+            var id = dataObject[i].id;
+            var price = dataObject[i].price;
+            $('#price-product-id-'+id).text(price.toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
+          }
+          var cartPrice = dataObject[dataObject.length-1].priceCart;
+          $('#price_decreased').html(cartPrice.toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
+        }
+      },
+      error: function (data) {
+        console.log('An error occurred.' + data);
+      },
+    });
+  });
+
+
+
+
+
 </script>
 
 <script src="js/jquery.nicescroll.min.js"></script>
