@@ -49,7 +49,7 @@ public class UserDAO extends RD {
     @Override
     public void delete(int id) {
         JDBIConnector.get().withHandle(h ->
-                h.createUpdate("UPDATE" + tableName + "SET status = 4 WHERE id=:id").bind("id", id).execute());
+                h.createUpdate("UPDATE " + tableName + "    SET level = -1 WHERE id=:id").bind("id", id).execute());
     }
 
     public void insert(String username, String password, String name, String address, String phone, String email, int level) {

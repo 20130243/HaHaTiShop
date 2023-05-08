@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Tài khoản người dùng</title>
+    <title>Nhân viên</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
     <link rel="shortcut icon" href="../../assets/images/favicon.ico">
@@ -52,10 +52,10 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item active">Tài khoản người dùng</li>
+                                    <li class="breadcrumb-item active">Nhân viên</li>
                                 </ol>
                             </div>
-                            <h4 class="page-title">Tài khoản người dùng</h4>
+                            <h4 class="page-title">Nhân viên</h4>
                         </div>
                     </div>
                 </div>
@@ -65,37 +65,37 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-
+                                <div class="col-sm-4">
+                                    <a href="/admin/staff/create" class="btn btn-danger mb-2"><i
+                                            class="mdi mdi-plus-circle mr-2"></i>Thêm nhân viên</a>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-centered w-100 dt-responsive nowrap"
                                            id="products-datatable">
                                         <thead class="thead-light">
                                         <tr>
                                             <th class="text-start">Tên</th>
+                                            <th class="text-start">Tên đăng nhập</th>
                                             <th class="text-start">Email</th>
                                             <th class="text-center">Số điện thoại</th>
-                                            <th class="text-start">Địa chỉ</th>
-                                            <th class="text-center">Trạng thái</th>
+                                            <th class="text-center">Cấp bậc</th>
                                             <th class="text-center">Hành động</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach var="item" items="${requestScope['userList']}">
+                                        <c:forEach var="item" items="${requestScope['adminList']}">
                                             <tr>
                                                 <td>
                                                         ${item.name}
                                                 </td>
                                                 <td>
-                                                        ${item.email}
-                                                </td>
-                                                <td class="text-center">
-                                                        ${item.phone}
+                                                        ${item.username}
                                                 </td>
                                                 <td>
-                                                    <div data-simplebar data-simplebar-lg
-                                                         style="max-height: 60px;width: 200px;" class="form-group">
-                                                            ${fn:substring(item.address, 0, 300)}
-                                                    </div>
+                                                        ${item.email}
+                                                </td>
+                                                <td>
+                                                        ${item.phone}
                                                 </td>
                                                 <td class="text-center">
                                                     <c:choose>
@@ -103,17 +103,23 @@
                                                             <span class="badge badge-dark">Vô hiệu hóa</span>
                                                         </c:when>
                                                         <c:when test="${item.level eq 0}">
-                                                            <span class="badge badge-success">Đang hoạt động</span>
+                                                            <span class="badge badge-info-lighten">Nhân viên</span>
                                                         </c:when>
                                                         <c:when test="${item.level eq 1}">
-                                                            <span class="badge badge-warning">Admin access</span>
+                                                            <span class="badge badge-info">Quản lí</span>
+                                                        </c:when>
+                                                        <c:when test="${item.level eq 2}">
+                                                            <span class="badge badge-success">Super Admin</span>
                                                         </c:when>
                                                     </c:choose>
                                                 </td>
 
-                                                <form action="/admin/user/delete" method="post"
+                                                <form action="/admin/staff/delete" method="post"
                                                       id="delete-form-<c:out value="${item.id}"/>">
                                                     <td class="table-action text-center">
+                                                        <a href="/admin/staff/update?id=${item.id}"
+                                                           class="action-icon"> <i
+                                                                class="mdi mdi-square-edit-outline"></i></a>
                                                         <input type="hidden" name="id" id="id"
                                                                value="<c:out value="${item.id}"/>">
                                                         <button type="submit" class="d-none"></button>
@@ -141,7 +147,7 @@
                                     <nav>
                                         <ul class="pagination pagination-rounded mb-0">
                                             <li class="page-item  <c:if test="${currentPage eq 1 }"> d-none </c:if>">
-                                                <a class="page-link" href="/admin/user?page=<c:out value='${i-1}'/>"
+                                                <a class="page-link" href="/admin/staff?page=<c:out value='${i-1}'/>"
                                                    aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only">Previous</span>
@@ -150,13 +156,13 @@
                                             <c:forEach var="i" begin="1" end="${endPage}">
                                                 <li class="page-item  <c:if test="${currentPage eq i }"> active </c:if>">
                                                     <a class="page-link"
-                                                       href="/admin/user?page=<c:out value='${i}'/>">
+                                                       href="/admin/staff?page=<c:out value='${i}'/>">
                                                         <c:out value="${i}"/>
                                                     </a>
                                                 </li>
                                             </c:forEach>
                                             <li class="page-item <c:if test="${currentPage eq endPage }"> d-none </c:if>">
-                                                <a class="page-link" href="/admin/user?page=<c:out value='${i+1}'/>"
+                                                <a class="page-link" href="/admin/staff?page=<c:out value='${i+1}'/>"
                                                    aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only">Next</span>
