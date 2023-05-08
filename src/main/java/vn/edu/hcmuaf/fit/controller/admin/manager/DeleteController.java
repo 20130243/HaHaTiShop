@@ -1,6 +1,5 @@
-package vn.edu.hcmuaf.fit.controller.admin.blog;
+package vn.edu.hcmuaf.fit.controller.admin.manager;
 
-import vn.edu.hcmuaf.fit.bean.Blog;
 import vn.edu.hcmuaf.fit.services.BlogService;
 
 import javax.servlet.ServletException;
@@ -10,25 +9,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Blog update", value = "/admin/blog/update")
-public class UpdateController extends HttpServlet {
+@WebServlet(name = "Blog delete", value = "/admin/blog/delete")
+public class DeleteController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-
-        try {
-            Blog blog = (new BlogService()).getById(id);
-            request.setAttribute("object", blog);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        request.getRequestDispatcher("update.jsp").forward(request, response);
+            response.sendRedirect("/Error404");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
 
+        int id = Integer.parseInt(request.getParameter("id"));
+        BlogService blog = new BlogService();
+        try {
+            blog.delete(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         response.sendRedirect("/admin/blog");
     }
 }

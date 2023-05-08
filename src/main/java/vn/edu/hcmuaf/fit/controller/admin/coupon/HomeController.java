@@ -17,12 +17,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = request.getParameter("page");
-        int index;
-        if (page == null) {
-            index = 1;
-        } else {
-            index = Integer.parseInt(page);
-        }
+        int index = page == null ? 1 : Integer.parseInt(page);
         CouponService couponService = new CouponService();
         int count = couponService.getTotal();
         int endPage = count / 5;

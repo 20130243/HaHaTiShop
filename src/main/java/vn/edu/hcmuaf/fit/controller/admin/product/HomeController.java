@@ -20,12 +20,7 @@ public class HomeController extends HttpServlet {
 
         try {
             String page = request.getParameter("page");
-            int index;
-            if (page == null) {
-                index = 1;
-            } else {
-                index = Integer.parseInt(page);
-            }
+            int index = page == null ? 1 : Integer.parseInt(page);
             ProductService productService = new ProductService();
             CategoryService categoryService = new CategoryService();
             int count = productService.getTotalProduct();

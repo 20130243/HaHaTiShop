@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.blog;
+package vn.edu.hcmuaf.fit.controller.admin.manager;
 
 import vn.edu.hcmuaf.fit.bean.Blog;
 import vn.edu.hcmuaf.fit.services.BlogService;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Blog update", value = "/admin/blog/update")
+@WebServlet(name = "Category update", value = "/admin/blog/update")
 public class UpdateController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -11,3 +11,4 @@ target/
 # Gradle
 build/
 /out
+*.properties

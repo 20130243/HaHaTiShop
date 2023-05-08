@@ -12,8 +12,7 @@
     <meta charset="utf-8"/>
     <title> ${object.name}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
-    <meta content="Coderthemes" name="author"/>
+
     <!-- App favicon -->
     <link rel="shortcut icon" href="../../assets/images/favicon.ico">
 
@@ -82,7 +81,7 @@
                                             <div class="form-group mb-3">
                                                 <label for="name">Tên sản phẩm</label>
                                                 <input type="text" id="name" class="form-control" name="name"
-                                                       value="<c:out value="${object.name}"/> ">
+                                                       value="${object.name}">
                                             </div>
                                             <div class="form-group mb-3">
                                                 <label for="image">Ảnh</label>
