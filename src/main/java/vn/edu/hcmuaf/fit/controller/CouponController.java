@@ -57,7 +57,6 @@ public class CouponController extends HttpServlet {
                                                 cart.setPriceSale(pricePercent);
                                                 couponService.useCoupon(item);
                                                 response.getWriter().write(new Gson().toJson(cart));
-                                                //response.getWriter().write(cart.getTotalMoney() +" " + cart.getCoupon() +" "+ cart.getCoupon().getPercent());
                                                 return;
                                             }
                                         }
