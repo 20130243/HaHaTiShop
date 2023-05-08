@@ -27,7 +27,6 @@ public class CheckoutController extends HttpServlet {
         if(cart != null) {
             List<Item> items = cart.getItems();
             for (int i = 0; i < items.size(); i++) {
-
                 boolean isUnavaiable = new ProductService().checkInventoryProduct(items.get(i).getProduct().getId());
                 if (isUnavaiable ==true){
                     listProductUnavaiable.add(items.get(i).getProduct());
@@ -35,8 +34,8 @@ public class CheckoutController extends HttpServlet {
                     items.get(i).updatePrice();
                 }
             }
+            cart.updateTotal();
         }
-        cart.updateTotal();
         session.setAttribute("cart", cart);
         session.setAttribute("listProductUnavaiable", listProductUnavaiable);
         request.getRequestDispatcher("/checkout.jsp").forward(request, response);

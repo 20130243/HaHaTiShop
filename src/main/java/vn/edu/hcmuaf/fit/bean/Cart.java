@@ -101,6 +101,10 @@ public class Cart implements Serializable {
 
     public void updateTotal() {
         float total = 0;
+        if(items == null) {
+            this.setTotalMoney(0);
+            return;
+        }
         if(items.size() == 0) {
             this.setTotalMoney(0);
         } else {
