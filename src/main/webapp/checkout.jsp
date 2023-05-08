@@ -3,6 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.Format.CurrencyFormat" %>
 <%@ page import="vn.edu.hcmuaf.fit.bean.*" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html lang="zxx">
 
@@ -82,7 +83,8 @@
             <form action="/editcart" method="post" id="myForm">
               <%
                 if (cart!= null) {
-                  List<Item> listItems = cart.getItems();
+                  List<Item> listItems = (cart.getItems() != null) ? cart.getItems() : null;
+                  if(listItems != null) {
                   for (Item item : listItems) {
               %>
               <tr>
@@ -135,6 +137,7 @@
                 <td class="cart__close"><a href="editcart?rpID=<%=item.getId()%>" style="border: none"><i class="fa fa-close"></i></a></td>
               </tr>
               <%
+                  }
                   }
                 }
               %>
