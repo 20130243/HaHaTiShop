@@ -29,10 +29,15 @@ public class RegisterController extends HttpServlet {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
 
-        User user = new User(0, username,  name, "", phone, email, 0, "");
+        User user = new User(0, username, name, "", phone, email, 0, "");
         if (!userService.checkUsername(user)) {
-            userService.insert(user,password);
-            user = userService.login(email,password);
+            // tạo tài khoản mới
+            userService.insert(user, password);
+            // đăng nhập
+            user = userService.login(email, password);
+            // ghi vào log
+            userService.logUser(user.getId(), "user", user.getId(), 0);
+
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
             session.setMaxInactiveInterval(24 * 60 * 60);

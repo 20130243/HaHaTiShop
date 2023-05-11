@@ -39,6 +39,8 @@ public class CancelOrderController extends HttpServlet {
                 }
                 if(order.getStatus() < 1) {
                     orderService.updateStatus(order,4);
+
+                    new OrderService().logOrder(id, "user", user.getId(), 4);
                     response.sendRedirect("account");
                 } else {
                     String error =  "101";

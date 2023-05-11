@@ -1,5 +1,9 @@
 package vn.edu.hcmuaf.fit.services;
 
+import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import vn.edu.hcmuaf.fit.bean.Token;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.dao.UserDAO;
@@ -184,6 +188,71 @@ public class UserService {
 
     public void delete(int id) {
         dao.delete(id);
+    }
+
+    private static Logger LOGGER = null;
+
+    public void logUser(int userid, String area, int approver, int status) {
+        LOGGER = LoggerFactory.getLogger("User");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("user", new Gson().toJson(getById(userid)));
+            MDC.put("area", area);
+            MDC.put("approver", String.valueOf(approver));
+            MDC.put("status", String.valueOf(status));
+            switch (status) {
+                case 0: {
+                    LOGGER.info("User account created");
+                    break;
+                }
+                case 1: {
+                    LOGGER.info("Account access admin created");
+                    break;
+                }
+                case -1: {
+                    LOGGER.warn("Account banned");
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+            MDC.remove("user");
+            MDC.remove("area");
+            MDC.remove("approver");
+            MDC.remove("status");
+        }
+    }
+
+    public void logChangePassword(int userid, String area, int approver, String location) {
+        LOGGER = LoggerFactory.getLogger("UserChangePassword");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("user", new Gson().toJson(getById(userid)));
+            MDC.put("area", area);
+            MDC.put("approver", String.valueOf(approver));
+            MDC.put("location", String.valueOf(location));
+
+            LOGGER.info("User changed password");
+
+            MDC.remove("user");
+            MDC.remove("area");
+            MDC.remove("approver");
+            MDC.remove("location");
+        }
+    }
+
+    public void logBanned(int userid, String area, int approver) {
+        LOGGER = LoggerFactory.getLogger("UserBanned");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("user", new Gson().toJson(getById(userid)));
+            MDC.put("area", area);
+            MDC.put("approver", String.valueOf(approver));
+
+            LOGGER.info("User changed password");
+
+            MDC.remove("user");
+            MDC.remove("area");
+            MDC.remove("approver");
+        }
     }
 
     public static void main(String[] args) {
