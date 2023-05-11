@@ -76,7 +76,6 @@ public class AddToCartController extends HttpServlet {
                         if(url!=null){
                             response.sendRedirect(request.getContextPath() + url);
                         }
-                        response.sendRedirect("/shop");
                     } else {
                         Cart cart = (Cart) session.getAttribute("cart");
                         List<Item> listItems = cart.getItems();
