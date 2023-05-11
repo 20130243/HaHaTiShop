@@ -13,7 +13,7 @@ public class User implements Serializable {
     private int level;
     private String token;
 
-    public User(int id, String username,  String name, String address, String phone, String email, int level, String token) {
+    public User(int id, String username, String name, String address, String phone, String email, int level, String token) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -105,6 +105,14 @@ public class User implements Serializable {
                 ", level='" + level + '\'' +
                 ", token='" + token + '\'' +
                 '}';
+    }
+
+    public boolean available() {
+
+        return this.level < 0 ? false : true;
+    }
+    public boolean isAdmin(){
+        return this.level ==1 ? true : false;
     }
 
     public static void main(String[] args) {

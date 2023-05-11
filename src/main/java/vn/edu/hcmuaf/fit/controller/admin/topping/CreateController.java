@@ -23,7 +23,8 @@ public class CreateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        request.getRequestDispatcher("update.jsp").forward(request, response);
+        if (!response.isCommitted()) request.getRequestDispatcher("update.jsp").forward(request, response);
+
     }
 
     @Override
