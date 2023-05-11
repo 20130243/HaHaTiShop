@@ -66,13 +66,13 @@ public class CartOrderService {
 
     public void addOrder(Order order) throws SQLException {
         insert(order);
-//        Cart cart = order.getCart();
         Order orderNew = getOrderFirst();
         List<Item> items = order.getListItems();
         if (items.size() > 0) {
             for (Item item : items) {
                 detail_dao.insert(orderNew.getId(), item.getProduct().getPriceSize().get(0).getProduct_id(), item.getQuantity());
                 OrderDetail orderDetailNew = getOrderDetailFirst();
+
                 List<Topping> toppings = item.getProduct().getTopping();
                 if (toppings.size() > 0) {
                     for (Topping topping : toppings) {

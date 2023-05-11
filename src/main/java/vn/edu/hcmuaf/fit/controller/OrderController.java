@@ -1,11 +1,11 @@
 package vn.edu.hcmuaf.fit.controller;
 
-import com.google.gson.Gson;
 import vn.edu.hcmuaf.fit.bean.Cart;
 import vn.edu.hcmuaf.fit.bean.Item;
 import vn.edu.hcmuaf.fit.bean.Order;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.services.CartOrderService;
+import vn.edu.hcmuaf.fit.services.OrderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,15 +38,14 @@ public class OrderController extends HttpServlet {
             String addressDistrict = request.getParameter("addressDistrict");
             String addressWard = request.getParameter("addressWard");
             String noteUser = request.getParameter("noteUser");
-            int priceLogistic = Integer.parseInt( request.getParameter("priceLogistic"));
+            int priceLogistic = Integer.parseInt(request.getParameter("priceLogistic"));
 
             String address = addressUser + "-" + addressCity + "-" + addressDistrict + "-" + addressWard;
 
-            if(nameUser.equals("") || phoneUser.equals("") || addressUser.equals("")) {
+            if (nameUser.equals("") || phoneUser.equals("") || addressUser.equals("")) {
 //                request.setAttribute("addressUser", nameUser);
 //                request.setAttribute("noteUser", noteUser);
                 response.getWriter().write("1");
-                return;
             } else {
                 Order order = new Order();
                 order.setUser_id(user.getId());
@@ -57,17 +56,17 @@ public class OrderController extends HttpServlet {
                 List<Item> listItems = cart.getItems();
                 order.setListItems(listItems);
                 order.setCoupon(cart.getCoupon());
-                order.setTotal(cart.getTotalMoney()+priceLogistic);
+                order.setTotal(cart.getTotalMoney() + priceLogistic);
                 try {
                     cartOrderService.addOrder(order);
+                    new OrderService().logOrder(cartOrderService.getOrderFirst().getId(), "user", user.getId(), 0);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
                 session.removeAttribute("cart");
                 response.getWriter().write("0");
-                return;
             }
-        } else if(user == null){
+        } else if (user == null) {
             response.getWriter().write("2");
         }
     }
