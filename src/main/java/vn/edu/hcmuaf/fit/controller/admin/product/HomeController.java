@@ -36,7 +36,7 @@ public class HomeController extends HttpServlet {
             request.setAttribute("categoryList", categoryList);
 
             request.setAttribute("endPage", endPage);
-            request.getRequestDispatcher("product/index.jsp").forward(request, response);
+            if (!response.isCommitted())  request.getRequestDispatcher("product/index.jsp").forward(request, response);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

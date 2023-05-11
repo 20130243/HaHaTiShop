@@ -28,8 +28,7 @@ public class HomeController extends HttpServlet {
 
         request.setAttribute("userList", userList);
         request.setAttribute("endPage", endPage);
-        System.out.println(endPage);
-        request.getRequestDispatcher("user/index.jsp").forward(request, response);
+        if (!response.isCommitted())  request.getRequestDispatcher("user/index.jsp").forward(request, response);
     }
 
     @Override

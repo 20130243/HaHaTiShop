@@ -34,7 +34,7 @@ public class HomeController extends HttpServlet {
             throw new RuntimeException(e);
         }
         request.setAttribute("endPage", endPage);
-        request.getRequestDispatcher("coupon/index.jsp").forward(request, response);
+        if (!response.isCommitted())  request.getRequestDispatcher("coupon/index.jsp").forward(request, response);
     }
 
     @Override

@@ -34,8 +34,7 @@ public class    HomeController extends HttpServlet {
 
         request.setAttribute("blogList", blogList);
         request.setAttribute("endPage", endPage);
-        System.out.println(endPage);
-        request.getRequestDispatcher("blog/index.jsp").forward(request, response);
+        if (!response.isCommitted())  request.getRequestDispatcher("blog/index.jsp").forward(request, response);
     }
 
     @Override

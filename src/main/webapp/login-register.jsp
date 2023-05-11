@@ -248,14 +248,12 @@
             success: function (data) {
                 if (1 == data) {
                     $("#login-username-error").text("Tài khoản hoặc mật khẩu không đúng");
-
                 } else if (2 == data) {
                     window.location.href = "/";
                 } else {
                     timer = parseInt(data);
                     if(!isNaN(timer)) {
-                        $("#login-username-error").text("Bạn nhập sai nhiều lần. Vui lòng thử lại sau: "+ timer  + " phút." + "\n"
-                        +"Vui lòng không thoát khỏi trang");
+                        $("#login-username-error").text("Bạn nhập sai nhiều lần. Vui lòng thử lại sau: "+ timer  + " phút." + "\n");
                         $(".login-btn").attr("disabled", true);
                         setTimeout(() => {
                             $("#login-username-error").text("");
@@ -264,14 +262,12 @@
                     }
                     else if(isNaN(timer)){
                         timer = 3;
-                        $("#login-username-error").text("Bạn đang bị khoá đăng nhập. \n Vui lòng thử lại sau: "+ timer  + " phút. Vui lòng không thoát khỏi trang");
+                        $("#login-username-error").text("Bạn đang bị khoá đăng nhập. \n Vui lòng thử lại sau: "+ timer  + " phút.");
                         $(".login-btn").attr("disabled", true);
                         setTimeout(() => {
                             $("#login-username-error").text("");
                             $(".login-btn").attr("disabled", false);
                         }, timer * 60 * 1000);
-                    } else {
-                        // nothing
                     }
                 }
             },

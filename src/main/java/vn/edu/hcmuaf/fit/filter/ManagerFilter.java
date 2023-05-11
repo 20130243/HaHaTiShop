@@ -22,10 +22,12 @@ public class ManagerFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpRespond = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(true);
-        System.out.println("check level");
         Admin admin = (Admin) session.getAttribute("admin");
-        if (admin.getLevel() < 1) {
-            httpRespond.sendError(HttpServletResponse.SC_NOT_FOUND, "");
+        if (admin != null) {
+            if (admin.getLevel() < 1) {
+                httpRespond.sendError(HttpServletResponse.SC_NOT_FOUND, "");
+                return;
+            }
         }
 
         chain.doFilter(request, response);
