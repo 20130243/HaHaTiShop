@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -253,6 +254,18 @@ public class UserService {
             MDC.remove("area");
             MDC.remove("approver");
         }
+    }
+
+    public void updateCountForgetPassword(String email, Date date, int count) {
+        dao.updateCountForgotPassword(email, date, count);
+    }
+
+    public int getCountForgetPassword(String email, Date date) {
+        return dao.getCountForgotPassword(email, date);
+    }
+
+    public void insertCountForgetPassword(String email, Date date){
+        dao.insertCountForgotPassword(email, date);
     }
 
     public static void main(String[] args) {

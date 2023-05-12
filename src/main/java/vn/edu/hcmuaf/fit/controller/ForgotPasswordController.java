@@ -6,6 +6,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 @WebServlet(name = "forgotPassword", value = "/forgotPass")
 public class ForgotPasswordController extends HttpServlet {
@@ -23,9 +26,30 @@ public class ForgotPasswordController extends HttpServlet {
             try {
                 System.out.println(userService.checkEmail( email));
                 if (userService.checkEmail( email)) {
+                    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                    java.util.Date date = cal.getTime();
+                    Date current = new java.sql.Date(date.getTime());
+                    int count = userService.getCountForgetPassword(email, current );
+                    System.out.println(count);
+                    if(count == 0) {
+                        count++;
+                        System.out.println("Lần đầu " +count);
+                        userService.passwordRecovery( email);
+                        userService.insertCountForgetPassword(email, current);
+                        response.getWriter().write("0");
+                    } else {
+                        if( count <= 5) {
+                            count++;
+                            System.out.println("các lần tiếp theo " +count);
+                            userService.passwordRecovery( email);
+                            userService.updateCountForgetPassword(email, current, count);
+                            response.getWriter().write("0");
+                        } else {
+                            response.getWriter().write("3");
+                        }
+                    }
 
-                    userService.passwordRecovery( email);
-                    response.getWriter().write("0");
+
                 } else {
                     response.getWriter().write("1");
                 }
