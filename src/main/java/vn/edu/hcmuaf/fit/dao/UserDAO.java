@@ -2,8 +2,11 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class UserDAO extends RD {
     private static final String tableName = "user";
@@ -209,9 +212,42 @@ public class UserDAO extends RD {
                 h.createQuery("select count(id) from " + tableName).mapTo(Integer.class).first());
     }
 
+    public int getCountForgotPassword(String email, Date date) {
+        List counts = JDBIConnector.get().withHandle(h ->
+                h.createQuery("select count from " + "forgot_pass_count " + " where email = :email and date = :date")
+                        .bind("email", email)
+                        .bind("date", date)
+                        .mapTo(Integer.class).list());
+        if(counts.isEmpty()){
+            return 0;
+        } else {
+            return (int) counts.get(0);
+        }
+    }
+
+    public void updateCountForgotPassword(String email, Date date, int count) {
+        JDBIConnector.get().withHandle(h ->
+                h.createUpdate("UPDATE " + "forgot_pass_count " + " SET count= :count where email = :email and date = :date")
+                        .bind("count", count)
+                        .bind("email", email)
+                        .bind("date", date)
+                        .execute());
+    }
+
+    public void insertCountForgotPassword(String email, Date date) {
+        JDBIConnector.get().withHandle(h ->
+                h.createUpdate("INSERT INTO " + "forgot_pass_count " + "(email,date,count) VALUES (:email, :date, :count)")
+                        .bind("email", email)
+                        .bind("date", date)
+                        .bind("count", 1)
+                        .execute());
+    }
+
     public static void main(String[] args) {
 //        System.out.println(new UserDAO().getAll());
-        System.out.println(new UserDAO().getById(19));
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        java.util.Date date = cal.getTime();
+        System.out.println(new UserDAO().getCountForgotPassword("tinhle2772002@gmail.com", new java.sql.Date(date.getTime())));
     }
 
 

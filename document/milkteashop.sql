@@ -887,6 +887,20 @@ CREATE TABLE `order_logistic` (
                                `logistic_id` varchar(100) NOT NULL
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Cấu trúc bảng cho bảng `forgot_pass_count`
+--
+
+CREATE TABLE forgot_pass_count (
+  id INT NOT NULL AUTO_INCREMENT,
+  email VARCHAR(255) NOT NULL,
+  count INT NOT NULL DEFAULT 0,
+  date DATE NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY unique_email_date (email, date)
+);
+
 -- --------------------------------------------------------
 --
 -- Chỉ mục cho các bảng đã đổ
