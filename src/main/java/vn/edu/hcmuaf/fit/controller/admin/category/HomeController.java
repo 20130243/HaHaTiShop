@@ -29,7 +29,7 @@ public class HomeController extends HttpServlet {
 
         request.setAttribute("categoryList", categoryList);
         request.setAttribute("endPage", endPage);
-        request.getRequestDispatcher("category/index.jsp").forward(request, response);
+        if (!response.isCommitted())    request.getRequestDispatcher("category/index.jsp").forward(request, response);
     }
 
     @Override

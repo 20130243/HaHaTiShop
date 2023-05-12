@@ -40,21 +40,25 @@ public class AdminService {
 
     public Admin login(String username, String password) {
         Map<String, Object> map = dao.login(username, password);
-        return map != null ? convertMaptoAdmin(map) : null;
+        Admin admin = convertMaptoAdmin(map);
+        return admin.available() ? admin : null;
     }
 
     public Admin login(String token) {
         Map<String, Object> map = dao.login(token);
-        return map != null ? convertMaptoAdmin(map) : null;
+        Admin admin = convertMaptoAdmin(map);
+        return admin.available() ? admin : null;
     }
 
 
     public boolean checkUsername(Admin admin) {
         return dao.checkUsername(admin.getUsername());
     }
+
     public boolean checkUsername(String username) {
         return dao.checkUsername(username);
     }
+
     public Admin getByUsername(String username) {
         Map<String, Object> map = dao.getByUserName(username);
         return map != null ? convertMaptoAdmin(map) : null;
@@ -94,7 +98,7 @@ public class AdminService {
     }
 
     public void update(Admin admin) {
-        dao.update(admin.getId(),admin.getUsername(),admin.getName(),admin.getEmail(),admin.getPhone(), admin.getLevel());
+        dao.update(admin.getId(), admin.getUsername(), admin.getName(), admin.getEmail(), admin.getPhone(), admin.getLevel());
     }
 
 
@@ -116,7 +120,7 @@ public class AdminService {
     }
 
     public boolean checkEmail(String email) {
-       return dao.checkEmail(email);
+        return dao.checkEmail(email);
     }
 
     public boolean checkPhone(String phone) {

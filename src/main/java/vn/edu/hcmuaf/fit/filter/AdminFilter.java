@@ -2,7 +2,6 @@ package vn.edu.hcmuaf.fit.filter;
 
 import vn.edu.hcmuaf.fit.bean.Admin;
 import vn.edu.hcmuaf.fit.bean.User;
-import vn.edu.hcmuaf.fit.services.UserService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -29,17 +28,23 @@ public class AdminFilter implements Filter {
 
 
         User user = (User) session.getAttribute("user");
+        if (user != null) user = user.available() ? user : null;
+
         Admin admin = (Admin) session.getAttribute("admin");
+        if (admin != null) admin = admin.available() ? admin : null;
+
         if (admin != null && user == null) {
             System.out.println("admin cookie");
             chain.doFilter(request, response);
         } else if (admin == null && user == null) {
             System.out.println("user not found");
             httpRespond.sendError(HttpServletResponse.SC_NOT_FOUND, "");
+            return;
         } else if (admin == null && user != null) {
-            if (!(new UserService()).checkAdmin(user)) {
+            if (!user.isAdmin()) {
                 System.out.println("user not admin");
                 httpRespond.sendError(HttpServletResponse.SC_NOT_FOUND, "");
+                return;
             } else {
                 System.out.println("admin not found");
                 request.getRequestDispatcher("/admin-login").forward(request, response);

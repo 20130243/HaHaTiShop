@@ -10,7 +10,8 @@ public class Admin implements Serializable {
     String phone;
     int level;
     String token;
-    public Admin(int id, String username, String name, String email, String phone, int level,String token) {
+
+    public Admin(int id, String username, String name, String email, String phone, int level, String token) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -45,6 +46,11 @@ public class Admin implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean available() {
+
+        return this.level < 0 ? false : true;
     }
 
     @Override

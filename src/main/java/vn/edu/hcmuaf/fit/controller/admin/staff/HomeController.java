@@ -32,7 +32,7 @@ public class HomeController extends HttpServlet {
         request.setAttribute("adminList", adminList);
         request.setAttribute("endPage", endPage);
         System.out.println(endPage);
-        request.getRequestDispatcher("staff/index.jsp").forward(request, response);
+        if (!response.isCommitted()) request.getRequestDispatcher("staff/index.jsp").forward(request, response);
     }
 
     @Override

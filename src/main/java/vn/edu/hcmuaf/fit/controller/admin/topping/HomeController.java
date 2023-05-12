@@ -38,7 +38,7 @@ public class HomeController extends HttpServlet {
         }
 
         request.setAttribute("endPage", endPage);
-        request.getRequestDispatcher("topping/index.jsp").forward(request, response);
+        if (!response.isCommitted())  request.getRequestDispatcher("topping/index.jsp").forward(request, response);
     }
 
     @Override

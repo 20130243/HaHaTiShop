@@ -55,7 +55,7 @@ public class OrderService {
 
     // update logistic query
     public void insertOrderLogistic(int orderId, String logisticId) {
-        dao.insertOrderLogistic(orderId,logisticId);
+        dao.insertOrderLogistic(orderId, logisticId);
     }
 
     public String getOrderLogisticId(int orderId) {
@@ -130,9 +130,10 @@ public class OrderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Order");
 
-    public void logOrder(int orderId, int approver, int status) {
+    public void logOrder(int orderId, String area, int approver, int status) {
         if (LOGGER.isDebugEnabled()) {
             MDC.put("order", new Gson().toJson(getById(orderId)));
+            MDC.put("area", area);
             MDC.put("approver", String.valueOf(approver));
             MDC.put("status", String.valueOf(status));
             switch (status) {
@@ -157,11 +158,11 @@ public class OrderService {
                     break;
                 }
                 default: {
-                    System.out.println("status: " + status);
                     break;
                 }
             }
             MDC.remove("order");
+            MDC.remove("area");
             MDC.remove("approver");
             MDC.remove("status");
 
@@ -170,6 +171,6 @@ public class OrderService {
     }
 
     public static void main(String[] args) {
-        new OrderService().logOrder( 14,  1,  2);
+        new OrderService().logOrder(14,"admin", 1, 4);
     }
 }

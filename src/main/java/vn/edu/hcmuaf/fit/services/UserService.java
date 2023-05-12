@@ -1,7 +1,9 @@
 package vn.edu.hcmuaf.fit.services;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import vn.edu.hcmuaf.fit.bean.Blog;
+import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import vn.edu.hcmuaf.fit.bean.Token;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.dao.UserDAO;
@@ -45,28 +47,35 @@ public class UserService {
 
 
     public User login(String email, String password) {
+
         Map<String, Object> map = dao.login(email, hashPassword(password));
-        return map != null ? convertMapToUser(map) : null;
+        User user = convertMapToUser(map);
+        return user.available() ? user : null;
     }
 
     public User login(String token) {
         Map<String, Object> map = dao.login(token);
         return map != null ? convertMapToUser(map) : null;
     }
+
     public User loginSocial(String email) {
         Map<String, Object> map = dao.loginSocial(email);
         return map != null ? convertMapToUser(map) : null;
     }
+
     public void update(User user) {
         dao.update(user.getId(), user.getUsername(), user.getName(), user.getAddress(), user.getPhone(), user.getEmail(), user.getLevel());
 
     }
-    public void updatePassword(User user, String password){
+
+    public void updatePassword(User user, String password) {
         dao.update(user.getId(), hashPassword(password));
     }
-    public void updatePassword(int id, String password){
+
+    public void updatePassword(int id, String password) {
         dao.update(id, hashPassword(password));
     }
+
     public boolean checkUsername(User user) {
         return dao.checkUsername(user.getUsername());
     }
@@ -109,9 +118,9 @@ public class UserService {
         return true;
     }
 
-    public boolean passwordRecovery( String email) {
+    public boolean passwordRecovery(String email) {
         User user = getByEmail(email);
-        if (user != null ) {
+        if (user != null) {
             Token token = generateToken(user);
             String link = "http://localhost:8080/forgotpassword?token=" + token.getToken();
             String text = "Xin chào " + user.getName() + ",\n" +
@@ -125,7 +134,9 @@ public class UserService {
                     "http://localhost:8080/login";
             return sendMail(email, "Password recovery", text);
 
-        } else {  return false;        }
+        } else {
+            return false;
+        }
 
 
     }
@@ -138,13 +149,11 @@ public class UserService {
     public boolean checkPassword(int id, String password) {
         return dao.checkPassword(id, hashPassword(password));
     }
+
     public boolean checkPassword(String email, String password) {
         return dao.checkPassword(email, hashPassword(password));
     }
 
-    public boolean checkAdmin(User user) {
-        return user.getLevel() == 1;
-    }
 
     public User convertMapToUser(Map<String, Object> map) {
         User user = new User();
@@ -164,9 +173,11 @@ public class UserService {
         user.setToken(token);
         dao.updateToken(user.getId(), token);
     }
+
     public int getTotal() {
         return dao.getTotal();
     }
+
     public List<User> getPaging(int index) {
         List<User> list = new ArrayList<>();
         for (Map<String, Object> map : dao.paging(index)) {
@@ -177,6 +188,71 @@ public class UserService {
 
     public void delete(int id) {
         dao.delete(id);
+    }
+
+    private static Logger LOGGER = null;
+
+    public void logUser(int userid, String area, int approver, int status) {
+        LOGGER = LoggerFactory.getLogger("User");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("user", new Gson().toJson(getById(userid)));
+            MDC.put("area", area);
+            MDC.put("approver", String.valueOf(approver));
+            MDC.put("status", String.valueOf(status));
+            switch (status) {
+                case 0: {
+                    LOGGER.info("User account created");
+                    break;
+                }
+                case 1: {
+                    LOGGER.info("Account access admin created");
+                    break;
+                }
+                case -1: {
+                    LOGGER.warn("Account banned");
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+            MDC.remove("user");
+            MDC.remove("area");
+            MDC.remove("approver");
+            MDC.remove("status");
+        }
+    }
+
+    public void logChangePassword(int userid, String area, int approver, String location) {
+        LOGGER = LoggerFactory.getLogger("UserChangePassword");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("user", new Gson().toJson(getById(userid)));
+            MDC.put("area", area);
+            MDC.put("approver", String.valueOf(approver));
+            MDC.put("location", String.valueOf(location));
+
+            LOGGER.info("User changed password");
+
+            MDC.remove("user");
+            MDC.remove("area");
+            MDC.remove("approver");
+            MDC.remove("location");
+        }
+    }
+
+    public void logBanned(int userid, String area, int approver) {
+        LOGGER = LoggerFactory.getLogger("UserBanned");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("user", new Gson().toJson(getById(userid)));
+            MDC.put("area", area);
+            MDC.put("approver", String.valueOf(approver));
+
+            LOGGER.info("User changed password");
+
+            MDC.remove("user");
+            MDC.remove("area");
+            MDC.remove("approver");
+        }
     }
 
     public static void main(String[] args) {

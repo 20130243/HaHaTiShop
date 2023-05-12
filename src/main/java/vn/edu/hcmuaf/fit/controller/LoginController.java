@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,7 +14,7 @@ import java.util.TimerTask;
 public class LoginController extends HttpServlet {
 
     private int loginAttempts = 0;
-    private static final int MAX_LOGIN_ATTEMPTS = 5;
+    private static final int MAX_LOGIN_ATTEMPTS = 15;
     private static final int LOCK_TINE_IN_MINUTES = 3;
 
     @Override
@@ -34,7 +33,8 @@ public class LoginController extends HttpServlet {
         User user = userService.login(username, password);
 
         if (!(loginAttempts >= MAX_LOGIN_ATTEMPTS)) {
-            if (user != null) { // login thanh cong
+            // login thanh cong
+            if (user != null) {
                 userService.updateToken(user);
                 String save = request.getParameter("save");
                 Cookie cToken = new Cookie("tokenID", user.getToken());
@@ -43,16 +43,17 @@ public class LoginController extends HttpServlet {
                     response.addCookie(cToken);
                 }
                 loginAttempts = 0;
-                if(user.getLevel() == -1) {
+                if (user.getLevel() == -1) {
                     request.setAttribute("user", user);
                     request.getRequestDispatcher("BannedAccount.jsp").forward(request, response);
                 } else {
-                    System.out.println(user);
                     session.setAttribute("user", user);
                     session.setMaxInactiveInterval(24 * 60 * 60);
                     response.getWriter().write("2");
                 }
-            } else {  // Sai 5 lan
+            }
+            // Sai 5 lan
+            else {
                 loginAttempts++;
                 if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
                     response.getWriter().write(LOCK_TINE_IN_MINUTES + " ");

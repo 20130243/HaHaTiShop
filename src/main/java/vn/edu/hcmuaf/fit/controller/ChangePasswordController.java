@@ -29,6 +29,7 @@ public class ChangePasswordController extends HttpServlet {
                     && checkOldPassword
                     && checkComfirmPassword) {
                 userService.update(user);
+                userService.logChangePassword(user.getId(),"User", user.getId(), request.getRemoteAddr());
                 session.setAttribute("user", user);
                 response.sendRedirect("account");
             } else {
