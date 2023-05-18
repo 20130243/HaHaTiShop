@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.order;
+package vn.edu.hcmuaf.fit.controller.Admin.order;
 
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Order;

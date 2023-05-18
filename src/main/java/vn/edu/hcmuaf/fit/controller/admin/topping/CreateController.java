@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.topping;
+package vn.edu.hcmuaf.fit.controller.Admin.topping;
 
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Topping;

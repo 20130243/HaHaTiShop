@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.category;
+package vn.edu.hcmuaf.fit.controller.Admin.category;
 
 import vn.edu.hcmuaf.fit.services.CategoryService;
 
