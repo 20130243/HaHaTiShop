@@ -30,16 +30,18 @@ public class SocialLoginController extends HttpServlet {
             String id = request.getParameter("id");
             String password = email;
 
-            User userNew = new User(0, id, name, "", "", email, 0, "");
+            User user = new User(0, id, name, "", "", email, 0, "");
 
-            if (userService.checkUsername(userNew)) {
-                userNew = userService.login(email, password);
-                session.setAttribute("user", userNew);
+            if (userService.checkUsername(user)) {
+                user = userService.login(email, password);
+                userService.logLogin(user.getId(),request.getRemoteAddr(),"LOGIN SOCIAL ACC");
+                session.setAttribute("user", user);
                 response.sendRedirect("/");
             } else {
-                userService.insert(userNew, password);
-                userNew = userService.login(email, password);
-                session.setAttribute("user", userNew);
+                userService.insert(user, password);
+                user = userService.login(email, password);
+                userService.logLogin(user.getId(),request.getRemoteAddr(),"LOGIN SOCIAL ACC");
+                session.setAttribute("user", user);
                 response.sendRedirect("/");
             }
         }

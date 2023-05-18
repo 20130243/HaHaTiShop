@@ -40,10 +40,6 @@ public class ResetPasswordController extends HttpServlet {
                 tokenFPService.delete(token.getId());
                 session.setAttribute("user", user);
                 response.sendRedirect("account");
-//            System.out.println("user " + userId);
-//            System.out.println("token " + tokenId);
-//            System.out.println("npw " + newPassword);
-//            System.out.println("cpw " + confirmPassword);
             } else {
                 request.setAttribute("erorr_changePassword", "Mật khẩu mới không khớp");
                 request.getRequestDispatcher("resetPassword").forward(request, response);

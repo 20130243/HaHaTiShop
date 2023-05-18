@@ -43,6 +43,7 @@ public class CookieFilter implements Filter {
                     String token = cookie.getValue();
                     UserService userService = new UserService();
                     User user = userService.login(token);
+                    userService.logLogin(user.getId(), request.getRemoteAddr(), "LOGIN COOKIE");
                     if (user != null) {
                         System.out.println("User cookie checked");
                         session.setAttribute("user", user);

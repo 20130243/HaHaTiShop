@@ -31,6 +31,7 @@ public class LoginController extends HttpServlet {
         String password = request.getParameter("password");
 
         User user = userService.login(username, password);
+        userService.logLogin(user.getId(),request.getRemoteAddr(),"LOGIN PAGE");
 
         if (!(loginAttempts >= MAX_LOGIN_ATTEMPTS)) {
             // login thanh cong
