@@ -23,6 +23,7 @@ import java.util.Properties;
 
 public class UserService {
     UserDAO dao = new UserDAO();
+    private static Logger LOGGER = null;
 
     public User getById(int id) {
         Map<String, Object> map = dao.getById(id);
@@ -191,7 +192,6 @@ public class UserService {
         dao.delete(id);
     }
 
-    private static Logger LOGGER = null;
 
     public void logUser(int userid, String area, int approver, int status) {
         LOGGER = LoggerFactory.getLogger("User");
@@ -248,7 +248,7 @@ public class UserService {
             MDC.put("area", area);
             MDC.put("approver", String.valueOf(approver));
 
-            LOGGER.info("User changed password");
+            LOGGER.info("User banned");
 
             MDC.remove("user");
             MDC.remove("area");
@@ -264,11 +264,26 @@ public class UserService {
         return dao.getCountForgotPassword(email, date);
     }
 
-    public void insertCountForgetPassword(String email, Date date){
+    public void insertCountForgetPassword(String email, Date date) {
         dao.insertCountForgotPassword(email, date);
     }
 
+    public void logLogin(int userid, String location, String method) {
+        LOGGER = LoggerFactory.getLogger("UserLogin");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("user", new Gson().toJson(getById(userid)));
+            MDC.put("location", location);
+            MDC.put("method", method);
+
+            LOGGER.info("User login " + method);
+
+            MDC.remove("user");
+            MDC.remove("location");
+            MDC.remove("method");
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(new UserService().checkEmail("manhha584224@gmail.com"));
+        new UserService().logBanned(8, "admin", 7);
     }
 }

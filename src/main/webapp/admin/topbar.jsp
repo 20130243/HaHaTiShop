@@ -36,6 +36,7 @@
 
                 <span>
                 <span class="account-user-name">${sessionScope.admin.name}</span>
+
                 <span class="account-position">Admin</span>
                 </span>
             </a>

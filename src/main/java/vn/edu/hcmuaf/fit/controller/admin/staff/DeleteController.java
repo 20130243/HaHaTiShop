@@ -1,7 +1,6 @@
-package vn.edu.hcmuaf.fit.controller.admin.staff;
+package vn.edu.hcmuaf.fit.controller.Admin.staff;
 
 import vn.edu.hcmuaf.fit.services.AdminService;
-import vn.edu.hcmuaf.fit.services.BlogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

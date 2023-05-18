@@ -40,6 +40,15 @@
             <param-name>test-param</param-name>
             <param-value>Initialization Paramter</param-value>
         </init-param>
+    </filter> <filter>
+        <description></description>
+        <display-name>LoginFilter</display-name>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>vn.edu.hcmuaf.fit.filter.LoginFilter</filter-class>
+        <init-param>
+            <param-name>test-param</param-name>
+            <param-value>Initialization Paramter</param-value>
+        </init-param>
     </filter>
     <filter>
         <description></description>
@@ -60,6 +69,10 @@
     <filter-mapping>
         <filter-name>UserFilter</filter-name>
         <url-pattern>/account/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/login/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
