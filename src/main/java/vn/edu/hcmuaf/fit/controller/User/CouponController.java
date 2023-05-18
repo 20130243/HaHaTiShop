@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.user;
+package vn.edu.hcmuaf.fit.controller.User;
 
 import com.google.gson.Gson;
 import vn.edu.hcmuaf.fit.bean.Cart;
@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.bean.Coupon;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.services.CouponService;
 
+import javax.mail.Session;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;

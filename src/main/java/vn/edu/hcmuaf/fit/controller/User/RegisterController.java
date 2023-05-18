@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.user;
+package vn.edu.hcmuaf.fit.controller.User;
 
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.services.UserService;

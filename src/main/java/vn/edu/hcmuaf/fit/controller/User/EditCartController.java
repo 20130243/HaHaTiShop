@@ -1,5 +1,6 @@
-package vn.edu.hcmuaf.fit.controller.user;
+package vn.edu.hcmuaf.fit.controller.User;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import vn.edu.hcmuaf.fit.bean.*;
@@ -9,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
