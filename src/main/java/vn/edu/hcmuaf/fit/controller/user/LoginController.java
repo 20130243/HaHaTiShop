@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.User;
+package vn.edu.hcmuaf.fit.controller.user;
 
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.services.UserService;
@@ -31,11 +31,12 @@ public class LoginController extends HttpServlet {
         String password = request.getParameter("password");
 
         User user = userService.login(username, password);
-        userService.logLogin(user.getId(),request.getRemoteAddr(),"LOGIN PAGE");
+
 
         if (!(loginAttempts >= MAX_LOGIN_ATTEMPTS)) {
             // login thanh cong
             if (user != null) {
+                userService.logLogin(user.getId(),request.getRemoteAddr(),"LOGIN PAGE");
                 userService.updateToken(user);
                 String save = request.getParameter("save");
                 Cookie cToken = new Cookie("tokenID", user.getToken());

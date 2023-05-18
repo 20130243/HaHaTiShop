@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.User;
+package vn.edu.hcmuaf.fit.controller.user;
 
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.services.UserService;
@@ -36,7 +36,6 @@ public class RegisterController extends HttpServlet {
             // đăng nhập
             user = userService.login(email, password);
             userService.logLogin(user.getId(),request.getRemoteAddr(),"REGISTER");
-            // ghi vào log
             userService.logUser(user.getId(), "user", user.getId(), 0);
 
             HttpSession session = request.getSession(true);

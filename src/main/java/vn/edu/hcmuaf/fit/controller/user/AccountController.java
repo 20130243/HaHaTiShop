@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.User;
+package vn.edu.hcmuaf.fit.controller.user;
 
 import vn.edu.hcmuaf.fit.bean.Order;
 import vn.edu.hcmuaf.fit.bean.User;
@@ -9,7 +9,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "account", value = "/account")

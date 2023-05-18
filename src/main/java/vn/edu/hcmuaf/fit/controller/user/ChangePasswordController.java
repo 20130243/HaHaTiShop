@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.User;
+package vn.edu.hcmuaf.fit.controller.user;
 
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.services.UserService;
@@ -29,7 +29,8 @@ public class ChangePasswordController extends HttpServlet {
                     && checkOldPassword
                     && checkComfirmPassword) {
                 userService.update(user);
-                userService.logChangePassword(user.getId(),"User", user.getId(), request.getRemoteAddr());
+                userService.logChangePassword(user.getId(), "User", user.getId(), request.getRemoteAddr());
+                userService.logLogin(user.getId(), request.getRemoteAddr(), "RESET PASSWORD");
                 session.setAttribute("user", user);
                 response.sendRedirect("account");
             } else {

@@ -68,7 +68,7 @@
             </pattern>
         </encoder>
     </appender>
- <appender name="AdminLogin" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="AdminLogin" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>src/main/webapp/WEB-INF/logs/Admin/Hahati-AdminLogin.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>src/main/webapp/WEB-INF/logs/Admin/Hahati-AdminLogin-%d{yyyy-MM}.log</fileNamePattern>

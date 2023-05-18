@@ -1,6 +1,10 @@
 package vn.edu.hcmuaf.fit.services;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import vn.edu.hcmuaf.fit.bean.Admin;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.dao.AdminDAO;
@@ -114,10 +118,6 @@ public class AdminService {
         return list;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new AdminService().checkUsername(new Admin(0, "admin", "ha", null, null, 0, "")));
-        new AdminService().insert(new Admin(0, "admin", "ha", null, null, 0, ""), "123");
-    }
 
     public boolean checkEmail(String email) {
         return dao.checkEmail(email);
@@ -125,5 +125,27 @@ public class AdminService {
 
     public boolean checkPhone(String phone) {
         return dao.checkPhone(phone);
+    }
+
+    private static Logger LOGGER = null;
+
+    public void logLogin(int adminId, String location, String method) {
+        LOGGER = LoggerFactory.getLogger("AdminLogin");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("admin", new Gson().toJson(getById(adminId)));
+            MDC.put("location", location);
+            MDC.put("method", method);
+
+            LOGGER.info("Admin login " + method);
+
+            MDC.remove("admin");
+            MDC.remove("location");
+            MDC.remove("method");
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new AdminService().checkUsername(new Admin(0, "admin", "ha", null, null, 0, "")));
+        new AdminService().insert(new Admin(0, "admin", "ha", null, null, 0, ""), "123");
     }
 }

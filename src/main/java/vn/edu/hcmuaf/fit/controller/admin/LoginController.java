@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin;
+package vn.edu.hcmuaf.fit.controller.admin;
 
 import vn.edu.hcmuaf.fit.bean.Admin;
 import vn.edu.hcmuaf.fit.services.AdminService;
@@ -49,6 +49,7 @@ public class LoginController extends HttpServlet {
                 }
             } else {
                 adminService.updateToken(admin);
+                adminService.logLogin(admin.getId(), request.getRemoteAddr(), "LOGIN PAGE");
                 String save = request.getParameter("save");
                 Cookie cAdminToken = new Cookie("tokenAdminID", admin.getToken());
                 if (save != null) {
