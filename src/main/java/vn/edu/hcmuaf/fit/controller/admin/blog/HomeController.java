@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin.blog;
+package vn.edu.hcmuaf.fit.controller.admin.blog;
 
 import vn.edu.hcmuaf.fit.bean.Blog;
 import vn.edu.hcmuaf.fit.services.BlogService;

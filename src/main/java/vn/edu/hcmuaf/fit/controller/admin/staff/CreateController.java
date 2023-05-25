@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin.staff;
+package vn.edu.hcmuaf.fit.controller.admin.staff;
 
 import com.google.gson.Gson;
 import vn.edu.hcmuaf.fit.bean.Admin;

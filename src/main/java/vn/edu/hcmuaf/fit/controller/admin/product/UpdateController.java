@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin.product;
+package vn.edu.hcmuaf.fit.controller.admin.product;
 
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Image;

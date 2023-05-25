@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin;
+package vn.edu.hcmuaf.fit.controller.admin;
 
 import vn.edu.hcmuaf.fit.bean.Admin;
 import vn.edu.hcmuaf.fit.services.AdminService;

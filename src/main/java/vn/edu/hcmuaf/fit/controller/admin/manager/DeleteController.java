@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin.manager;
+package vn.edu.hcmuaf.fit.controller.admin.manager;
 
 import vn.edu.hcmuaf.fit.services.BlogService;
 
