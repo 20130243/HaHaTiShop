@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin.coupon;
+package vn.edu.hcmuaf.fit.controller.admin.coupon;
 
 import vn.edu.hcmuaf.fit.bean.Coupon;
 import vn.edu.hcmuaf.fit.services.CouponService;

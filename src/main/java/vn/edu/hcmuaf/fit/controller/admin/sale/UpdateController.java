@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin.sale;
+package vn.edu.hcmuaf.fit.controller.admin.sale;
 
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Product;

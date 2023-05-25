@@ -1,0 +1,6 @@
+2023-03-21 12:16:59.644 [main] INFO  Order - Order: {"id":14,"user_id":12,"name":"admin","phone":"0123456789","address":"sadsad","time":"Mar 8, 2023, 10:20:02 AM","note":"","total":77562.5,"status":2},
+                Approver: 1, Status: 1
+2023-03-21 12:19:21.307 [main] INFO  Order - Order: {"id":14,"user_id":12,"name":"admin","phone":"0123456789","address":"sadsad","time":"Mar 8, 2023, 10:20:02 AM","note":"","total":77562.5,"status":2},
+                Approver: 1, Status: 4
+2023-03-21 12:19:55.239 [main] INFO  Order - Order: {"id":14,"user_id":12,"name":"admin","phone":"0123456789","address":"sadsad","time":"Mar 8, 2023, 10:20:02 AM","note":"","total":77562.5,"status":2},
+                Approver: 1, Status: 2
