@@ -167,7 +167,7 @@
                     console.log(data);
                     if (data == 0) {
                         $(".login-register").remove();
-                        $(".main").html(`  <div class=" d-flex  flex-column justify-content-center  align-items-center" style=" width: 100%; height: 200px; ">
+                        $(".main").html(`  <div class=" d-flex  flex-column justify-content-center  align-items-center" style=" width: 100%; height: 75%; ">
         <h3>Kiểm tra email của bạn</h3>
 
         <div class=" d-flex  flex-row">
@@ -193,6 +193,11 @@
                     } else if (data == 2) {
                         $("#register-username-error").empty();
                         $("#register-username-error").append("Vui lòng nhập email");
+                        $("#send").removeClass('loading');
+                        $('button').prop('disabled', false);
+                    } else if (data == 3) {
+                        $("#register-username-error").empty();
+                        $("#register-username-error").append("Đã quá 5 lần quên mật khẩu, thử lại vào ngài mai");
                         $("#send").removeClass('loading');
                         $('button').prop('disabled', false);
                     }

@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.blog;
+package vn.edu.hcmuaf.fit.controller.Admin.blog;
 
 import vn.edu.hcmuaf.fit.bean.Blog;
 import vn.edu.hcmuaf.fit.services.BlogService;
@@ -23,7 +23,7 @@ import java.sql.Date;
 public class CreateController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("create.jsp").forward(request, response);
+        if (!response.isCommitted()) request.getRequestDispatcher("create.jsp").forward(request, response);
     }
 
     @Override

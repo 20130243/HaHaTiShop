@@ -1,0 +1,10 @@
+2023-05-18 13:35:01.406 [main] INFO  Order -
+                Order: {"id":14,"user_id":12,"name":"admin","phone":"0123456789","address":"sadsad","time":"Mar 8, 2023, 10:20:02 AM","note":"","total":77562.5,"status":3},
+                Area: admin,
+                Approver: 1,
+                Status: 4
+2023-05-18 13:35:43.464 [main] INFO  Order -
+                Order: {"id":14,"user_id":12,"name":"admin","phone":"0123456789","address":"sadsad","time":"Mar 8, 2023, 10:20:02 AM","note":"","total":77562.5,"status":3},
+                Area: admin,
+                Approver: 1,
+                Status: 4

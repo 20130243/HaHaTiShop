@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.product;
+package vn.edu.hcmuaf.fit.controller.Admin.product;
 
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Product;
@@ -20,12 +20,7 @@ public class HomeController extends HttpServlet {
 
         try {
             String page = request.getParameter("page");
-            int index;
-            if (page == null) {
-                index = 1;
-            } else {
-                index = Integer.parseInt(page);
-            }
+            int index = page == null ? 1 : Integer.parseInt(page);
             ProductService productService = new ProductService();
             CategoryService categoryService = new CategoryService();
             int count = productService.getTotalProduct();
@@ -41,7 +36,7 @@ public class HomeController extends HttpServlet {
             request.setAttribute("categoryList", categoryList);
 
             request.setAttribute("endPage", endPage);
-            request.getRequestDispatcher("product/index.jsp").forward(request, response);
+            if (!response.isCommitted())  request.getRequestDispatcher("product/index.jsp").forward(request, response);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -160,9 +160,11 @@
                         </div>
                         <form action="addToCart" method="get">
                             <div id="myModal<%=p.getId()%>" class="modal fade in" tabindex="-1" role="dialog">
+
                                 <div class="modal-dialog product-modal" role="document">
                                     <div class="modal-content flex-row">
                                         <div class="w-50">
+
                                             <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
                                                 <!--Slides-->
                                                 <div class="carousel-inner " role="listbox" style="height: 500px; padding: 50px">
@@ -299,7 +301,6 @@
                                         </div>
                                     </div>
                                 </div><!-- /.modal-content -->
-
                             </div><!-- /.modal-dialog -->
                             <!-- /.modal -->
                         </form>
@@ -338,9 +339,9 @@
                                                 }
 
                                 %>
-                                <form action="/editcart" method="get" id="myForm">
-                                    <div style="position: relative;width: 100%;height: 170px;">
-                                        <div class="cart-product-item">
+                                <form action="/editcart" method="get" id="form_edit_cart">
+                                    <div style="position: relative;width: 100%;height: auto;">
+                                        <div class="cart-product-item" id="product-item-<%=item.getId()%>">
                                             <div class="cart-product-name">
                                                 <img src="<%=p.getImage().get(0).getUrl()%>" width="32" height="32">
                                                 <h5><%=p.getName()%> (<%=p.getPriceSize().get(0).getSize()%>)</h5>
@@ -358,25 +359,23 @@
                                                         if (p.getTopping().size() > 0) {
                                                             for (Topping tp : p.getTopping()) {
                                                     %>
-                                                    <p class="topping-item"><%=tp.getName()%> x <%=item.getQuantity()%>
-                                                    </p>
+                                                    <p class="topping-item"><%=tp.getName()%></p>
                                                     <%
                                                             }
                                                         }
                                                     %>
                                                 </div>
                                                 <div class="cart-product-quantity">
-                                                    <input name="quantityChange<%=item.getId()%>"
+                                                    <input onchange="$('#form_edit_cart').submit()" name="quantityChange<%=item.getId()%>"
                                                            class="cart-quantity-input quantity" type="number"
+                                                           min="0"
                                                            value="<%=item.getQuantity()%>">
-                                                    <a href="editcart?rpID=<%=item.getId()%>" style="border: none"> <i
-                                                            class="fa-solid fa-xmark remove"></i></a>
+                                                    <input onchange="$('#form_edit_cart').submit()" style="display: none" type="checkbox" name="removeProduct" id="remove-product<%=item.getId()%>" value="<%=item.getId()%>" />
+                                                    <label for="remove-product<%=item.getId()%>"><i class="fa fa-close"></i></label>
                                                 </div>
                                             </div>
-                                            <div class="cart-product-price">
+                                            <div class="cart-product-price" id="totalPriceProduct<%=item.getId()%>">
                                                 <%=new CurrencyFormat().format((int) item.getPrice())%>
-                                                * <%=item.getQuantity()%>
-                                                = <%=new CurrencyFormat().format((int) item.getPrice())%>
                                             </div>
                                         </div>
                                         <%if (productUnavaiable != null ){%>
@@ -407,14 +406,24 @@
                                 </form>
                                 <div class="cart-product-total">
                                     <div class="total">
-                                        Tổng tiền: <span
+                                        Tổng tiền: <span id="price_decreased"
                                             class="price"> <%=new CurrencyFormat().format((int) cart.getTotalMoney())%></span>
                                     </div>
                                     <a href="/checkout" class="btn-pay">Thanh toán</a>
                                 </div>
                                 <%
-                                    }
+                                    } else {
+
+
                                 %>
+                                <div class="cart-product-total">
+                                    <div class="total">
+                                        Tổng tiền: <span
+                                            class="price"> <%=new CurrencyFormat().format(0)%></span>
+                                    </div>
+                                    <a href="/checkout" class="btn-pay">Thanh toán</a>
+                                </div>
+                                <%}%>
                             </div>
                         </div>
                     </div>
@@ -439,6 +448,7 @@
         </div>
     </div>
     </div>
+
 </section>
 <!-- Shop Section End -->
 
@@ -471,15 +481,35 @@
 
 
 <script>
-    $(document).ready(function () {
-        $(".product__item").click(function (e) {
-            var val = this.getAttribute('data-id');
-            var s = '#btn-modal' + val;
-            $(s).click();
+    $("#form_edit_cart").submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (data) {
+                let dataArr = data.split("|");
+                let remove = dataArr[0];
+                if(remove=="remove") {
+                    $("#product-item-"+dataArr[1]).remove();
+                    var priceCart = parseInt(dataArr[2]);
+                    $('#price_decreased').html(priceCart.toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
+                } else {
+                    var dataObject = JSON.parse(data);
+                    for(var i = 0; i < dataObject.length; i++) {
+                        var id = dataObject[i].id;
+                        var price = dataObject[i].price;
+                        $('#totalPriceProduct'+id).text(price.toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
+                    }
+                    var cartPrice = dataObject[dataObject.length-1].priceCart;
+                    $('#price_decreased').html(cartPrice.toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
+                }
+            },
+            error: function (data) {
+                console.log('An error occurred.' + data);
+            },
         });
     });
-
-
 
 </script>
 </body>

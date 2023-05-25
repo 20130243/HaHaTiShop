@@ -60,13 +60,14 @@
 
                             <div class="form-group mb-3">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="checkbox-signin" name="save">
+                                    <input type="checkbox" class="custom-control-input" id="checkbox-signin"
+                                           name="save">
                                     <label class="custom-control-label" for="checkbox-signin">Lưu đăng nhập</label>
                                 </div>
                             </div>
 
                             <div class="form-group mb-0 text-center">
-                                <button class="btn btn-primary" type="submit">Đăng nhập</button>
+                                <button id="login-btn"  class="btn btn-primary" type="submit">Đăng nhập</button>
                             </div>
 
                         </form>
@@ -92,7 +93,7 @@
 <script>
     $("#login").submit(function (e) {
         e.preventDefault();
-        console.log($(this).serialize());
+        var timer = 3;
         $.ajax({
             type: $(this).attr('method'),
             url: $(this).attr('action'),
@@ -100,16 +101,30 @@
             success: function (data) {
                 if (1 == data) {
                     $("#login-username-error").text("Tài khoản hoặc mật khẩu không đúng");
-                    console.log(123);
                 } else if (2 == data) {
                     window.location.href = "/admin";
+                } else {
+                    timer = parseInt(data);
+                    if(!isNaN(timer)) {
+                        $("#login-username-error").text("Bạn nhập sai nhiều lần. Vui lòng thử lại sau: "+ timer  + " phút.");
+                        $(".login-btn").attr("disabled", true);
+                        setTimeout(() => {
+                            $("#login-username-error").text("");
+                            $(".login-btn").attr("disabled", false);
+                        }, timer * 60 * 1000);
+                    }
+                    else if(isNaN(timer)){
+                        timer = 3;
+                        $("#login-username-error").text("Bạn đang bị khoá đăng nhập. \n Vui lòng thử lại sau: "+ timer  + " phút.");
+                        $(".login-btn").attr("disabled", true);
+                        setTimeout(() => {
+                            $("#login-username-error").text("");
+                            $(".login-btn").attr("disabled", false);
+                        }, timer * 60 * 1000);
+                    }
                 }
-                console.log('Submission was successful.');
-                console.log(data);
             },
             error: function (data) {
-                console.log('An error occurred.');
-                console.log(data);
             },
         });
     });

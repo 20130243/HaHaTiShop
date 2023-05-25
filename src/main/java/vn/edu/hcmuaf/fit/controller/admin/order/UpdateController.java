@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.order;
+package vn.edu.hcmuaf.fit.controller.Admin.order;
 
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Order;
@@ -28,7 +28,7 @@ public class UpdateController extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        request.getRequestDispatcher("update.jsp").forward(request, response);
+        if (!response.isCommitted())    request.getRequestDispatcher("update.jsp").forward(request, response);
     }
 
     @Override

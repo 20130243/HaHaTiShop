@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.order;
+package vn.edu.hcmuaf.fit.controller.Admin.order;
 
 import vn.edu.hcmuaf.fit.bean.Order;
 import vn.edu.hcmuaf.fit.services.OrderService;
@@ -18,12 +18,7 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String page = request.getParameter("page");
-        int index;
-        if(page == null) {
-            index = 1;
-        } else {
-            index = Integer.parseInt(page);
-        }
+        int index = page == null ? 1 : Integer.parseInt(page);
         OrderService orderService = new OrderService();
         int count = orderService.getTotal();
         int endPage = count/10;
@@ -40,7 +35,7 @@ public class HomeController extends HttpServlet {
         }
 
         request.setAttribute("endPage", endPage);
-        request.getRequestDispatcher("order/index.jsp").forward(request, response);
+        if (!response.isCommitted()) request.getRequestDispatcher("order/index.jsp").forward(request, response);
     }
 
     @Override

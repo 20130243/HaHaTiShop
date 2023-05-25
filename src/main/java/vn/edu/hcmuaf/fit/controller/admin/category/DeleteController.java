@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.category;
+package vn.edu.hcmuaf.fit.controller.Admin.category;
 
 import vn.edu.hcmuaf.fit.services.CategoryService;
 
@@ -13,7 +13,7 @@ import java.io.IOException;
 public class DeleteController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("/Error404");
+        if (!response.isCommitted())  response.sendRedirect("/Error404");
 
     }
 

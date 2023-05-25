@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.blog;
+package vn.edu.hcmuaf.fit.controller.Admin.blog;
 
 import vn.edu.hcmuaf.fit.bean.Blog;
 import vn.edu.hcmuaf.fit.services.BlogService;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Category update", value = "/admin/blog/update")
+@WebServlet(name = "Blog update", value = "/admin/blog/update")
 public class UpdateController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -22,7 +22,7 @@ public class UpdateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        request.getRequestDispatcher("update.jsp").forward(request, response);
+        if (!response.isCommitted())  request.getRequestDispatcher("update.jsp").forward(request, response);
     }
 
     @Override

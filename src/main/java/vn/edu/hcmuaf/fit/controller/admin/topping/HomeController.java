@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.topping;
+package vn.edu.hcmuaf.fit.controller.Admin.topping;
 
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Topping;
@@ -19,12 +19,7 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String page = request.getParameter("page");
-        int index;
-        if(page == null) {
-            index = 1;
-        } else {
-            index = Integer.parseInt(page);
-        }
+        int index = page == null ? 1 : Integer.parseInt(page);
         ToppingService toppingService = new ToppingService();
         int count = toppingService.getTotal();
         int endPage = count/10;
@@ -43,7 +38,7 @@ public class HomeController extends HttpServlet {
         }
 
         request.setAttribute("endPage", endPage);
-        request.getRequestDispatcher("topping/index.jsp").forward(request, response);
+        if (!response.isCommitted())  request.getRequestDispatcher("topping/index.jsp").forward(request, response);
     }
 
     @Override

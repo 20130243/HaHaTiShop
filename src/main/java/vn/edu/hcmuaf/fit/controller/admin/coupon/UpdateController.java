@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.coupon;
+package vn.edu.hcmuaf.fit.controller.Admin.coupon;
 
 import vn.edu.hcmuaf.fit.bean.Coupon;
 import vn.edu.hcmuaf.fit.services.CouponService;
@@ -23,7 +23,7 @@ public class UpdateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        request.getRequestDispatcher("update.jsp").forward(request, response);
+        if (!response.isCommitted())   request.getRequestDispatcher("update.jsp").forward(request, response);
     }
 
     @Override

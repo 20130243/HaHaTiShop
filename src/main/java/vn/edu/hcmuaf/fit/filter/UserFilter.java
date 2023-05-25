@@ -26,9 +26,10 @@ public class UserFilter implements Filter {
         String url = httpRequest.getServletPath();
 
         User user = (User) session.getAttribute("user");
+        if (user != null) user = user.available() ? user : null;
         if (user == null) {
-            System.out.println("user not found");
             httpRespond.sendError(HttpServletResponse.SC_NOT_FOUND, "");
+            return;
         } else {
             chain.doFilter(request, response);
         }

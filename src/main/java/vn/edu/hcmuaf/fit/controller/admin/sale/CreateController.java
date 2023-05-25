@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.admin.sale;
+package vn.edu.hcmuaf.fit.controller.Admin.sale;
 
 import vn.edu.hcmuaf.fit.bean.Category;
 import vn.edu.hcmuaf.fit.bean.Product;
@@ -30,7 +30,7 @@ public class CreateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        request.getRequestDispatcher("update.jsp").forward(request, response);
+        if (!response.isCommitted())  request.getRequestDispatcher("update.jsp").forward(request, response);
     }
 
     @Override

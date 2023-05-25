@@ -2,8 +2,11 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class UserDAO extends RD {
     private static final String tableName = "user";
@@ -49,7 +52,7 @@ public class UserDAO extends RD {
     @Override
     public void delete(int id) {
         JDBIConnector.get().withHandle(h ->
-                h.createUpdate("DELETE FROM " + tableName + " WHERE id=:id").bind("id", id).execute());
+                h.createUpdate("UPDATE " + tableName + "    SET level = -1 WHERE id=:id").bind("id", id).execute());
     }
 
     public void insert(String username, String password, String name, String address, String phone, String email, int level) {
@@ -91,7 +94,7 @@ public class UserDAO extends RD {
 
     public void update(int id, String username, String name, String address, String phone, String email, int level) {
         JDBIConnector.get().withHandle(h ->
-                h.createUpdate("UPDATE " + tableName + " SET username=:username,password=:password,name=:name,address=:address,phone=:phone,email=:email,level=:level WHERE id=:id")
+                h.createUpdate("UPDATE " + tableName + " SET username=:username,name=:name,address=:address,phone=:phone,email=:email,level=:level WHERE id=:id")
                         .bind("username", username)
                         .bind("name", name)
                         .bind("address", address)
@@ -102,6 +105,7 @@ public class UserDAO extends RD {
                         .execute());
 
     }
+
     public void update(int id, String password) {
         JDBIConnector.get().withHandle(h ->
                 h.createUpdate("UPDATE " + tableName + " SET password=:password WHERE id=:id")
@@ -140,6 +144,7 @@ public class UserDAO extends RD {
                         .first());
 
     }
+
     public Map<String, Object> loginSocial(String email) {
         if (!checkEmail(email)) {
             return null;
@@ -151,6 +156,7 @@ public class UserDAO extends RD {
                         .first());
 
     }
+
     public boolean checkValid(String username, String password) {
         int result = JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE username =:username and password =:password")
@@ -193,9 +199,55 @@ public class UserDAO extends RD {
         return result == 1;
     }
 
+    public List<Map<String, Object>> paging(int index) {
+        return JDBIConnector.get().withHandle(h ->
+                h.createQuery("select * from " + tableName +
+                        " order by id DESC " +
+                        " LIMIT ? , 10;").bind(0, (index - 1) * 10).mapToMap().list()
+        );
+    }
+
+    public int getTotal() {
+        return JDBIConnector.get().withHandle(h ->
+                h.createQuery("select count(id) from " + tableName).mapTo(Integer.class).first());
+    }
+
+    public int getCountForgotPassword(String email, Date date) {
+        List counts = JDBIConnector.get().withHandle(h ->
+                h.createQuery("select count from " + "forgot_pass_count " + " where email = :email and date = :date")
+                        .bind("email", email)
+                        .bind("date", date)
+                        .mapTo(Integer.class).list());
+        if(counts.isEmpty()){
+            return 0;
+        } else {
+            return (int) counts.get(0);
+        }
+    }
+
+    public void updateCountForgotPassword(String email, Date date, int count) {
+        JDBIConnector.get().withHandle(h ->
+                h.createUpdate("UPDATE " + "forgot_pass_count " + " SET count= :count where email = :email and date = :date")
+                        .bind("count", count)
+                        .bind("email", email)
+                        .bind("date", date)
+                        .execute());
+    }
+
+    public void insertCountForgotPassword(String email, Date date) {
+        JDBIConnector.get().withHandle(h ->
+                h.createUpdate("INSERT INTO " + "forgot_pass_count " + "(email,date,count) VALUES (:email, :date, :count)")
+                        .bind("email", email)
+                        .bind("date", date)
+                        .bind("count", 1)
+                        .execute());
+    }
+
     public static void main(String[] args) {
 //        System.out.println(new UserDAO().getAll());
-        System.out.println(new UserDAO().getById(19));
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        java.util.Date date = cal.getTime();
+        System.out.println(new UserDAO().getCountForgotPassword("tinhle2772002@gmail.com", new java.sql.Date(date.getTime())));
     }
 
 

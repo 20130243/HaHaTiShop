@@ -40,6 +40,15 @@
             <param-name>test-param</param-name>
             <param-value>Initialization Paramter</param-value>
         </init-param>
+    </filter> <filter>
+        <description></description>
+        <display-name>LoginFilter</display-name>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>vn.edu.hcmuaf.fit.filter.LoginFilter</filter-class>
+        <init-param>
+            <param-name>test-param</param-name>
+            <param-value>Initialization Paramter</param-value>
+        </init-param>
     </filter>
     <filter>
         <description></description>
@@ -53,7 +62,6 @@
     </filter>
 
 
-
     <filter-mapping>
         <filter-name>CookieFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -63,17 +71,25 @@
         <url-pattern>/account/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/login/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
         <filter-name>AdminFilter</filter-name>
+
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>ManagerFilter</filter-name>
+
         <url-pattern>/admin/blog/update/*</url-pattern>
         <url-pattern>/admin/product/update/*</url-pattern>
         <url-pattern>/admin/coupon/update/*</url-pattern>
         <url-pattern>/admin/category/update/*</url-pattern>
         <url-pattern>/admin/topping/update/*</url-pattern>
         <url-pattern>/admin/sale/update/*</url-pattern>
+        <url-pattern>/admin/staff/*</url-pattern>
+        <url-pattern>/admin/user/*</url-pattern>
 
         <url-pattern>/admin/blog/create/*</url-pattern>
         <url-pattern>/admin/product/create/*</url-pattern>
@@ -91,7 +107,6 @@
     </filter-mapping>
 
 
-
     <error-page>
         <error-code>404</error-code>
         <location>/404</location>
@@ -102,18 +117,5 @@
         <url-pattern>/404</url-pattern>
     </servlet-mapping>
 
-<!--    <servlet>-->
-<!--        <servlet-name>UploadProductImage</servlet-name>-->
-<!--        <servlet-class>vn.edu.hcmuaf.fit.controller.admin.product.UpdateController</servlet-class>-->
-<!--        <multipart-config>-->
-<!--            <max-file-size>5242880</max-file-size>-->
-<!--            <max-request-size>26214400</max-request-size>-->
-<!--            <file-size-threshold>0</file-size-threshold>-->
-<!--        </multipart-config>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>UploadProductImage</servlet-name>-->
-<!--        <url-pattern>/admin/product/update/*</url-pattern>-->
-<!--    </servlet-mapping>-->
 </web-app>
 
