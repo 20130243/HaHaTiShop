@@ -246,8 +246,8 @@
 
                                 <h5>${object.name}</h5>
 
-                                <address id="orderAddress" class="mb-0 font-14 address-lg">
-                                    ${object.address} <br>
+                                <address class="mb-0 font-14 address-lg">
+                                    <span id="orderAddress">${object.address}</span> <br>
                                     <abbr title="Phone">Số điện thoại: </abbr>${object.phone}
                                 </address>
 
@@ -448,8 +448,8 @@
         const orderAddress = $('#orderAddress');
         const addressText=  orderAddress[0].childNodes[0].textContent;
         const districtText = addressText.split('-')[2]
-        const wardText = addressText.split('-')[3].split(' ').splice(0,2).join(" ")
-
+        const wardText = addressText.split('-')[3]
+        console.log(wardText + districtText)
         const callAPI = async ()=>{
             await fetch('http://140.238.54.136/api/auth/login', {
                 method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -548,13 +548,12 @@
                     moneyLogisticTD.textContent = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(moneyLogistic)
 
                 })
-            $("#status-2").click(function () {
+           await $("#status-2").click(function () {
                 // logisticId
 
                 const registerLogistic = async ()=>{
                     await fetch('http://140.238.54.136/api/registerTransport', {
                         method: "POST", // *GET, POST, PUT, DELETE, etc.
-                        // mode: "cors",
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
                             "Authorization": "Bearer "+localStorage.getItem('accessToken'),
@@ -570,7 +569,8 @@
                             console.log( logistic.id)
                         })
 
-                    $("#update_status").submit();
+                    await $("#update_status").submit();
+
                 }
                 registerLogistic()
 

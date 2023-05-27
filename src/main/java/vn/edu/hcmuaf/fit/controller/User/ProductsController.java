@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller;
+package vn.edu.hcmuaf.fit.controller.User;
 
 import com.google.gson.Gson;
 import vn.edu.hcmuaf.fit.bean.Category;

@@ -1,0 +1,40 @@
+2023-05-18 13:43:44.592 [main] INFO  UserBanned -
+                User: {"id":3,"username":"abc","name":"Nguyễn Vũ Mạnh Hà","address":"","phone":"0344558306","email":"manhha314rf24@gmail.com","level":1,"token":"qFNAm5gw9R-IY_x8o7uPUlQpu7y5EdJi"},
+                Area: admin,
+                Approver: 72023-05-18 13:43:55.113 [main] INFO  UserBanned -
+                User: {"id":3,"username":"abc","name":"Nguyễn Vũ Mạnh Hà","address":"","phone":"0344558306","email":"manhha314rf24@gmail.com","level":1,"token":"qFNAm5gw9R-IY_x8o7uPUlQpu7y5EdJi"},
+                Area: admin,
+                Approver: 72023-05-18 13:45:47.913 [main] INFO  UserBanned -
+                User: {"id":8,"username":"cay","name":"Trái","address":"","phone":"0345582306","email":"12321ER@gmail.com","level":0},
+                Area: admin,
+                Approver: 72023-05-18 13:46:02.341 [main] INFO  UserBanned -
+                User: {"id":8,"username":"cay","name":"Trái","address":"","phone":"0345582306","email":"12321ER@gmail.com","level":0},
+                Area: admin,
+                Approver: 72023-05-18 13:46:55.134 [main] INFO  UserBanned -
+                User: {"id":8,"username":"cay","name":"Trái","address":"","phone":"0345582306","email":"12321ER@gmail.com","level":0},
+                Area: admin,
+                Approver: 7
+2023-05-18 13:47:00.427 [main] INFO  UserBanned -
+                User: {"id":8,"username":"cay","name":"Trái","address":"","phone":"0345582306","email":"12321ER@gmail.com","level":0},
+                Area: admin,
+                Approver: 7
+2023-05-18 13:47:06.487 [main] INFO  UserBanned -
+                User: {"id":8,"username":"cay","name":"Trái","address":"","phone":"0345582306","email":"12321ER@gmail.com","level":0},
+                Area: admin,
+                Approver: 7
+2023-05-18 14:14:42.532 [main] INFO  UserBanned -
+                User: {"id":8,"username":"cay","name":"Trái","address":"","phone":"0345582306","email":"12321ER@gmail.com","level":0},
+                Area: admin,
+                Approver: 7
+2023-05-18 14:15:00.329 [main] INFO  UserBanned -
+                User: {"id":8,"username":"cay","name":"Trái","address":"","phone":"0345582306","email":"12321ER@gmail.com","level":0},
+                Area: admin,
+                Approver: 7
+2023-05-18 14:20:24.374 [main] INFO  UserBanned -
+                User: {"id":8,"username":"cay","name":"Trái","address":"","phone":"0345582306","email":"12321ER@gmail.com","level":0},
+                Area: admin,
+                Approver: 7
+2023-05-18 14:21:53.957 [main] INFO  UserBanned -
+                User: {"id":8,"username":"cay","name":"Trái","address":"","phone":"0345582306","email":"12321ER@gmail.com","level":0},
+                Area: admin,
+                Approver: 7
