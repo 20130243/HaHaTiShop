@@ -4,11 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-/*
-* Người tạo: Lê Trọng Tình 20130440
-* Cập nhật: Lê Trọng Tình 20130440
-*
-* */
+
 public class Blog implements Serializable {
     int id;
     String name;
