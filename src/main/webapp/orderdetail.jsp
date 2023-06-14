@@ -70,7 +70,7 @@
 <!-- Breadcrumb Section Begin -->
 <div class="container">
     <div class="breadcumb">
-        <h1>Chi tiết đơn hàng</h1>
+        <h1 id="h1_title">Chi tiết đơn hàng</h1>
         <img src="assets/images/icon_tealeaves.png" width="500px" height="50px" style="object-fit: cover; scale: 0.5"/>
     </div>
 </div>
@@ -166,7 +166,7 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                            <div class="progress-track">
+                            <div class="progress-track" id="progress-bar">
                                 <%
                                 if(order.getStatus() != 4) {
                                 %>
@@ -233,7 +233,7 @@
 
                     </div>
                     <% if (order.getStatus() == 0 || order.getStatus() == 1) { %>
-                    <form method="post" action="/cancel">
+                    <form method="post" action="/cancel" id="form-cancel">
                         <input hidden name="orderid" value="<%=order.getId()%>">
                         <button type="submit" class="primary-btn text-center" style="display: block;margin: 0 auto;">Hủy đơn</button>
                     </form>
@@ -287,7 +287,25 @@
     const printBtn = document.getElementById("print-btn");
 
     printBtn.addEventListener("click", function() {
+        var header = document.getElementById("header");
+        var footer = document.getElementById("footer");
+        var title = document.getElementById("h1_title");
+        var progress = document.getElementById("progress-bar");
+        var cancel = document.getElementById("form-cancel");
+
+         title.innerHTML = "Phiếu thanh toán";
+        header.style.display = "none";
+        footer.style.display = "none";
+        progress.style.display = "none";
+        cancel.style.display = "none";
+
         window.print();
+        title.innerHTML = "Chi tiết đơn hàng";
+        header.style.display = "block";
+        footer.style.display = "block";
+        progress.style.display = "block";
+        cancel.style.display = "block";
+
     });
 
     // logistic script
