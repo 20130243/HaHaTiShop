@@ -53,7 +53,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="/admin/staff">Nhân viên</a></li>
+                                    <li class="breadcrumb-item"><a href="../admin/staff">Nhân viên</a></li>
                                     <li class="breadcrumb-item active"> Thêm nhân viên</li>
                                 </ol>
                             </div>
@@ -68,7 +68,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">Nhân viên mới</h4>
-                                <form id="create_staff" action="/admin/staff/create" method="post"
+                                <form id="create_staff" action="${pageContext.request.contextPath}/admin/staff/create" method="post"
                                       enctype='multipart/form-data'>
                                     <div class="form-group mb-3">
                                         <label for="name">Tên </label>
@@ -153,7 +153,7 @@
             data: $(this).serialize(),
             success: function (data) {
                 if (data == 1) {
-                    window.location.href = "/admin/staff";
+                    window.location.href = "../admin/staff";
                 } else {
                     for (var i = 0; i < data.length; i++) {
                         var errorMessage = data[i];

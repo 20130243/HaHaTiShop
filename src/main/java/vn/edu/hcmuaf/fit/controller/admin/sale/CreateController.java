@@ -65,6 +65,6 @@ public class CreateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        response.sendRedirect("/admin/sale");
+        response.sendRedirect(request.getContextPath()+"/admin/sale");
     }
 }

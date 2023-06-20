@@ -110,10 +110,10 @@
                                             <a href="#address" data-bs-toggle="tab" class="nav-link">Sổ địa chỉ</a>
                                         </li>
                                         <li>
-                                            <a href="/changePassword.jsp" class="nav-link">Đổi mật khẩu</a>
+                                            <a href="./changePassword.jsp" class="nav-link">Đổi mật khẩu</a>
                                         </li>
                                         <li>
-                                            <a href="/logout" class="nav-link">Đăng xuất</a>
+                                            <a href="./logout" class="nav-link">Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </div>

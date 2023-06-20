@@ -35,12 +35,12 @@ public class SocialLoginController extends HttpServlet {
             if (userService.checkUsername(userNew)) {
                 userNew = userService.login(email, password);
                 session.setAttribute("user", userNew);
-                response.sendRedirect("/");
+                response.sendRedirect("./");
             } else {
                 userService.insert(userNew, password);
                 userNew = userService.login(email, password);
                 session.setAttribute("user", userNew);
-                response.sendRedirect("/");
+                response.sendRedirect("./");
             }
         }
         if (action.equals("Google")) {
@@ -55,12 +55,12 @@ public class SocialLoginController extends HttpServlet {
             if (userService.checkEmail(email)) {
                 user = userService.loginSocial(email);
                 session.setAttribute("user", user);
-                response.sendRedirect("/");
+                response.sendRedirect("./");
             } else {
                 userService.insert(user, password);
                 user = userService.loginSocial(email);
                 session.setAttribute("user", user);
-                response.sendRedirect("/");
+                response.sendRedirect("./");
             }
         }
     }

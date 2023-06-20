@@ -54,7 +54,7 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="/admin/topping">Topping</a></li>
+                                        <li class="breadcrumb-item"><a href="../admin/topping">Topping</a></li>
                                         <li class="breadcrumb-item active"> Thêm topping</li>
                                     </ol>
                                 </div>
@@ -70,7 +70,7 @@
                                 <div class="card-body">
 
                                     <h4 class="header-title">Topping mới</h4>
-                                    <form action="/admin/topping/create" method="post">
+                                    <form action="${pageContext.request.contextPath}/admin/topping/create" method="post">
                                             <div class="form-group mb-3">
                                                 <label for="name">Tên topping</label>
                                                 <input type="text" id="name" name="name" class="form-control">

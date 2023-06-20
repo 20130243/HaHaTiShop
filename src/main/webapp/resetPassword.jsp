@@ -72,7 +72,7 @@
               <div id="lg1" class="tab-pane active">
                 <div class="login-form-container">
                   <div class="login-register-form">
-                    <form action="/resetPassword" method="post">
+                    <form action="./resetPassword" method="post">
                       <div class="login-input-box">
 
                         <input type="hidden"

@@ -53,7 +53,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="/admin/category">Phân loại</a></li>
+                                    <li class="breadcrumb-item"><a href="../admin/category">Phân loại</a></li>
                                     <li class="breadcrumb-item active"> Thêm loại</li>
                                 </ol>
                             </div>
@@ -69,7 +69,7 @@
                             <div class="card-body">
 
                                 <h4 class="header-title">Phân loại</h4>
-                                <form action="/admin/category/create" method="POST">
+                                <form action="${pageContext.request.contextPath}/admin/category/create" method="POST">
                                     <input type="text" name="id" id="id"
                                            class="d-none">
                                     <div class="form-group mb-3">

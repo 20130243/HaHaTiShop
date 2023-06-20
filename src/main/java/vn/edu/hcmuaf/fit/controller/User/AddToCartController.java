@@ -74,7 +74,7 @@ public class AddToCartController extends HttpServlet {
                         cart.updateTotal();
                         session.setAttribute("cart", cart);
                         if(url!=null){
-                            response.sendRedirect(request.getContextPath() + url);
+                            response.sendRedirect( url);
                         }
                     } else {
                         Cart cart = (Cart) session.getAttribute("cart");
@@ -101,9 +101,9 @@ public class AddToCartController extends HttpServlet {
                         }
                         session.setAttribute("cart", cart);
                         if(url!=null){
-                            response.sendRedirect(request.getContextPath() + url);
+                            response.sendRedirect( url);
                         }
-                        response.sendRedirect("/shop");
+                        response.sendRedirect("./shop");
 
                     }
                 }

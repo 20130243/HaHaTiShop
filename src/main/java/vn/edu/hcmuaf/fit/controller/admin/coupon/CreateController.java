@@ -37,7 +37,7 @@ public class CreateController extends HttpServlet {
 
             Coupon coupon = new Coupon(0, code, percent, max_price_sale, quantity, start_date, end_date, min_price_order, date_regis_acc, min_num_order, content);
             new CouponService().insert(coupon);
-            response.sendRedirect("/admin/coupon");
+            response.sendRedirect(request.getContextPath()+"/admin/coupon");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

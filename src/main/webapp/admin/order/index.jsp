@@ -11,16 +11,16 @@
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
     <meta content="Coderthemes" name="author"/>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+    <link rel="shortcut icon" href="../assets/images/favicon.ico">
 
     <!-- third party css -->
-    <link href="../../assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css"/>
     <!-- third party css end -->
 
     <!-- App css -->
-    <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style"/>
-    <link href="../../assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style"/>
+    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style"/>
+    <link href="../assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style"/>
 
 </head>
 
@@ -106,7 +106,7 @@
                                         <c:forEach var="item" items="${requestScope['orderList']}">
 
                                             <tr>
-                                                <td><a href="/admin/order/update?id=${item.id}"
+                                                <td><a href="../admin/order/update?id=${item.id}"
                                                        class="text-body font-weight-bold">${item.id}</a>
                                                 </td>
                                                 <td>
@@ -174,7 +174,7 @@
                                     <nav>
                                         <ul class="pagination pagination-rounded mb-0">
                                             <li class="page-item  <c:if test="${currentPage eq 1 }"> d-none </c:if>">
-                                                <a class="page-link" href="/admin/order?page=<c:out value='${i-1}'/>"
+                                                <a class="page-link" href="../admin/order?page=<c:out value='${i-1}'/>"
                                                    aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only">Previous</span>
@@ -185,14 +185,14 @@
                                             <c:forEach var="i" begin="1" end="${endPage}">
                                                 <li class="page-item  <c:if test="${currentPage eq i }"> active </c:if>">
                                                     <a class="page-link"
-                                                       href="/admin/order?page=<c:out value='${i}'/>">
+                                                       href="../admin/order?page=<c:out value='${i}'/>">
                                                         <c:out value="${i}"/>
                                                     </a>
                                                 </li>
 
                                             </c:forEach>
                                             <li class="page-item <c:if test="${currentPage eq endPage }"> d-none </c:if>">
-                                                <a class="page-link" href="/admin/order?page=<c:out value='${i+1}'/>"
+                                                <a class="page-link" href="../admin/order?page=<c:out value='${i+1}'/>"
                                                    aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only">Next</span>
@@ -233,15 +233,15 @@
 <!-- /Right-bar -->
 
 <!-- bundle -->
-<script src="../../assets/js/vendor.min.js"></script>
-<script src="../../assets/js/app.min.js"></script>
+<script src="../assets/js/vendor.min.js"></script>
+<script src="../assets/js/app.min.js"></script>
 
 <!-- third party js -->
-<script src="../../assets/js/vendor/apexcharts.min.js"></script>
-<script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+<script src="../assets/js/vendor/apexcharts.min.js"></script>
+<script src="../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
 <!-- third party js ends -->
-<script src="../../js/alert_delete.js"></script>
+<script src="../js/alert_delete.js"></script>
 
 </body>
 

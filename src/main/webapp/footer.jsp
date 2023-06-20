@@ -6,7 +6,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="footer__about">
           <div class="footer__logo">
-            <a href="/"><img src="img/footer-logo.png" alt=""/></a>
+            <a href="./"><img src="img/footer-logo.png" alt=""/></a>
           </div>
           <p>TỪ NHỮNG MẦM TRÀ, CHÚNG TÔI TẠO RA NIỀM ĐAM MÊ</p>
           <a href="#"><img src="img/payment.png" alt=""/></a>

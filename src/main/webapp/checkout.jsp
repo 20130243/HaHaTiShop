@@ -80,7 +80,7 @@
             </tr>
             </thead>
             <tbody>
-            <form action="/editcart" method="post" id="form_edit_cart">
+            <form action="./editcart" method="post" id="form_edit_cart">
               <%
                 if (cart!= null) {
                   List<Item> listItems = (cart.getItems() != null) ? cart.getItems() : null;
@@ -264,7 +264,7 @@
             </div>
           </div>
         </form>
-        <form id="couponForm" method="post" action="/coupon">
+        <form id="couponForm" method="post" action="./coupon">
           <input id="coupon_code" name="coupon" type="hidden" value="">
         </form>
       </div>
@@ -457,15 +457,15 @@
               })
               .then((datas) => {
 
-                let timeLogistic = datas.data[0].leadTime;
+                let timeLogistic = datas.data[0].formattedDate;
 
-                const date = new Date(parseInt(timeLogistic) * 1000);
+
 
 
                 const time_logistic_p = document.getElementById('time_logistic_p')
                 const time_logistic_span = time_logistic_p.getElementsByTagName('span')[0]
 
-                time_logistic_span.innerText = date.toLocaleTimeString('vi-VN', {hour12: true})+", "+ date.toLocaleDateString('vi-VN');
+                time_logistic_span.innerText = timeLogistic;
 
               })
 
@@ -483,12 +483,12 @@
   function useCoupon() {
       $.ajax({
         type: "POST",
-        url: "/coupon",
+        url: "./coupon",
          data: {coupon: document.getElementsByName('coupon')[0].value},
         success: function (data) {
           if(2 == data ) {
             alert('Vui lòng đăng nhập');
-            window.location.href = "/login";
+            window.location.href = "./login";
           } else if(1 == data) {
             alert('Mã giảm hết số lượng hoặc hết hạn');
           } else if(3 == data) {
@@ -520,11 +520,11 @@
       data: $(this).serialize(),
       success: function (data) {
         if(0 == data) {
-          window.location.href = "/account";
+          window.location.href = "./account";
         }
         if(2 == data) {
           alert('Vui lòng đăng nhập');
-          window.location.href = "/login";
+          window.location.href = "./login";
         }
         if(1 == data) {
           alert('Vui lòng điền đủ thông tin');

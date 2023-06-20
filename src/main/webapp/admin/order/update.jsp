@@ -288,7 +288,7 @@
 <script src="../../assets/js/vendor/apexcharts.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
-<script src="../../js/alert.js"></script>
+<script src="../js/alert.js"></script>
 <!-- third party js ends -->
 <script type="text/javascript">
     $("#delete_order").click(function () {
