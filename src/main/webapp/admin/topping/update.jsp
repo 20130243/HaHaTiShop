@@ -16,6 +16,7 @@
     <!-- third party css -->
     <link href="../../assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css"/>
     <!-- third party css end -->
+    <!-- third party css end -->
 
     <!-- App css -->
     <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
@@ -54,7 +55,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="/admin/topping">Topping</a></li>
+                                    <li class="breadcrumb-item"><a href="../admin/topping">Topping</a></li>
                                     <li class="breadcrumb-item active"><c:out value="${object.name}"/></li>
                                 </ol>
                             </div>
@@ -70,7 +71,7 @@
                             <div class="card-body">
 
                                 <h4 class="header-title">Topping mới</h4>
-                                <form action="/admin/topping/update" method="post">
+                                <form action="${pageContext.request.contextPath}/admin/topping/update" method="post">
                                     <input type="text" name="id" id="id" value="<c:out value="${object.id}"/> "
                                            class="d-none" >
                                     <div class="form-group mb-3">

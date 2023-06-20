@@ -60,7 +60,7 @@ public class CreateController extends HttpServlet {
 
             new BlogService().insert(blog);
 
-            response.sendRedirect("/admin/blog");
+            response.sendRedirect("./admin/blog");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

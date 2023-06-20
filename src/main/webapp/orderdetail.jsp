@@ -233,7 +233,7 @@
 
                     </div>
                     <% if (order.getStatus() == 0 || order.getStatus() == 1) { %>
-                    <form method="post" action="/cancel" id="form-cancel">
+                    <form method="post" action="./cancel" id="form-cancel">
                         <input hidden name="orderid" value="<%=order.getId()%>">
                         <button type="submit" class="primary-btn text-center" style="display: block;margin: 0 auto;">Hủy đơn</button>
                     </form>

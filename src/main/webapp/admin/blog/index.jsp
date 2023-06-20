@@ -9,16 +9,16 @@
     <title>Tin tức</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+    <link rel="shortcut icon" href="../assets/images/favicon.ico">
 
     <!-- third party css -->
-    <link href="../../assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css"/>
     <!-- third party css end -->
 
     <!-- App css -->
-    <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style"/>
-    <link href="../../assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style"/>
+    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style"/>
+    <link href="../assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style"/>
 
 </head>
 
@@ -69,7 +69,7 @@
                                     <div class="col-sm-4">
                                         <c:choose>
                                             <c:when test="${sessionScope.admin.level ge 1}">
-                                                <a href="/admin/blog/create" class="btn btn-danger mb-2"><i
+                                                <a href="../admin/blog/create" class="btn btn-danger mb-2"><i
                                                         class="mdi mdi-plus-circle mr-2"></i>Thêm tin tức</a>
                                             </c:when>
                                         </c:choose>
@@ -118,10 +118,10 @@
                                                 </td>
                                                 <c:choose>
                                                     <c:when test="${sessionScope.admin.level ge 1}">
-                                                        <form action="/admin/blog/delete" method="post"
+                                                        <form action="../admin/blog/delete" method="post"
                                                               id="delete-form-<c:out value="${item.id}"/>">
                                                             <td class="table-action text-center">
-                                                                <a href="/admin/blog/update?id=<c:out value="${item.id}"/>"
+                                                                <a href="../admin/blog/update?id=<c:out value="${item.id}"/>"
                                                                    class="action-icon"> <i
                                                                         class="mdi mdi-square-edit-outline"></i></a>
                                                                 <input type="text" name="id" id="id"
@@ -154,7 +154,7 @@
                                     <nav>
                                         <ul class="pagination pagination-rounded mb-0">
                                             <li class="page-item  <c:if test="${currentPage eq 1 }"> d-none </c:if>">
-                                                <a class="page-link" href="/admin/blog?page=<c:out value='${i-1}'/>"
+                                                <a class="page-link" href="../admin/blog?page=<c:out value='${i-1}'/>"
                                                    aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only">Previous</span>
@@ -163,13 +163,13 @@
                                             <c:forEach var="i" begin="1" end="${endPage}">
                                                 <li class="page-item  <c:if test="${currentPage eq i }"> active </c:if>">
                                                     <a class="page-link"
-                                                       href="/admin/blog?page=<c:out value='${i}'/>">
+                                                       href="../admin/blog?page=<c:out value='${i}'/>">
                                                         <c:out value="${i}"/>
                                                     </a>
                                                 </li>
                                             </c:forEach>
                                             <li class="page-item <c:if test="${currentPage eq endPage }"> d-none </c:if>">
-                                                <a class="page-link" href="/admin/blog?page=<c:out value='${i+1}'/>"
+                                                <a class="page-link" href="../admin/blog?page=<c:out value='${i+1}'/>"
                                                    aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only">Next</span>
@@ -206,15 +206,15 @@
 <!-- /Right-bar -->
 
 <!-- bundle -->
-<script src="../../assets/js/vendor.min.js"></script>
-<script src="../../assets/js/app.min.js"></script>
+<script src="../assets/js/vendor.min.js"></script>
+<script src="../assets/js/app.min.js"></script>
 
 <!-- third party js -->
-<script src="../../assets/js/vendor/apexcharts.min.js"></script>
-<script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+<script src="../assets/js/vendor/apexcharts.min.js"></script>
+<script src="../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
 <!-- third party js ends  -->
-<script src="../../js/alert_delete.js"></script>
+<script src="../js/alert_delete.js"></script>
 
 </body>
 

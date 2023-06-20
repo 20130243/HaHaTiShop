@@ -68,7 +68,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">Sản phẩm mới</h4>
-                                <form action="/admin/product/create" method="post" enctype='multipart/form-data'>
+                                <form action="${pageContext.request.contextPath}/admin/product/create" method="post" enctype='multipart/form-data'>
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group mb-3">
@@ -166,7 +166,7 @@
 <!-- third party js -->
 <script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
-<script src="../../js/check_upload_image.js"></script>
+<script src="../js/check_upload_image.js"></script>
 <!-- third party js ends -->
 <script>
     $(document).ready(function () {

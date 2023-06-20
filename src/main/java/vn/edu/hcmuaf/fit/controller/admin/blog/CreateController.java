@@ -48,7 +48,7 @@ public class CreateController extends HttpServlet {
             String extension = i > 0?"."+ fileName.substring(i + 1):"";
             String path = realPath + "/" + fileName.replaceAll(" ", "-") + extension;
             image.write(path);
-            String img = "/img/BlogImport/" + fileName.replaceAll(" ", "-") + extension;
+            String img = "img/BlogImport/" + fileName.replaceAll(" ", "-") + extension;
 
             Blog blog = new Blog();
             blog.setName(name);
@@ -60,7 +60,7 @@ public class CreateController extends HttpServlet {
 
             new BlogService().insert(blog);
 
-            response.sendRedirect("/admin/blog");
+            response.sendRedirect(request.getContextPath()+"/admin/blog");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

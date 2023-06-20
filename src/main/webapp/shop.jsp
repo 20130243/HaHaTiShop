@@ -341,7 +341,7 @@
                                                 }
 
                                 %>
-                                <form action="/editcart" method="get" id="form_edit_cart">
+                                <form action="./editcart" method="get" id="form_edit_cart">
                                     <div style="position: relative;width: 100%;height: auto;">
                                         <div class="cart-product-item" id="product-item-<%=item.getId()%>">
                                             <div class="cart-product-name">
@@ -411,7 +411,7 @@
                                         Tổng tiền: <span id="price_decreased"
                                             class="price"> <%=new CurrencyFormat().format((int) cart.getTotalMoney())%></span>
                                     </div>
-                                    <a href="/checkout" class="btn-pay">Thanh toán</a>
+                                    <a href="./checkout" class="btn-pay">Thanh toán</a>
                                 </div>
                                 <%
                                     } else {
@@ -423,7 +423,7 @@
                                         Tổng tiền: <span
                                             class="price"> <%=new CurrencyFormat().format(0)%></span>
                                     </div>
-                                    <a href="/checkout" class="btn-pay">Thanh toán</a>
+                                    <a href="./checkout" class="btn-pay">Thanh toán</a>
                                 </div>
                                 <%}%>
                             </div>

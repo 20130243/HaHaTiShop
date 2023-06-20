@@ -224,6 +224,6 @@
 <div class="txt3">Biết thêm chi tiết </div>
 <a href="#"><div class="button">Liên hệ với chúng tôi</div></a>
 
-<a href="/"><div class="button">Trang chủ</div></a>
+<a href="./"><div class="button">Trang chủ</div></a>
 </body>
 </html>

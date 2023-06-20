@@ -22,6 +22,7 @@ public class SearchController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         String search = request.getParameter("search");
+
         ProductService service = null;
         try {
             service = new ProductService();

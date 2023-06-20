@@ -104,7 +104,7 @@
                                                     <input id="checkSave" type="checkbox" name="save"
                                                            value="checked"/>
                                                     <label for="checkSave">Lưu thông tin</label>
-                                                    <a href="/forgotPass">Quên mật khẩu?</a>
+                                                    <a href="./forgotPass">Quên mật khẩu?</a>
                                                 </div>
 
                                                 <div class="button-box"
@@ -129,7 +129,7 @@
                             <div id="lg2" class="tab-pane">
                                 <div class="login-form-container">
                                     <div class="login-register-form">
-                                        <form action="/register" method="post" id="register">
+                                        <form action="${pageContext.request.contextPath}/register" method="post" id="register">
                                             <div class="login-input-box">
                                                 <span class="text-danger" id="register-name-error"></span>
                                                 <small id="nameHelpInline" class="text-muted mb-3">
@@ -249,7 +249,7 @@
                 if (1 == data) {
                     $("#login-username-error").text("Tài khoản hoặc mật khẩu không đúng");
                 } else if (2 == data) {
-                    window.location.href = "/";
+                    window.location.href = "./";
                 } else {
                     timer = parseInt(data);
                     if(!isNaN(timer)) {
@@ -288,7 +288,7 @@
                 if (1 == data) {
                     $("#register-username-error").text("Tên đăng nhập đã được sử dụng");
                 } else if (2 == data) {
-                    window.location.href = "/";
+                    window.location.href = "./";
                 }
 
             },

@@ -50,6 +50,6 @@ public class UpdateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        response.sendRedirect("/admin/coupon");
+        response.sendRedirect(request.getContextPath()+"/admin/coupon");
     }
 }

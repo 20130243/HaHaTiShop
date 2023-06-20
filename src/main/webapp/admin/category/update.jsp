@@ -54,7 +54,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="/admin/category">Phân loại</a></li>
+                                    <li class="breadcrumb-item"><a href="../admin/category">Phân loại</a></li>
                                     <li class="breadcrumb-item active">Cập nhật <c:out value="${object.name}"/></li>
                                 </ol>
                             </div>
@@ -70,7 +70,7 @@
                             <div class="card-body">
 
                                 <h4 class="header-title">Phân loại</h4>
-                                <form action="/admin/category/update" method="POST">
+                                <form action="${pageContext.request.contextPath}/admin/category/update" method="POST">
                                     <input type="text" name="id" id="id" value="<c:out value="${object.id}"/> "
                                            class="d-none" >
                                     <div class="form-group mb-3">

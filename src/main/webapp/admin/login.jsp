@@ -6,12 +6,12 @@
     <title>Đăng nhập</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="../assets/images/favicon.ico">
+    <link rel="shortcut icon" href="./assets/images/favicon.ico">
 
     <!-- App css -->
-    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style"/>
-    <link href="../assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style"/>
+    <link href="./assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="./assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style"/>
+    <link href="./assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style"/>
 
 </head>
 
@@ -26,7 +26,7 @@
                     <!-- Logo -->
                     <div class="card-header pt-4 pb-4 text-center bg-primary">
                         <a href="#">
-                            <span><img src="../assets/images/logo.png" alt="" height="18"></span>
+                            <span><img src="./assets/images/logo.png" alt="" height="18"></span>
                         </a>
                     </div>
 
@@ -88,8 +88,8 @@
 <%@include file="footer.jsp" %>
 
 <!-- bundle -->
-<script src="../assets/js/vendor.min.js"></script>
-<script src="../assets/js/app.min.js"></script>
+<script src="./assets/js/vendor.min.js"></script>
+<script src="./assets/js/app.min.js"></script>
 <script>
     $("#login").submit(function (e) {
         e.preventDefault();
@@ -102,7 +102,7 @@
                 if (1 == data) {
                     $("#login-username-error").text("Tài khoản hoặc mật khẩu không đúng");
                 } else if (2 == data) {
-                    window.location.href = "/admin";
+                    window.location.href = "${pageContext.request.contextPath}/admin";
                 } else {
                     timer = parseInt(data);
                     if(!isNaN(timer)) {

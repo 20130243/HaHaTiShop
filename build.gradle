@@ -10,11 +10,12 @@ plugins {
     id "org.hidetake.ssh" version "2.11.2"
     id 'war'
 
+
 }
 apply plugin: 'org.hidetake.ssh'
 remotes {
     host {
-        host = '10.0.0.116'
+        host = '192.168.1.200'
         user = 'user'
         password = '1'
     }

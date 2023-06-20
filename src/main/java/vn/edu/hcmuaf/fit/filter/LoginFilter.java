@@ -25,7 +25,7 @@ public class LoginFilter implements Filter {
         User user = (User) session.getAttribute("user");
         if (user != null) user = user.available() ? user : null;
         if (user != null) {
-            httpRespond.sendRedirect("/account");
+            httpRespond.sendRedirect("./account");
         } else {
             chain.doFilter(request, response);
         }

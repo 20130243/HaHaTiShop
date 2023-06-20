@@ -53,7 +53,7 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="/admin/blog">Tin tức</a></li>
+                                        <li class="breadcrumb-item"><a href="../admin/blog">Tin tức</a></li>
                                         <li class="breadcrumb-item active"> Thêm tin tức</li>
                                     </ol>
                                 </div>
@@ -68,7 +68,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="header-title">Tin tức mới</h4>
-                                    <form action="/admin/blog/create" method="post" enctype='multipart/form-data'>
+                                    <form action="${pageContext.request.contextPath}/admin/blog/create" method="post" enctype='multipart/form-data'>
                                         <div class="form-group mb-3">
                                             <label for="name">Tiêu đề</label>
                                             <input type="text" id="name" name="name" required class="form-control">

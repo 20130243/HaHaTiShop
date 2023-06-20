@@ -10,7 +10,7 @@ public class Error404 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.getRequestDispatcher("404.html").forward(request, response);
+        request.getRequestDispatcher("404.jsp").forward(request, response);
     }
 
     @Override

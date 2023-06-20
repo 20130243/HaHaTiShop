@@ -52,7 +52,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="/admin/sale">Khuyến mãi</a></li>
+                                    <li class="breadcrumb-item"><a href="../admin/sale">Khuyến mãi</a></li>
                                     <li class="breadcrumb-item active"> Thêm khuyến mãi</li>
                                 </ol>
                             </div>
@@ -68,7 +68,7 @@
                             <div class="card-body">
 
                                 <h4 class="header-title">Cập nhật khuyến mãi</h4>
-                                <form action="/admin/sale/update" method="post">
+                                <form action="${pageContext.request.contextPath}/admin/sale/update" method="post">
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group mb-3">

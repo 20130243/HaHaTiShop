@@ -69,7 +69,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">Cập nhật tài khoản nhân viên</h4>
-                                <form id="create_staff" action="/admin/staff/update" method="post"
+                                <form id="create_staff" action="${pageContext.request.contextPath}/admin/staff/update" method="post"
                                       enctype='multipart/form-data'>
                                     <input type="hidden" name="id" id="id"
                                            value="${object.id}">
@@ -162,7 +162,7 @@
             data: $(this).serialize(),
             success: function (data) {
                 if (data == 1) {
-                    window.location.href = "/admin/staff";
+                    window.location.href = "../admin/staff";
                 } else {
                     for (var i = 0; i < data.length; i++) {
                         var errorMessage = data[i];
