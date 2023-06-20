@@ -129,6 +129,7 @@
                         List<Product> list = (List<Product>) request.getAttribute("listProduct");
                         if(list != null) {
                             for (Product p : list) {
+
                     %>
                     <div class="product-amount col-lg-3 col-md-4 col-sm-4">
                         <div class="product__item sale" data-toggle="modal"
@@ -172,7 +173,7 @@
                                                     if(p.getImage() != null) {
                                                         for (int i = 0; i < p.getImage().size(); i++) {
                                                     %>
-                                                    <div class="carousel-item active">
+                                                    <div class="carousel-item <%=i==0?"active":""%>">
                                                         <img class="d-block " src="<%=p.getImage().get(i).getUrl()%>" alt=" slide">
                                                     </div>
                                                     <% }} %>
@@ -189,7 +190,7 @@
                                                 </a>
                                                 <!--/.Controls-->
 
-                                                <ol class="carousel-indicators" style="position: inherit; top: -50px">
+                                                <ol class="carousel-indicators" style="position: inherit;">
                                                     <%
                                                         if(p.getImage() != null) {
                                                             for (int i = 0; i < p.getImage().size(); i++) {
@@ -303,6 +304,7 @@
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
                             <!-- /.modal -->
+
                         </form>
                     </div>
 
