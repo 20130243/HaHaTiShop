@@ -72,7 +72,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="header-title">Cập nhật sản phẩm</h4>
-                                <form id="update_form" action="/admin/product/update" method="post"
+                                <form id="update_form" action="${pageContext.request.contextPath}/admin/product/update" method="post"
                                       enctype="multipart/form-data">
                                     <div class="row">
                                         <input type="hidden" name="id" id="id"
@@ -219,7 +219,7 @@
 <!-- third party js -->
 <script src="../../assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="../../assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
-<script src="../../js/check_upload_image.js"></script>
+<script src="../js/check_upload_image.js"></script>
 <!-- third party js ends -->
 <script>
     $(document).ready(function () {
@@ -301,7 +301,7 @@
                 processData: false,
                 success: function (data) {
                     if (data == "1") {
-                        window.location.href = "/admin/product";
+                        window.location.href = "../admin/product";
                     } else {
                         alert(data);
                     }

@@ -37,6 +37,6 @@ public class UpdateController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
-        response.sendRedirect("/admin/sale");
+        response.sendRedirect(request.getContextPath()+"/admin/sale");
     }
 }

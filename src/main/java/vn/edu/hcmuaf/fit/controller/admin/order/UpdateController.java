@@ -39,6 +39,6 @@ public class UpdateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        response.sendRedirect("/admin/category");
+        response.sendRedirect(request.getContextPath()+"/admin/order");
     }
 }

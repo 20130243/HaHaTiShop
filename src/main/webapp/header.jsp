@@ -11,13 +11,13 @@ String url = request.getRequestURI();
         <div class="row">
             <div class="col-lg-3 col-md-3">
                 <div class="header__logo">
-                    <a href="/"><img class="logo-small" src="img/logo.png" alt=""/></a>
+                    <a href="./"><img class="logo-small" src="img/logo.png" alt=""/></a>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu">
                     <ul>
-                        <li class="<%=url.equals("/index.jsp")?"active" : ""%>"><a href="/">Trang chủ</a></li>
+                        <li class="<%=url.equals("/index.jsp")?"active" : ""%>"><a href="./">Trang chủ</a></li>
                         <li class="<%=url.equals("/shop.jsp")?"active" : ""%>"><a href="./shop" >Thức uống</a></li>
                         <li class="<%=url.equals("/about.jsp") || url.equals("/contact.jsp")?"active" : ""%>">
                             <a href="#">Giới thiệu</a>
@@ -34,7 +34,7 @@ String url = request.getRequestURI();
                 <div class="header__nav__option">
                     <c:choose>
                         <c:when test="${ empty sessionScope.user}">
-                            <a href="/login" class="primary-btn login-btn">Đăng nhập</a>
+                            <a href="./login" class="primary-btn login-btn">Đăng nhập</a>
                         </c:when>
                         <c:otherwise>
                             <div class="">

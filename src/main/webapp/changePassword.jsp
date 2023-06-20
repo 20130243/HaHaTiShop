@@ -71,7 +71,7 @@
               <div id="lg1" class="tab-pane active">
                 <div class="login-form-container">
                   <div class="login-register-form">
-                    <form action="/changePassword" method="get">
+                    <form action="./changePassword" method="get">
                       <div class="login-input-box">
                         <input
                                 type="password"

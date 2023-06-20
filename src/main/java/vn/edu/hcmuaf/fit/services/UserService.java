@@ -52,7 +52,12 @@ public class UserService {
 
         Map<String, Object> map = dao.login(email, hashPassword(password));
         User user = convertMapToUser(map);
-        return user.available() ? user : null;
+        if(user != null){
+            return user.available() ? user : null;
+        }else{
+            return null;
+        }
+
     }
 
     public User login(String token) {
@@ -120,11 +125,23 @@ public class UserService {
         return true;
     }
 
-    public boolean passwordRecovery(String email) {
+    public boolean passwordRecovery(String URL,String email) {
         User user = getByEmail(email);
+
         if (user != null) {
+
+            String[] parts = URL.split("/");
+            // get the third part of the string (the host)
+            String host = parts[2];
+
             Token token = generateToken(user);
-            String link = "http://localhost:8080/forgotpassword?token=" + token.getToken();
+//            String link = "http://localhost:8080/forgotpassword?token=" + token.getToken();
+            String url = "http://"+host+"/"+"HaHaTiShop";
+            String link = url+ "/forgotpassword?token=" + token.getToken();
+            System.out.println(user);
+            System.out.println(token);
+            System.out.println("q");
+
             String text = "Xin chào " + user.getName() + ",\n" +
                     "\n" +
                     "Ai đó đã yêu cầu mật khẩu mới cho tài khoản của bạn  được liên kết với Email: " + user.getEmail() + " .\n" +
@@ -133,10 +150,11 @@ public class UserService {
                     "\n" +
                     "The HaHaTi team" +
                     "\n" +
-                    "http://localhost:8080/login";
+                    URL+"HaHaTiShop/login";
             return sendMail(email, "Password recovery", text);
 
         } else {
+            System.out.println("f");
             return false;
         }
 
@@ -158,16 +176,19 @@ public class UserService {
 
 
     public User convertMapToUser(Map<String, Object> map) {
-        User user = new User();
-        user.setId((int) map.get("id"));
-        user.setUsername((String) map.get("username"));
-        user.setName((String) map.get("name"));
-        user.setEmail((String) map.get("email"));
-        user.setPhone((String) map.get("phone"));
-        user.setAddress((String) map.get("address"));
-        user.setLevel((Integer) map.get("level"));
-        user.setToken((String) map.get("token"));
-        return user;
+        if(map!=null){
+            User user = new User();
+            user.setId((int) map.get("id"));
+            user.setUsername((String) map.get("username"));
+            user.setName((String) map.get("name"));
+            user.setEmail((String) map.get("email"));
+            user.setPhone((String) map.get("phone"));
+            user.setAddress((String) map.get("address"));
+            user.setLevel((Integer) map.get("level"));
+            user.setToken((String) map.get("token"));
+            return user;
+        }
+return null;
     }
 
     public void updateToken(User user) {
@@ -284,6 +305,7 @@ public class UserService {
     }
 
     public static void main(String[] args) {
-        new UserService().logBanned(8, "admin", 7);
+
+//        new UserService().passwordRecovery("buithanhdam02@gmail.com");
     }
 }

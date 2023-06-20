@@ -12,3 +12,4 @@ target/
 build/
 /out
 *.properties
+src/main/resources/db.properties

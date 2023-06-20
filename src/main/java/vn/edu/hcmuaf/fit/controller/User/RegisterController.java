@@ -15,7 +15,7 @@ import java.io.IOException;
 public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("/login-register.jsp");
+        response.sendRedirect("./login-register.jsp");
     }
 
     @Override

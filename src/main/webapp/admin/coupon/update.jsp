@@ -54,7 +54,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="/admin/coupon">Giảm giá</a></li>
+                                    <li class="breadcrumb-item"><a href="../admin/coupon">Giảm giá</a></li>
                                     <li class="breadcrumb-item active"> ${object.code}</li>
                                 </ol>
                             </div>
@@ -70,7 +70,7 @@
                             <div class="card-body">
 
                                 <h4 class="header-title">Cập nhật mã giảm giá</h4>
-                                <form action="/admin/coupon/update" method="post">
+                                <form action="${pageContext.request.contextPath}/admin/coupon/update" method="post">
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <input type="text" name="id" id="id" value="${object.id}"

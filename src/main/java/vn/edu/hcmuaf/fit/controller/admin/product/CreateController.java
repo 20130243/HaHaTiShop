@@ -73,7 +73,7 @@ public class CreateController extends HttpServlet {
                     String path = realPath + "/" + imageName;
                     image.write(path);
                     //save url image
-                    String url = "/img/ProductImport/" + imageName;
+                    String url = "img/ProductImport/" + imageName;
                     images.add(new Image(0, imageName, url, 0, 0));
                 }
             }
@@ -102,6 +102,6 @@ public class CreateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        response.sendRedirect("/admin/product");
+        response.sendRedirect(request.getContextPath()+"/admin/product");
     }
 }

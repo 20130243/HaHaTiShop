@@ -92,7 +92,7 @@
                                     <div class="login-form-container">
                                         <div class="login-register-form">
 
-                                            <form id="forgot_form" action="/forgotPass" method="post">
+                                            <form id="forgot_form" action="${pageContext.request.contextPath}/forgotPass" method="post">
                                                 <div class="login-input-box">
                                                     <span class="text-danger"
                                                           id="register-username-error"> </span>
@@ -101,7 +101,7 @@
                                                 </div>
                                                 <div class="button-box">
                                                     <div class="login-toggle-btn">
-                                                        <a href="/login-register" style="color: blue">Đăng nhập</a>
+                                                        <a href="./login-register.jsp" style="color: blue">Đăng nhập</a>
                                                     </div>
                                                     <div class="button-box">
                                                         <button class="login-btn btn  " id="send" type="submit">
@@ -166,6 +166,7 @@
                 success: function (data) {
                     console.log(data);
                     if (data == 0) {
+                        console.log("success 0")
                         $(".login-register").remove();
                         $(".main").html(`  <div class=" d-flex  flex-column justify-content-center  align-items-center" style=" width: 100%; height: 75%; ">
         <h3>Kiểm tra email của bạn</h3>
@@ -173,12 +174,12 @@
         <div class=" d-flex  flex-row">
 
             <div class="button-box" style="margin: 20px">
-                <button class="login-btn btn" onclick="window.location.href='/login'">
+                <button class="login-btn btn" onclick="window.location.href='./login'">
                     <span>Đăng nhập</span>
                 </button>
             </div>
             <div class="button-box" style="margin: 20px">
-                <button class="login-btn btn" onclick="window.location.href='/'">
+                <button class="login-btn btn" onclick="window.location.href='./'">
                     <span>Trang chủ</span>
                 </button>
             </div>
@@ -186,16 +187,19 @@
     </div>`)
 
                     } else if (data == 1) {
+                        console.log("Không tìm thấy địa chỉ email")
                         $("#register-username-error").empty();
                         $("#register-username-error").append("Không tìm thấy địa chỉ email");
                         $("#send").removeClass('loading');
                         $('button').prop('disabled', false);
                     } else if (data == 2) {
+                        console.log("Vui lòng nhập email")
                         $("#register-username-error").empty();
                         $("#register-username-error").append("Vui lòng nhập email");
                         $("#send").removeClass('loading');
                         $('button').prop('disabled', false);
                     } else if (data == 3) {
+                        console.log("Đã quá 5 lần quên mật khẩu, thử lại vào ngài mai")
                         $("#register-username-error").empty();
                         $("#register-username-error").append("Đã quá 5 lần quên mật khẩu, thử lại vào ngài mai");
                         $("#send").removeClass('loading');

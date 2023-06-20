@@ -46,9 +46,9 @@
                     <h6 class="text-overflow m-0">Xin chào !</h6>
                 </div>
 
-                <form action="/logout" method="post">
+                <form action="./logout" method="post">
                     <!-- item-->
-                    <a href="/admin/logout" class="dropdown-item notify-item">
+                    <a href="../admin/logout" class="dropdown-item notify-item">
                         <i class="mdi mdi-logout mr-1"></i>
                         <span>Đăng xuất</span>
                     </a>
