@@ -52,7 +52,12 @@ public class UserService {
 
         Map<String, Object> map = dao.login(email, hashPassword(password));
         User user = convertMapToUser(map);
-        return user.available() ? user : null;
+        if(user != null){
+            return user.available() ? user : null;
+        }else{
+            return null;
+        }
+
     }
 
     public User login(String token) {
@@ -171,16 +176,19 @@ public class UserService {
 
 
     public User convertMapToUser(Map<String, Object> map) {
-        User user = new User();
-        user.setId((int) map.get("id"));
-        user.setUsername((String) map.get("username"));
-        user.setName((String) map.get("name"));
-        user.setEmail((String) map.get("email"));
-        user.setPhone((String) map.get("phone"));
-        user.setAddress((String) map.get("address"));
-        user.setLevel((Integer) map.get("level"));
-        user.setToken((String) map.get("token"));
-        return user;
+        if(map!=null){
+            User user = new User();
+            user.setId((int) map.get("id"));
+            user.setUsername((String) map.get("username"));
+            user.setName((String) map.get("name"));
+            user.setEmail((String) map.get("email"));
+            user.setPhone((String) map.get("phone"));
+            user.setAddress((String) map.get("address"));
+            user.setLevel((Integer) map.get("level"));
+            user.setToken((String) map.get("token"));
+            return user;
+        }
+return null;
     }
 
     public void updateToken(User user) {
