@@ -21,7 +21,6 @@ public class ForgotPasswordController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("user-email").trim();
         UserService userService = new UserService();
-        System.out.println( !email.equals("")  );
         if ( !email.equals("") ) {
             try {
                 System.out.println(userService.checkEmail( email));

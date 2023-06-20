@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin.topping;
+package vn.edu.hcmuaf.fit.controller.admin.topping;
 
 import vn.edu.hcmuaf.fit.services.ToppingService;
 

@@ -170,7 +170,7 @@ public class UserDAO extends RD {
         return JDBIConnector.get().withHandle(h ->
                 h.createQuery("SELECT COUNT(*) FROM " + tableName + " WHERE email =:email ")
                         .bind("email", email)
-                        .mapTo(Integer.class).first()) == 1;
+                        .mapTo(Integer.class).first()) >= 1;
     }
 
     public boolean checkPassword(int id, String password) {

@@ -30,7 +30,7 @@ public class ProductDAO extends RD {
                         .first());
     }
 
-    public static void insert(String name, int categoryID, int status) throws Exception {
+    public static void insert(String name, int categoryID, int status)  {
         JDBIConnector.get().withHandle(h ->
                 h.createUpdate("INSERT INTO " + tableName + "(name,category_id,status) VALUES(:name,:category_id ,:status)")
                         .bind("name", name)

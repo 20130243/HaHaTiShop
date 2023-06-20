@@ -151,7 +151,10 @@
 
                                                     </h5>
                                                 </td>
-                                                <td>
+                                                <td><a
+                                                        href="/admin/order/update?id=${item.id}"
+                                                        class="action-icon"> <i
+                                                        class="mdi mdi-square-edit-outline"></i></a>
                                                     <a href="javascript:{0}"
                                                        class="action-icon"> <i class="mdi mdi-delete delete-btn"
                                                                                data-name="${item.id}"

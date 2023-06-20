@@ -132,11 +132,10 @@ public class ProductService {
 
 
     public void delete(int id) {
-//        (new PriceSizeService()).deleteByProductId(id);
         dao.updateStatus(id, 3);
     }
 
-    public void insert(Product product) throws Exception {
+    public void insert(Product product)  {
         dao.insert(product.getName(), product.getIdCategory(), product.getStatus());
         //insert image
         List<Image> images = product.getImage();
@@ -152,7 +151,7 @@ public class ProductService {
         }
     }
 
-    public Product findFirst() throws Exception {
+    public Product findFirst()  {
         Map<String, Object> product = dao.findFirst();
         List<PriceSize> priceSizeList = new PriceSizeService().getByProductId((Integer) product.get("id"));
         return new Product((Integer) product.get("id"), (String) product.get("name"), (Integer) product.get("category_id"),

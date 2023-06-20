@@ -28,7 +28,7 @@ public class PriceSizeService {
         return result;
     }
 
-    public void insert(PriceSize priceSize) throws Exception {
+    public void insert(PriceSize priceSize) {
         dao.insert(priceSize.getProduct_id(), priceSize.getSize(), priceSize.getOriginalPrice());
     }
 

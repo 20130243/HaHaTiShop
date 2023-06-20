@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.controller.Admin.order;
+package vn.edu.hcmuaf.fit.controller.admin.order;
 
 import vn.edu.hcmuaf.fit.bean.Admin;
 import vn.edu.hcmuaf.fit.services.OrderService;
@@ -30,6 +30,7 @@ public class UpdateStatusController extends HttpServlet {
         Admin admin = (Admin) session.getAttribute("admin");
 
 
+        System.out.println(status);
         if (status == 1) {
             orderService.updateStatus(id, status);
             orderService.logOrder(id, "admin", admin.getId(), status);

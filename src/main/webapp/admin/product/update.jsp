@@ -104,7 +104,7 @@
                                                             <label for="check_delete_${item.id}" data-on-label="Giữ"
                                                                    data-off-label="Xóa"></label>
                                                         </div>
-                                                        <div class="row">
+                                                        <div class="row" style="padding-left: 30px">
                                                             <input type="radio" id="image_Radio${item.id}"
                                                                    name="thumbnail" value="${item.id}"
                                                                    class="custom-control-input" ${item.status eq 1 ? "checked" : ""}>

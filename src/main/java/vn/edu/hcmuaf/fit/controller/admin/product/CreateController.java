@@ -1,10 +1,8 @@
-package vn.edu.hcmuaf.fit.controller.Admin.product;
+package vn.edu.hcmuaf.fit.controller.admin.product;
 
-import vn.edu.hcmuaf.fit.bean.Category;
-import vn.edu.hcmuaf.fit.bean.Image;
-import vn.edu.hcmuaf.fit.bean.PriceSize;
-import vn.edu.hcmuaf.fit.bean.Product;
+import vn.edu.hcmuaf.fit.bean.*;
 import vn.edu.hcmuaf.fit.services.CategoryService;
+import vn.edu.hcmuaf.fit.services.ProductCostService;
 import vn.edu.hcmuaf.fit.services.ProductService;
 
 import javax.servlet.ServletException;
@@ -38,7 +36,7 @@ public class CreateController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if (!response.isCommitted())   request.getRequestDispatcher("create.jsp").forward(request, response);
+        if (!response.isCommitted()) request.getRequestDispatcher("create.jsp").forward(request, response);
     }
 
     @Override
@@ -86,6 +84,9 @@ public class CreateController extends HttpServlet {
         float price_M = Float.parseFloat(request.getParameter("price_M"));
         PriceSize priceSizeM = new PriceSize(0, 0, "M", price_M, price_M);
         priceSizeList.add(priceSizeM);
+
+        float cost_M = Float.parseFloat(request.getParameter("cost_M"));
+
         if (request.getParameter("price_L") != null) {
             float price_L = Float.parseFloat(request.getParameter("price_L"));
             PriceSize priceSizeL = new PriceSize(0, 0, "L", price_L, price_L);
@@ -97,10 +98,12 @@ public class CreateController extends HttpServlet {
         product.setStatus(status);
         product.setImage(images);
 
-        try {
-            (new ProductService()).insert(product);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        (new ProductService()).insert(product);
+        Product product1 = new ProductService().findFirst();
+        new ProductCostService().insert(new ProductCost(0, product1.getId(), "M", cost_M));
+        if (request.getParameter("price_L") != null) {
+            float cost_L = Float.parseFloat(request.getParameter("cost_L"));
+            new ProductCostService().insert(new ProductCost(0, product1.getId(), "L", cost_L));
         }
         response.sendRedirect("/admin/product");
     }

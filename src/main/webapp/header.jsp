@@ -17,13 +17,13 @@ String url = request.getRequestURI();
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu">
                     <ul>
-                        <li class="<%=url.equals("/index.jsp")?"active" : ""%>"><a href="/">Trang chủ</a></li>
+                        <li class="<%=url.equals("/index.jsp")?"active" : ""%>"><a href="./">Trang chủ</a></li>
                         <li class="<%=url.equals("/shop.jsp")?"active" : ""%>"><a href="./shop" >Thức uống</a></li>
                         <li class="<%=url.equals("/about.jsp") || url.equals("/contact.jsp")?"active" : ""%>">
                             <a href="#">Giới thiệu</a>
                             <ul class="dropdown">
-                                <li class="<%=url.equals("/about.jsp")?"active" : ""%>"><a href="./about.jsp" >Về chúng tôi</a></li>
-                                <li class="<%=url.equals("/contact.jsp")?"active" : ""%>"><a href="./contact.jsp">Liên hệ</a></li>
+                                <li class="<%=url.equals("/about.jsp")?"active" : ""%>"><a href="./about" >Về chúng tôi</a></li>
+                                <li class="<%=url.equals("/contact.jsp")?"active" : ""%>"><a href="./contact">Liên hệ</a></li>
                             </ul>
                         </li>
                         <li class="<%=(url.equals("/blog.jsp") || url.equals("/blog-details.jsp"))?"active" : ""%>"><a href="./blog">Tin tức</a></li>

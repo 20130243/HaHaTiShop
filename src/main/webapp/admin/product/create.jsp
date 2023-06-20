@@ -105,13 +105,18 @@
 
                                             <div class="form-group mb-3">
                                                 <label for="price-M">Giá size M</label>
-                                                <input type="text" id="price-M" class="form-control" name="price_M">
+                                                <input type="text" id="cost-M" class="form-control" name="cost_M"
+                                                       placeholder="Giá gốc">
+                                                <input type="text" id="price-M" class="form-control" name="price_M"
+                                                       placeholder="Giá bán">
                                             </div>
 
                                             <div class="form-group mb-3">
                                                 <label for="price-L">Giá size L</label>
+                                                <input type="text" id="cost-L" disabled class="form-control"
+                                                       name="cost_L" placeholder="Giá gốc">
                                                 <input type="text" id="price-L" disabled class="form-control"
-                                                       name="price_L">
+                                                       name="price_L" placeholder="Giá bán">
                                             </div>
 
                                             <div class="form-group mb-3">
@@ -174,8 +179,10 @@
         $("#checkSize").click(function () {
             if ($("#checkSize").get(0).checked) {
                 $("#price-L").prop('disabled', false);
+                $("#cost-L").prop('disabled', false);
             } else {
                 $("#price-L").prop('disabled', true);
+                $("#cost-L").prop('disabled', true);
             }
         })
 
