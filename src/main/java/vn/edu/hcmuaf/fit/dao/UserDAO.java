@@ -255,4 +255,8 @@ public class UserDAO extends RD {
     }
 
 
+    public int getUserNew() {
+        return JDBIConnector.get().withHandle(h ->
+                h.createQuery(" SELECT MAX(id) from " + tableName  ).mapTo(Integer.class).first());
+    }
 }
