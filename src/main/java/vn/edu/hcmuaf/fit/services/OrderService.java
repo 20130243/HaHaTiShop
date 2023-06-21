@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.services;
 
+
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import vn.edu.hcmuaf.fit.bean.Topping;
 import vn.edu.hcmuaf.fit.dao.OrderDAO;
 import vn.edu.hcmuaf.fit.dao.OrderDetailDAO;
 import vn.edu.hcmuaf.fit.dao.ToppingOrderDAO;
+
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -131,6 +133,8 @@ public class OrderService {
     private static final Logger LOGGER = LoggerFactory.getLogger("Order");
 
     public void logOrder(int orderId, String area, int approver, int status) {
+
+
         if (LOGGER.isDebugEnabled()) {
             MDC.put("order", new Gson().toJson(getById(orderId)));
             MDC.put("area", area);
@@ -171,6 +175,9 @@ public class OrderService {
     }
 
     public static void main(String[] args) {
-        new OrderService().logOrder(14,"admin", 1, 4);
+        System.out.println(LoggerFactory.getLogger("Order"));
+
+//        System.out.println(new File(fileAppender.getFile()).getAbsolutePath());
+//        new OrderService().logOrder(14,"admin", 1, 4);
     }
 }
