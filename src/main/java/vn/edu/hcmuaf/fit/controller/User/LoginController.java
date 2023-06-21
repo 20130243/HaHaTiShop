@@ -51,6 +51,7 @@ public class LoginController extends HttpServlet {
                     session.setMaxInactiveInterval(24 * 60 * 60);
                     response.getWriter().write("2");
                 }
+                userService.logLogin(user.getId(),request.getRemoteAddr(), "LOGGIN_WEB");
             }
             // Sai 5 lan
             else {

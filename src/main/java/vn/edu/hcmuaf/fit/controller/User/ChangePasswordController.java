@@ -19,22 +19,23 @@ public class ChangePasswordController extends HttpServlet {
         User user = (User) session.getAttribute("user");
         UserService userService = new UserService();
         if (user != null) {
-            String oldPassword = userService.hashPassword((String) request.getParameter("password-old"));
+            String oldPassword = request.getParameter("password-old");
             String newPassword = request.getParameter("password-new");
             String comfirmPassword = request.getParameter("password-new-confirm");
 
-            boolean checkOldPassword = userService.checkPassword(oldPassword, user.getEmail());
+            boolean checkOldPassword = userService.checkPassword(user.getEmail(), oldPassword);
             boolean checkComfirmPassword = newPassword.equals(comfirmPassword);
+
             if (oldPassword != null && newPassword != null && comfirmPassword != null
                     && checkOldPassword
                     && checkComfirmPassword) {
+                userService.updatePassword(user, newPassword);
                 userService.update(user);
                 userService.logChangePassword(user.getId(),"User", user.getId(), request.getRemoteAddr());
                 session.setAttribute("user", user);
-                response.sendRedirect("account");
             } else {
-                request.setAttribute("erorr_changePassword", "Mật khẩu cũ không đúng hoặc mật khẩu mới không khớp");
-                request.getRequestDispatcher("changePassword").forward(request, response);
+                response.getWriter().write("1");
+
             }
         }
     }
