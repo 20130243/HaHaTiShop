@@ -28,8 +28,7 @@ public class LogoutController extends HttpServlet {
             }
             session.removeAttribute("admin");
         }
-
-        response.sendRedirect("/");
+        response.sendRedirect(request.getContextPath()+"/");
     }
 
     @Override

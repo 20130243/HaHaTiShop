@@ -48,7 +48,7 @@
 
                 <form action="./logout" method="post">
                     <!-- item-->
-                    <a href="../admin/logout" class="dropdown-item notify-item">
+                    <a href="${pageContext.request.contextPath}/admin/logout" class="dropdown-item notify-item">
                         <i class="mdi mdi-logout mr-1"></i>
                         <span>Đăng xuất</span>
                     </a>
