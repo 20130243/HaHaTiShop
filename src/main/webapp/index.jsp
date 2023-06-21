@@ -17,7 +17,7 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <%@include file="css.jsp" %>
+    <%@include file="./css.jsp" %>
     <link rel="stylesheet" href="css/index.css" type="text/css">
     <link rel="stylesheet" href="css/blog.css" type="text/css"/>
     <link rel="stylesheet" href="css/shop.css" type="text/css">
@@ -178,7 +178,7 @@
                         </h6>
                     </div>
                 </div>
-                <jsp:include page='/modal.jsp'>
+                <jsp:include page='modal.jsp'>
                     <jsp:param name="id" value="<%=p.getId()%>"/>
                 </jsp:include>
             </div>
