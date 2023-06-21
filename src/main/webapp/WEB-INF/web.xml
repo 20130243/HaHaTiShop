@@ -106,6 +106,14 @@
         <url-pattern>/admin/sale/delete/*</url-pattern>
     </filter-mapping>
 
+    <servlet>
+        <servlet-name>LogServlet</servlet-name>
+        <servlet-class>vn.edu.hcmuaf.fit.controller.LogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogServlet</servlet-name>
+        <url-pattern>/logs/*</url-pattern>
+    </servlet-mapping>
 
     <error-page>
         <error-code>404</error-code>
