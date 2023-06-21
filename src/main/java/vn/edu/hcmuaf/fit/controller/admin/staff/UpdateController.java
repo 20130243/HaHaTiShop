@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +42,6 @@ public class UpdateController extends HttpServlet {
             AdminService adminService = new AdminService();
             List<String> errorMessages = new ArrayList<>();
             Admin admin = adminService.getById(id);
-            System.out.println(username + "" + admin.getUsername());
-            System.out.println();
             if (!username.equals(admin.getUsername())) {
                 admin.setUsername(username);
                 if (!adminService.checkUsername(username)) {
@@ -68,6 +67,8 @@ public class UpdateController extends HttpServlet {
                 response.getWriter().write(json);
             } else {
                 adminService.update(admin);
+                HttpSession session = request.getSession();
+                adminService.logAccount(admin.getId(), request.getRemoteAddr(),((Admin) session.getAttribute("admin")).getId(),level);
                 response.getWriter().write("1");
             }
         } catch (Exception e) {
