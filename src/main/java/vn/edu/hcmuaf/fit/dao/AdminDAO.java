@@ -165,4 +165,9 @@ public class AdminDAO extends RD {
     public static void main(String[] args) {
         System.out.println(new AdminDAO().checkUsername("admin2"));
     }
+
+    public int getAdminNew() {
+        return JDBIConnector.get().withHandle(h ->
+                h.createQuery("select max(id) from " + tableName).mapTo(Integer.class).first());
+    }
 }

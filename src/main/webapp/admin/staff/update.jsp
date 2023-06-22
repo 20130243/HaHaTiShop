@@ -162,7 +162,7 @@
             data: $(this).serialize(),
             success: function (data) {
                 if (data == 1) {
-                    window.location.href = "../admin/staff";
+                    window.location.href = "${pageContext.request.contextPath}/admin/staff";
                 } else {
                     for (var i = 0; i < data.length; i++) {
                         var errorMessage = data[i];

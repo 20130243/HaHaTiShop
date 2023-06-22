@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.filter;
 
 import vn.edu.hcmuaf.fit.bean.Admin;
 import vn.edu.hcmuaf.fit.bean.User;
+import vn.edu.hcmuaf.fit.services.AdminService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -35,6 +36,7 @@ public class AdminFilter implements Filter {
 
         if (admin != null && user == null) {
             System.out.println("admin cookie");
+            new AdminService().logLogin(admin.getId(),request.getRemoteAddr(),"LOGIN_COOKIE");
             chain.doFilter(request, response);
         } else if (admin == null && user == null) {
             System.out.println("user not found");
