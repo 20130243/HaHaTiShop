@@ -61,6 +61,8 @@ public class LoginController extends HttpServlet {
                     response.addCookie(cAdminToken);
                 }
                 HttpSession session = request.getSession(true);
+
+                new AdminService().logLogin(admin.getId(),request.getRemoteAddr(),"LOGIN_WEB");
                 session.setAttribute("admin", admin);
                 response.getWriter().write("2");
             }

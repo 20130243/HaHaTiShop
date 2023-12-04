@@ -151,6 +151,7 @@ public class UserService {
                     "The HaHaTi team" +
                     "\n" +
                     URL+"HaHaTiShop/login";
+
             return sendMail(email, "Password recovery", text);
 
         } else {
@@ -200,7 +201,9 @@ return null;
     public int getTotal() {
         return dao.getTotal();
     }
-
+    public int getUserNew() {
+        return dao.getUserNew();
+    }
     public List<User> getPaging(int index) {
         List<User> list = new ArrayList<>();
         for (Map<String, Object> map : dao.paging(index)) {

@@ -1,6 +1,10 @@
 package vn.edu.hcmuaf.fit.services;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import vn.edu.hcmuaf.fit.bean.Admin;
 import vn.edu.hcmuaf.fit.bean.User;
 import vn.edu.hcmuaf.fit.dao.AdminDAO;
@@ -14,6 +18,7 @@ import java.util.Map;
 
 public class AdminService {
     AdminDAO dao = new AdminDAO();
+    private static Logger LOGGER = null;
 
     public Admin getById(int id) {
         Map<String, Object> map = dao.getById(id);
@@ -41,13 +46,22 @@ public class AdminService {
     public Admin login(String username, String password) {
         Map<String, Object> map = dao.login(username, password);
         Admin admin = convertMaptoAdmin(map);
-        return admin.available() ? admin : null;
+        if (admin != null) {
+            return admin.available() ? admin : null;
+        } else {
+            return null;
+        }
+
     }
 
     public Admin login(String token) {
         Map<String, Object> map = dao.login(token);
         Admin admin = convertMaptoAdmin(map);
-        return admin.available() ? admin : null;
+        if (admin != null) {
+            return admin.available() ? admin : null;
+        } else {
+            return null;
+        }
     }
 
 
@@ -76,15 +90,17 @@ public class AdminService {
     }
 
     public Admin convertMaptoAdmin(Map<String, Object> map) {
-        Admin admin = new Admin();
-        admin.setId((int) map.get("id"));
-        admin.setUsername((String) map.get("username"));
-        admin.setName((String) map.get("name"));
-        admin.setEmail((String) map.get("email"));
-        admin.setPhone((String) map.get("phone"));
-        admin.setLevel((Integer) map.get("level"));
-        admin.setToken((String) map.get("token"));
-        return admin;
+        if (map != null) {
+            Admin admin = new Admin();
+            admin.setId((int) map.get("id"));
+            admin.setUsername((String) map.get("username"));
+            admin.setName((String) map.get("name"));
+            admin.setEmail((String) map.get("email"));
+            admin.setPhone((String) map.get("phone"));
+            admin.setLevel((Integer) map.get("level"));
+            admin.setToken((String) map.get("token"));
+            return admin;
+        } else return null;
     }
 
     public void updateToken(Admin admin) {
@@ -104,6 +120,9 @@ public class AdminService {
 
     public int getTotal() {
         return dao.getTotal();
+    }
+    public int getAdminNew() {
+        return dao.getAdminNew();
     }
 
     public List<Admin> getPaging(int index) {
@@ -125,5 +144,58 @@ public class AdminService {
 
     public boolean checkPhone(String phone) {
         return dao.checkPhone(phone);
+    }
+
+
+    public void logLogin(int adminId, String location, String method) {
+        LOGGER = LoggerFactory.getLogger("User");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("admin", new Gson().toJson(getById(adminId)));
+            MDC.put("location", location);
+            MDC.put("method", method);
+
+            LOGGER.info("Admin login " + method);
+
+            MDC.remove("admin");
+            MDC.remove("location");
+            MDC.remove("status");
+        }
+    }
+
+    public void logAccount(int adminId, String location, int approver, int status) {
+        LOGGER = LoggerFactory.getLogger("User");
+        if (LOGGER.isDebugEnabled()) {
+            MDC.put("admin", new Gson().toJson(getById(adminId)));
+            MDC.put("location", location);
+            MDC.put("approver", String.valueOf(approver));
+            MDC.put("status", String.valueOf(status));
+
+            switch (status) {
+                case 0: {
+                    LOGGER.info("Staff account created");
+                    break;
+                }
+                case 1: {
+                    LOGGER.info("Manager account created");
+                    break;
+                }
+                case 2: {
+                    LOGGER.info("Admin account created");
+                    break;
+                }
+                case -1: {
+                    LOGGER.warn("Account banned");
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+
+            MDC.remove("admin");
+            MDC.remove("location");
+            MDC.remove("approver");
+            MDC.remove("status");
+        }
     }
 }

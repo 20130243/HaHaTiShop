@@ -31,13 +31,13 @@ task docker_app_start {
         ssh.run {
             session(remotes.host) {
                 execute 'docker stop tomcat9', ignoreError: true
-                execute 'docker rm -f tomcat9'
-                execute 'docker run -it -d ' +
-                        '--name tomcat9 ' +
-                        '-v /usr/deploy:/usr/local/tomcat/webapps ' +
-                        '-p 80:8080 ' +
-                        'tomcat:9.0&'
-
+//                execute 'docker rm -f tomcat9'
+//                execute 'docker run -it -d ' +
+//                        '--name tomcat9 ' +
+//                        '-v /usr/deploy:/usr/local/tomcat/webapps ' +
+//                        '-p 80:8080 ' +
+//                        'tomcat:9.0&'
+                execute 'docker restart tomcat9'
 
             }
         }

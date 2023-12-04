@@ -1,8 +1,8 @@
 <configuration>
     <appender name="Order" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>src/main/webapp/WEB-INF/logs/Order/Hahati-Order.log</file>
+        <file>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/Order/Hahati-Order.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>src/main/webapp/WEB-INF/logs/Order/Hahati-Order-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/Order/Hahati-Order-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
@@ -14,9 +14,9 @@
         </encoder>
     </appender>
     <appender name="User" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>src/main/webapp/WEB-INF/logs/User/Hahati-User.log</file>
+        <file>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/User/Hahati-User.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>src/main/webapp/WEB-INF/logs/User/Hahati-User-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/User/Hahati-User-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
@@ -28,9 +28,9 @@
         </encoder>
     </appender>
     <appender name="UserChangePassword" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>src/main/webapp/WEB-INF/logs/User/Hahati-UserChangePassword.log</file>
+        <file>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/User/Hahati-UserChangePassword.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>src/main/webapp/WEB-INF/logs/User/Hahati-UserChangePassword-%d{yyyy-MM}.log
+            <fileNamePattern>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/User/Hahati-UserChangePassword-%d{yyyy-MM}.log
             </fileNamePattern>
         </rollingPolicy>
         <encoder>
@@ -43,9 +43,9 @@
         </encoder>
     </appender>
     <appender name="UserBanned" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>src/main/webapp/WEB-INF/logs/User/Hahati-UserBanned.log</file>
+        <file>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/User/Hahati-UserBanned.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>src/main/webapp/WEB-INF/logs/User/Hahati-UserBanned-%d{yyyy-MM}.log</fileNamePattern>
+            <fileNamePattern>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/User/Hahati-UserBanned-%d{yyyy-MM}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
@@ -56,9 +56,9 @@
         </encoder>
     </appender>
     <appender name="UserLogin" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>src/main/webapp/WEB-INF/logs/User/Hahati-UserLogin.log</file>
+        <file>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/User/Hahati-UserLogin.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>src/main/webapp/WEB-INF/logs/User/Hahati-UserLogin-%d{yyyy-MM}.log</fileNamePattern>
+            <fileNamePattern>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/User/Hahati-UserLogin-%d{yyyy-MM}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
@@ -68,7 +68,33 @@
             </pattern>
         </encoder>
     </appender>
-
+    <appender name="AdminLogin" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/Admin/Hahati-AdminLogin.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/Admin/Hahati-AdminLogin-%d{yyyy-MM}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+                Admin: %mdc{admin},
+                Location: %mdc{location},
+                Method: %mdc{method}%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="AdminAccount" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/Admin/Hahati-AdminAccount.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/usr/local/tomcat/webapps/HaHaTiShop/WEB-INF/logs/Admin/Hahati-AdminAccount-%d{yyyy-MM}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+                Admin: %mdc{admin},
+                Approver: %mdc{approver},
+                Location: %mdc{location},
+                Status: %mdc{status},%n
+            </pattern>
+        </encoder>
+    </appender>
     <logger name="Order">
         <appender-ref ref="Order"/>
     </logger>
@@ -83,6 +109,12 @@
     </logger>
     <logger name="UserLogin">
         <appender-ref ref="UserLogin"/>
+    </logger>
+    <logger name="AdminLogin">
+        <appender-ref ref="AdminLogin"/>
+    </logger>
+    <logger name="AdminAccount">
+        <appender-ref ref="AdminAccount"/>
     </logger>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
